@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+html, body { background: #fafaf7; color: #0a0a0a; -webkit-font-smoothing: antialiased; }
+
+.gov-hero {
+  background:
+    radial-gradient(ellipse at top left, rgba(30,90,173,0.08), transparent 60%),
+    radial-gradient(ellipse at bottom right, rgba(217,78,31,0.06), transparent 50%),
+    #fafaf7;
+}

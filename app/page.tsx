@@ -54,6 +54,12 @@ export default function Home() {
               이 데모 점수 확인 →
             </a>
             <Link
+              href="/dashboard"
+              className="px-4 py-2 underline text-neutral-600 hover:text-gov-navy"
+            >
+              에이전트 방문 대시보드
+            </Link>
+            <Link
               href="/about"
               className="px-4 py-2 underline text-neutral-600 hover:text-gov-navy"
             >

@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: SITE_URL + "/plaza/tasks", lastModified: now, changeFrequency: "weekly", priority: 0.75 },
     { url: SITE_URL + "/plaza/trust", lastModified: now, changeFrequency: "weekly", priority: 0.75 },
     { url: SITE_URL + "/plaza/playground", lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: SITE_URL + "/plaza/passport", lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: SITE_URL + "/llms.txt", lastModified: now, changeFrequency: "weekly", priority: 0.7 },
   ];
   const ministryPages = MINISTRIES.map((m) => ({

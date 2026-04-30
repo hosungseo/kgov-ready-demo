@@ -124,7 +124,7 @@ export default function PlazaPage() {
             </div>
           </div>
 
-          <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
             <Link href="/plaza/agents" className="rounded-2xl border border-gov-navy/10 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40">
               <div className="font-semibold text-gov-blue">Agent Registry</div>
               <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">에이전트 신원, 권한, 금지 경계를 등록부와 capability card로 정리합니다.</p>
@@ -144,6 +144,10 @@ export default function PlazaPage() {
             <Link href="/plaza/passport" className="rounded-2xl border border-gov-navy/10 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40">
               <div className="font-semibold text-gov-blue">Agent Passport</div>
               <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">에이전트의 정체·목적·권한·금지행위·감사 조건을 제출합니다.</p>
+            </Link>
+            <Link href="/plaza/bottlenecks" className="rounded-2xl border border-gov-navy/10 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40">
+              <div className="font-semibold text-gov-blue">Bottleneck Reports</div>
+              <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">에이전트가 막힌 인간 병목을 개선 건의로 남깁니다.</p>
             </Link>
           </div>
         </div>

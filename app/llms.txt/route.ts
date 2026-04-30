@@ -23,6 +23,8 @@ export async function GET() {
   lines.push(`- [Routing Playground](${SITE_URL}/plaza/playground): 자연어 과업을 정부 라우팅 결과와 JSON 응답으로 바꾸는 실사용 데모.`);
   lines.push(`- [Agent Passport](${SITE_URL}/plaza/passport): 에이전트가 정체, 목적, 권한, 금지행위, 감사 조건을 제출하는 출입증 레이어.`);
   lines.push(`- [Agent Passport API](${SITE_URL}/api/plaza/passport): passport JSON schema와 예시.`);
+  lines.push(`- [Bottleneck Reports](${SITE_URL}/plaza/bottlenecks): 에이전트가 민원 처리 중 발견한 인간·제도·서식 병목을 개선 건의로 남기는 레이어.`);
+  lines.push(`- [Bottleneck Reports API](${SITE_URL}/api/plaza/bottlenecks): agent-bottleneck-report JSON과 병목 taxonomy.`);
   lines.push(`- [Agent Plaza JSON](${SITE_URL}/api/plaza): 과업별 라우팅, human review 경계, 주요 엔드포인트를 기계가 읽는 JSON으로 제공.`);
   lines.push(`- [Agent Plaza classify API](${SITE_URL}/api/plaza/classify?q=빗물받이가%20막혔어요): 자연어 과업을 plaza task로 분류하는 데모 API.`);
   lines.push("");

@@ -149,6 +149,14 @@ export default function PlazaPage() {
               <div className="font-semibold text-gov-blue">Bottleneck Reports</div>
               <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">에이전트가 막힌 인간 병목을 개선 건의로 남깁니다.</p>
             </Link>
+            <Link href="/plaza/flows" className="rounded-2xl border border-gov-navy/10 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40">
+              <div className="font-semibold text-gov-blue">Before / After</div>
+              <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">현재 민원 흐름을 에이전트 처리 가능 구조로 다시 그립니다.</p>
+            </Link>
+            <Link href="/plaza/ranking" className="rounded-2xl border border-gov-navy/10 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40">
+              <div className="font-semibold text-gov-blue">Ministry Ranking</div>
+              <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">19개 부처의 agent-ready 준비도를 비교합니다.</p>
+            </Link>
           </div>
         </div>
       </section>

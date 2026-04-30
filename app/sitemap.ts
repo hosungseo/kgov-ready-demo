@@ -18,6 +18,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: SITE_URL + "/plaza/bottlenecks", lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: SITE_URL + "/plaza/flows", lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: SITE_URL + "/plaza/ranking", lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: SITE_URL + "/plaza/samples", lastModified: now, changeFrequency: "weekly", priority: 0.85 },
+    { url: SITE_URL + "/plaza/samples/safety-report", lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: SITE_URL + "/plaza/samples/birth-care-support", lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: SITE_URL + "/plaza/samples/export-voucher", lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: SITE_URL + "/llms.txt", lastModified: now, changeFrequency: "weekly", priority: 0.7 },
   ];
   const ministryPages = MINISTRIES.map((m) => ({

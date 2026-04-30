@@ -28,6 +28,8 @@ export async function GET() {
   lines.push(`- [Before / After Flows](${SITE_URL}/plaza/flows): 현재 민원 흐름과 agent-ready 흐름을 나란히 보여주는 재설계 페이지.`);
   lines.push(`- [Ministry Readiness Ranking](${SITE_URL}/plaza/ranking): 19개 부처의 agent-ready 준비도 비교.`);
   lines.push(`- [Readiness Ranking API](${SITE_URL}/api/plaza/ranking): readiness criteria, ministry scores, before/after flows JSON.`);
+  lines.push(`- [Deep Samples](${SITE_URL}/plaza/samples): 안전신문고, 출산·보육 지원, 수출 바우처를 깊게 풀어낸 agent-ready 민원 샘플.`);
+  lines.push(`- [Deep Samples API](${SITE_URL}/api/plaza/samples): 3개 deep sample JSON.`);
   lines.push(`- [Agent Plaza JSON](${SITE_URL}/api/plaza): 과업별 라우팅, human review 경계, 주요 엔드포인트를 기계가 읽는 JSON으로 제공.`);
   lines.push(`- [Agent Plaza classify API](${SITE_URL}/api/plaza/classify?q=빗물받이가%20막혔어요): 자연어 과업을 plaza task로 분류하는 데모 API.`);
   lines.push("");

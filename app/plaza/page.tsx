@@ -157,6 +157,10 @@ export default function PlazaPage() {
               <div className="font-semibold text-gov-blue">Ministry Ranking</div>
               <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">19개 부처의 agent-ready 준비도를 비교합니다.</p>
             </Link>
+            <Link href="/plaza/samples" className="rounded-2xl border border-gov-navy/10 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40">
+              <div className="font-semibold text-gov-blue">Deep Samples</div>
+              <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">안전신문고·출산보육·수출바우처를 깊게 따라갑니다.</p>
+            </Link>
           </div>
         </div>
       </section>

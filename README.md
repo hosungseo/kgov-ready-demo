@@ -3,6 +3,7 @@
 대한민국 19개 중앙부처 사이트를 **AI 에이전트용으로 다시 짠 시안**. 모든 페이지와 엔드포인트가 agent-ready-check 스캐너의 23가지 표준을 모두 만족하도록 설계.
 
 - **라이브**: https://kgov-ready-demo.vercel.app
+- **Agent Plaza**: https://kgov-ready-demo.vercel.app/plaza
 - **스캐너**: https://agent-ready-check.vercel.app — 이 데모 점수 즉시 확인
 
 ## 포함 부처 (2026 정부조직 개편 기준)
@@ -15,8 +16,14 @@
 |---|---|
 | 검색 | `/robots.txt` (+AI 봇 11종 명시), `/sitemap.xml` |
 | 콘텐츠 | `/llms.txt`, `/llms-full.txt`, `/[slug]/llms.txt`, `/[slug]/index.md`, 마크다운 협상 (middleware), JSON-LD, OpenGraph, hreflang, RSS |
-| 프로토콜 | `/.well-known/mcp.json`, `/.well-known/ai-plugin.json`, `/.well-known/openid-configuration`, `/.well-known/agent.json`, `/.well-known/security.txt`, `/openapi.json`, `/api/ministries`, `/api/ministries/{slug}` |
+| 프로토콜 | `/.well-known/mcp.json`, `/.well-known/ai-plugin.json`, `/.well-known/openid-configuration`, `/.well-known/agent.json`, `/.well-known/security.txt`, `/openapi.json`, `/api/ministries`, `/api/ministries/{slug}`, `/api/plaza` |
 | 기타 | `/ai.txt`, `/humans.txt`, `/manifest.webmanifest`, favicon, og:image |
+
+## K-Gov Agent Plaza
+
+`/plaza`는 에이전트를 위한 정부 광장입니다. 부처별 홈페이지를 넘어 Agent Entrance, Ministry Directory, Task Plaza를 한 화면에 묶어 공식 문서, API, 담당 도메인, 권한 경계, human review 지점을 안내합니다.
+
+`/api/plaza`는 같은 내용을 기계가 읽는 JSON으로 제공합니다.
 
 ## 실행
 

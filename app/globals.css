@@ -11,3 +11,12 @@ html, body { background: #fafaf7; color: #0a0a0a; -webkit-font-smoothing: antial
     radial-gradient(ellipse at bottom right, rgba(217,78,31,0.06), transparent 50%),
     #fafaf7;
 }
+
+.plaza-grid {
+  background-image:
+    linear-gradient(rgba(30, 90, 173, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 90, 173, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 24% 28%, rgba(30, 90, 173, 0.12), transparent 28%),
+    radial-gradient(circle at 82% 18%, rgba(217, 78, 31, 0.10), transparent 24%);
+  background-size: 44px 44px, 44px 44px, 100% 100%, 100% 100%;
+}

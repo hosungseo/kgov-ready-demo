@@ -15,6 +15,10 @@ export async function GET() {
     "> 대한민국 19개 중앙부처 사이트를 AI 에이전트가 읽을 수 있게 다시 짠 시연. 23가지 표준(robots, sitemap, llms.txt, MCP, OpenAPI, JSON-LD, OIDC, OpenGraph, hreflang, manifest, security.txt 등) 모두 구현.",
   );
   lines.push("");
+  lines.push("## Agent Plaza");
+  lines.push(`- [K-Gov Agent Plaza](${SITE_URL}/plaza): 에이전트를 위한 정부 광장. 공식 문서, 부처 라우팅, API, 권한 경계를 한곳에서 발견하는 표준 출입구.`);
+  lines.push(`- [Agent Plaza JSON](${SITE_URL}/api/plaza): 과업별 라우팅, human review 경계, 주요 엔드포인트를 기계가 읽는 JSON으로 제공.`);
+  lines.push("");
   lines.push("## 19개 중앙부처");
   for (const m of MINISTRIES) {
     lines.push(
@@ -26,6 +30,7 @@ export async function GET() {
   lines.push(`- [robots.txt](${SITE_URL}/robots.txt)`);
   lines.push(`- [sitemap.xml](${SITE_URL}/sitemap.xml)`);
   lines.push(`- [openapi.json](${SITE_URL}/openapi.json)`);
+  lines.push(`- [api/plaza](${SITE_URL}/api/plaza)`);
   lines.push(`- [.well-known/mcp.json](${SITE_URL}/.well-known/mcp.json)`);
   lines.push(`- [.well-known/agent.json](${SITE_URL}/.well-known/agent.json)`);
   lines.push(`- [.well-known/openid-configuration](${SITE_URL}/.well-known/openid-configuration)`);

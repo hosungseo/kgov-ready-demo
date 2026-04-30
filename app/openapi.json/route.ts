@@ -13,7 +13,7 @@ export async function GET() {
       title: "K-Gov Agent-Ready Demo API",
       version: "0.1.0",
       description:
-        "19개 중앙부처 시안의 데이터 API (데모). 부처 목록·개별 부처 조회·서비스 탐색 엔드포인트 제공.",
+        "19개 중앙부처 시안의 데이터 API (데모). 부처 목록·개별 부처 조회·서비스 탐색·Agent Plaza 라우팅 엔드포인트 제공.",
       contact: { email: "agent@kgov-ready-demo.vercel.app" },
       license: { name: "MIT" },
     },
@@ -29,6 +29,22 @@ export async function GET() {
               content: {
                 "application/json": {
                   schema: { type: "array", items: { $ref: "#/components/schemas/Ministry" } },
+                },
+              },
+            },
+          },
+        },
+      },
+      "/api/plaza": {
+        get: {
+          summary: "Agent Plaza 과업 라우팅",
+          operationId: "getAgentPlaza",
+          responses: {
+            "200": {
+              description: "에이전트용 광장 진입점과 과업별 라우팅 정보",
+              content: {
+                "application/json": {
+                  schema: { $ref: "#/components/schemas/AgentPlaza" },
                 },
               },
             },
@@ -63,6 +79,30 @@ export async function GET() {
     },
     components: {
       schemas: {
+        AgentPlaza: {
+          type: "object",
+          required: ["name", "description", "entrance", "tasks"],
+          properties: {
+            name: { type: "string" },
+            description: { type: "string" },
+            page: { type: "string" },
+            entrance: { type: "array", items: { type: "string" } },
+            principles: { type: "array", items: { type: "string" } },
+            tasks: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  id: { type: "string" },
+                  title: { type: "string" },
+                  route: { type: "array", items: { type: "string" } },
+                  endpoints: { type: "array", items: { type: "string" } },
+                  humanReview: { type: "string" },
+                },
+              },
+            },
+          },
+        },
         Ministry: {
           type: "object",
           required: ["slug", "nameKo", "nameEn", "mission"],

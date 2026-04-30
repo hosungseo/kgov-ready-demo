@@ -54,6 +54,12 @@ export default function Home() {
               이 데모 점수 확인 →
             </a>
             <Link
+              href="/plaza"
+              className="px-4 py-2 bg-white border border-gov-blue text-gov-blue rounded-md hover:bg-gov-blue hover:text-white transition"
+            >
+              Agent Plaza →
+            </Link>
+            <Link
               href="/dashboard"
               className="px-4 py-2 underline text-neutral-600 hover:text-gov-navy"
             >
@@ -67,6 +73,38 @@ export default function Home() {
             </Link>
           </div>
         </header>
+
+        <section className="mb-16 rounded-[2rem] border border-gov-navy/10 bg-white/70 p-6 shadow-sm">
+          <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+            <div>
+              <div className="text-xs uppercase tracking-[0.2em] text-gov-blue mb-3 font-semibold">
+                Agent Plaza
+              </div>
+              <h2 className="text-3xl font-bold tracking-tight">에이전트를 위한 정부 광장</h2>
+              <p className="mt-3 text-sm leading-relaxed text-neutral-600">
+                부처별 홈페이지를 넘어서, 에이전트가 공식 문서·API·권한 경계·담당 도메인을
+                한곳에서 발견하는 표준 출입구입니다.
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className="rounded-2xl bg-[#f7f4ec] p-4">
+                <div className="font-semibold text-gov-navy">Agent Entrance</div>
+                <p className="mt-2 text-xs leading-relaxed text-neutral-600">llms.txt, MCP, OpenAPI 등 먼저 읽는 입구</p>
+              </div>
+              <div className="rounded-2xl bg-[#f7f4ec] p-4">
+                <div className="font-semibold text-gov-navy">Ministry Directory</div>
+                <p className="mt-2 text-xs leading-relaxed text-neutral-600">19개 부처를 에이전트 라우팅 맵으로 정렬</p>
+              </div>
+              <div className="rounded-2xl bg-[#f7f4ec] p-4">
+                <div className="font-semibold text-gov-navy">Task Plaza</div>
+                <p className="mt-2 text-xs leading-relaxed text-neutral-600">사람의 과업을 부처·문서·API로 연결</p>
+              </div>
+            </div>
+          </div>
+          <Link href="/plaza" className="mt-6 inline-flex rounded-md bg-gov-navy px-4 py-2 text-sm text-white hover:bg-gov-blue">
+            광장으로 들어가기 →
+          </Link>
+        </section>
 
         <section>
           <div className="flex items-end justify-between mb-6">

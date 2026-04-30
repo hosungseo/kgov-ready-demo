@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const root: MetadataRoute.Sitemap = [
     { url: SITE_URL + "/", lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: SITE_URL + "/about", lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+    { url: SITE_URL + "/plaza", lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: SITE_URL + "/llms.txt", lastModified: now, changeFrequency: "weekly", priority: 0.7 },
   ];
   const ministryPages = MINISTRIES.map((m) => ({

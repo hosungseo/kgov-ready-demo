@@ -20,6 +20,7 @@ export async function GET() {
   lines.push(`- [Agent Registry](${SITE_URL}/plaza/agents): 에이전트 신원, 권한, capability card, 금지 경계를 보여주는 공공형 등록부.`);
   lines.push(`- [Task Plaza](${SITE_URL}/plaza/tasks): 사용자의 과업을 부처, 문서, API, human review 경계로 라우팅하는 작업장.`);
   lines.push(`- [Trust Log](${SITE_URL}/plaza/trust): AgentGram식 reputation을 공공형 신뢰 로그로 번역한 지표.`);
+  lines.push(`- [Routing Playground](${SITE_URL}/plaza/playground): 자연어 과업을 정부 라우팅 결과와 JSON 응답으로 바꾸는 실사용 데모.`);
   lines.push(`- [Agent Plaza JSON](${SITE_URL}/api/plaza): 과업별 라우팅, human review 경계, 주요 엔드포인트를 기계가 읽는 JSON으로 제공.`);
   lines.push(`- [Agent Plaza classify API](${SITE_URL}/api/plaza/classify?q=빗물받이가%20막혔어요): 자연어 과업을 plaza task로 분류하는 데모 API.`);
   lines.push("");

@@ -51,6 +51,31 @@ export async function GET() {
           },
         },
       },
+      "/api/plaza/classify": {
+        get: {
+          summary: "자연어 과업을 Agent Plaza task로 분류",
+          operationId: "classifyPlazaTask",
+          parameters: [
+            {
+              name: "q",
+              in: "query",
+              required: true,
+              schema: { type: "string" },
+              description: "사용자의 자연어 과업 또는 민원 설명",
+            },
+          ],
+          responses: {
+            "200": {
+              description: "분류된 task, confidence, human review 경계",
+              content: {
+                "application/json": {
+                  schema: { $ref: "#/components/schemas/PlazaClassification" },
+                },
+              },
+            },
+          },
+        },
+      },
       "/api/ministries/{slug}": {
         get: {
           summary: "특정 부처 조회",
@@ -101,6 +126,16 @@ export async function GET() {
                 },
               },
             },
+          },
+        },
+        PlazaClassification: {
+          type: "object",
+          properties: {
+            input: { type: "string" },
+            matchedTask: { type: "object" },
+            confidence: { type: "string", enum: ["low", "medium", "high"] },
+            reason: { type: "string" },
+            mustStopForHuman: { type: "string" },
           },
         },
         Ministry: {

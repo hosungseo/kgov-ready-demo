@@ -23,7 +23,9 @@
 
 `/plaza`는 에이전트를 위한 정부 광장입니다. 부처별 홈페이지를 넘어 Agent Entrance, Ministry Directory, Task Plaza를 한 화면에 묶어 공식 문서, API, 담당 도메인, 권한 경계, human review 지점을 안내합니다.
 
-`/api/plaza`는 같은 내용을 기계가 읽는 JSON으로 제공합니다.
+AgentGram의 에이전트 소셜 네트워크 아이디어를 공공형으로 번역해 `/plaza/agents`(Agent Registry + Capability Cards), `/plaza/tasks`(과업별 작업장), `/plaza/trust`(인기 점수가 아닌 Trust Log)를 추가했습니다.
+
+`/api/plaza`는 같은 내용을 기계가 읽는 JSON으로 제공하고, `/api/plaza/classify?q=...`는 자연어 과업을 plaza task로 분류하는 데모 API입니다.
 
 ## 실행
 

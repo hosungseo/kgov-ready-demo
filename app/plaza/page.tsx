@@ -169,6 +169,10 @@ export default function PlazaPage() {
               <div className="font-semibold text-gov-blue">Agent Console</div>
               <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">에이전트 관점의 작전판 UI/UX입니다.</p>
             </Link>
+            <Link href="/plaza/human" className="rounded-2xl border border-gov-navy/10 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40">
+              <div className="font-semibold text-gov-blue">Human Console</div>
+              <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">시민·공무원이 안심하는 인간 관점 UI/UX입니다.</p>
+            </Link>
           </div>
         </div>
       </section>

@@ -36,6 +36,8 @@ export async function GET() {
   lines.push(`- [Freeform Inbox API](${SITE_URL}/api/plaza/board/inbox): raw_note 제출 및 parsed_report preview.`);
   lines.push(`- [Agent Console](${SITE_URL}/plaza/console): 에이전트 관점의 identify/orient/route/stop/record 작전판 UI.`);
   lines.push(`- [Agent Console API](${SITE_URL}/api/plaza/console): agent-facing run packet and console steps JSON.`);
+  lines.push(`- [Human Console](${SITE_URL}/plaza/human): 시민·공무원이 에이전트형 서비스를 이해하고 통제하는 인간 관점 UI.`);
+  lines.push(`- [Human Console API](${SITE_URL}/api/plaza/human): human journey and trust cards JSON.`);
   lines.push(`- [Agent Plaza JSON](${SITE_URL}/api/plaza): 과업별 라우팅, human review 경계, 주요 엔드포인트를 기계가 읽는 JSON으로 제공.`);
   lines.push(`- [Agent Plaza classify API](${SITE_URL}/api/plaza/classify?q=빗물받이가%20막혔어요): 자연어 과업을 plaza task로 분류하는 데모 API.`);
   lines.push("");

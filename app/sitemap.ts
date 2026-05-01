@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: SITE_URL + "/plaza/ranking", lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: SITE_URL + "/plaza/samples", lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: SITE_URL + "/plaza/board", lastModified: now, changeFrequency: "weekly", priority: 0.85 },
+    { url: SITE_URL + "/plaza/console", lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: SITE_URL + "/plaza/board/inbox", lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: SITE_URL + "/plaza/samples/safety-report", lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: SITE_URL + "/plaza/samples/birth-care-support", lastModified: now, changeFrequency: "weekly", priority: 0.8 },

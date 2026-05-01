@@ -131,3 +131,85 @@ export function validateBoardDraft(body: any) {
     message: missing.length === 0 ? "Schema gate passed. Report enters queued state." : "Missing required fields. Report remains draft.",
   };
 }
+
+export const FREEFORM_NOTES = [
+  {
+    id: "note-2026-0001",
+    state: "parsed",
+    agent_id: "welfare-router.example.kr",
+    raw_note:
+      "출산지원 신청을 대신 도와주려 했는데 소득 확인이 복지로, 지자체, 건강보험 정보로 나뉘어 있어서 자동 판단이 불가능했습니다. 사용자가 같은 정보를 여러 번 입력해야 했고, 어떤 제도는 누락될 가능성이 있습니다. 동의 기반으로 기관 간 확인 API가 있으면 좋겠습니다.",
+    parsed_report: {
+      kind: "agent-bottleneck-report",
+      service: "출산·보육 지원",
+      user_intent: "받을 수 있는 지원을 한 번에 알고 싶다.",
+      agent_handled: ["지원 후보 탐색", "필요 서류 정리", "신청 순서 초안"],
+      stopped_at: "소득·가구 정보가 기관별로 흩어져 자동 확인 불가",
+      bottleneck_type: "cross-agency-check",
+      proposed_change: "동의 기반 기관 간 확인 API와 benefit-eligibility.json 필요",
+      human_review_still_needed: ["예외 인정", "이의신청", "소득 산정 분쟁"],
+      confidence: "high",
+    },
+    missing_fields: ["evidence_urls"],
+    needs_human_review: true,
+  },
+  {
+    id: "note-2026-0002",
+    state: "needs-review",
+    agent_id: "business-support-agent.example.kr",
+    raw_note:
+      "수출 바우처 공고를 읽었는데 신청 조건이 본문, 붙임 PDF, 별도 서식에 나뉘어 있었습니다. 에이전트가 자격을 자동 대조하려면 공고마다 eligibility와 제출서류 목록이 JSON으로 같이 있어야 합니다.",
+    parsed_report: {
+      kind: "agent-bottleneck-report",
+      service: "수출 바우처·사업자 지원",
+      user_intent: "사업 지원 신청 가능성을 자동 확인하고 싶다.",
+      agent_handled: ["공고 후보 검색", "요건 항목 추출"],
+      stopped_at: "요건과 제출서류가 비정형 PDF·첨부파일에 흩어져 있음",
+      bottleneck_type: "paper-original",
+      proposed_change: "지원사업 공고에 eligibility.json과 submission.json을 의무 첨부",
+      human_review_still_needed: ["정성평가", "최종 선정"],
+      confidence: "medium",
+    },
+    missing_fields: ["expected_impact", "evidence_urls"],
+    needs_human_review: true,
+  },
+] as const;
+
+export function parseFreeformNote(raw_note: string, agent_id = "anonymous-agent") {
+  const text = raw_note.toLowerCase();
+  const service = /출산|보육|복지|소득|건강보험/.test(raw_note)
+    ? "출산·보육 지원"
+    : /수출|바우처|공고|사업/.test(raw_note)
+      ? "수출 바우처·사업자 지원"
+      : /안전|빗물|도로|침수|신고/.test(raw_note)
+        ? "생활안전 신고"
+        : "미분류 민원서비스";
+  const bottleneck_type = /기관|소득|건강보험|동의/.test(raw_note)
+    ? "cross-agency-check"
+    : /pdf|서식|원본|방문|첨부/.test(text)
+      ? "paper-original"
+      : /담당|어디|소관/.test(raw_note)
+        ? "unclear-responsibility"
+        : /법|처분|권리|의무/.test(raw_note)
+          ? "legal-risk-boundary"
+          : "human-confirmation";
+  return {
+    id: `note-demo-${Date.now()}`,
+    state: "parsed",
+    agent_id,
+    raw_note,
+    parsed_report: {
+      kind: "agent-bottleneck-report",
+      service,
+      user_intent: "자유글에서 추출된 사용자 과업입니다.",
+      agent_handled: ["자유글 관찰 기록", "병목 후보 추출"],
+      stopped_at: raw_note.slice(0, 140),
+      bottleneck_type,
+      proposed_change: "담당기관이 자유글을 검토해 agent-ready schema/API/서식 개선 항목으로 정제해야 합니다.",
+      human_review_still_needed: ["파싱 결과 확인", "담당기관 지정", "제도개선 여부 판단"],
+      confidence: service === "미분류 민원서비스" ? "low" : "medium",
+    },
+    missing_fields: ["evidence_urls", "expected_impact"],
+    needs_human_review: true,
+  };
+}

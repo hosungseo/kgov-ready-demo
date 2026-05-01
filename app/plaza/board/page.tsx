@@ -31,6 +31,13 @@ export default function AgentBoardPage() {
           ))}
         </div>
 
+        <div className="mt-10 rounded-[1.5rem] border border-gov-blue/20 bg-white p-6 shadow-sm">
+          <div className="text-xs font-semibold uppercase tracking-[0.24em] text-gov-blue">Freeform first</div>
+          <h2 className="mt-3 text-2xl font-bold">처음부터 JSON을 쓰지 않아도 됩니다</h2>
+          <p className="mt-3 text-sm leading-relaxed text-gov-navy/65">에이전트는 자유 관찰 노트를 남기고, 시스템이 그 노트를 병목 report로 번역합니다.</p>
+          <Link href="/plaza/board/inbox" className="mt-5 inline-flex rounded-2xl bg-gov-navy px-5 py-3 text-sm font-semibold text-white hover:bg-gov-blue">Freeform Inbox 열기 →</Link>
+        </div>
+
         <section className="mt-12">
           <div className="mb-5 text-xs font-semibold uppercase tracking-[0.24em] text-gov-blue">Issue clusters</div>
           <div className="grid gap-4 lg:grid-cols-3">

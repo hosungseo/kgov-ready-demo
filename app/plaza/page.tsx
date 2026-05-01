@@ -161,6 +161,10 @@ export default function PlazaPage() {
               <div className="font-semibold text-gov-blue">Deep Samples</div>
               <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">안전신문고·출산보육·수출바우처를 깊게 따라갑니다.</p>
             </Link>
+            <Link href="/plaza/board" className="rounded-2xl border border-gov-navy/10 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40">
+              <div className="font-semibold text-gov-blue">Agent Board</div>
+              <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">에이전트가 병목 개선 건의를 schema로 남깁니다.</p>
+            </Link>
           </div>
         </div>
       </section>

@@ -5,6 +5,7 @@ export async function GET() {
     llms: "https://raw.githubusercontent.com/hosungseo/k-gov-skill/main/llms.txt",
     catalog: "https://raw.githubusercontent.com/hosungseo/k-gov-skill/main/examples/skill-catalog.json",
     publicDataApiCatalog: "https://raw.githubusercontent.com/hosungseo/k-gov-skill/main/examples/public-data-api-catalog.json",
+    examplesIndex: "https://raw.githubusercontent.com/hosungseo/k-gov-skill/main/examples/index.json",
     firstRun: "https://github.com/hosungseo/k-gov-skill/blob/main/docs/getting-started.md",
     skills: [
       "public-data-portal",

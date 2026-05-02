@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MINISTRIES } from "@/lib/ministries";
 import { TASKS } from "@/lib/plaza";
+import { MCP_TOOL_PACKS } from "@/lib/mcp-tools";
+import { EXISTING_ASSETS } from "@/lib/existing-assets";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://kgov-ready-demo.vercel.app";
@@ -174,6 +176,87 @@ export default function PlazaPage() {
               <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">시민·공무원이 안심하는 인간 관점 UI/UX입니다.</p>
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section className="border-b border-gov-navy/10 bg-[#151b2d] text-white">
+        <div className="mx-auto max-w-6xl px-6 py-14">
+          <div className="mb-8 max-w-3xl">
+            <div className="text-xs font-semibold uppercase tracking-[0.24em] text-yellow-300">
+              K-Gov Tool Hub layer
+            </div>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight">비전산직 공무원은 카카오톡에서 시작합니다</h2>
+            <p className="mt-4 text-sm leading-relaxed text-white/70">
+              K-Gov Ready Demo를 전시·검증 화면으로 붙이고, 공공데이터포털 API를 MCP 도구로 감싸며,
+              실제 사용 채널은 텔레그램이 아니라 익숙한 카카오톡을 기본값으로 둡니다.
+            </p>
+          </div>
+          <div className="grid gap-4 lg:grid-cols-3">
+            {MCP_TOOL_PACKS.map((pack) => (
+              <article key={pack.id} className="rounded-[1.5rem] border border-white/10 bg-white/8 p-5">
+                <div className="text-xs uppercase tracking-[0.18em] text-white/45">{pack.channel} · {pack.status}</div>
+                <h3 className="mt-3 text-xl font-bold">{pack.name}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/68">{pack.desc}</p>
+                <div className="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-yellow-300">Tools</div>
+                <ul className="mt-2 space-y-1 text-sm text-white/72">
+                  {pack.tools.slice(0, 4).map((tool) => <li key={tool}>• {tool}</li>)}
+                </ul>
+              </article>
+            ))}
+          </div>
+          <a href="/api/mcp-tools" className="mt-6 inline-flex rounded-md bg-white px-4 py-2 text-sm font-semibold text-gov-navy hover:bg-yellow-100">
+            MCP 도구 카탈로그 JSON 보기 →
+          </a>
+        </div>
+      </section>
+
+      <section className="border-b border-gov-navy/10 bg-white/70">
+        <div className="mx-auto max-w-6xl px-6 py-14">
+          <div className="mb-8 max-w-3xl">
+            <div className="text-xs font-semibold uppercase tracking-[0.24em] text-gov-blue">
+              Existing Assets
+            </div>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight">이미 만든 행정업무 자산을 에이전트 환경광장으로 묶습니다</h2>
+            <p className="mt-4 text-sm leading-relaxed text-gov-navy/65">
+              새 챗봇보다 먼저 필요한 것은 에이전트가 발견하고 호출할 수 있는 도구·문서·데이터의 지도입니다.
+              API 키가 필요한 도구는 숨기지 않고, 사용자 직접 신청 여부와 fallback 경로를 함께 표시합니다.
+            </p>
+          </div>
+          <div className="mb-6 rounded-[2rem] border border-gov-blue/20 bg-gov-blue/8 p-6">
+            <div className="text-xs font-semibold uppercase tracking-[0.22em] text-gov-blue">Featured repository</div>
+            <div className="mt-3 grid gap-5 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
+              <div>
+                <h3 className="text-2xl font-bold tracking-tight">k-gov-skill</h3>
+                <p className="mt-3 text-sm leading-relaxed text-gov-navy/70">
+                  법령·공공데이터포털·관보·국회자료·HWP·직제정원 검토를 Claude Code, Codex, OpenClaw가
+                  바로 읽고 실행할 수 있는 행정업무 스킬 모음집입니다.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3 text-sm">
+                <a href="https://github.com/hosungseo/k-gov-skill" target="_blank" rel="noopener noreferrer" className="rounded-md bg-gov-navy px-4 py-2 text-white hover:bg-gov-blue">GitHub repo →</a>
+                <a href="/api/skills" className="rounded-md border border-gov-navy/20 bg-white px-4 py-2 text-gov-navy hover:border-gov-blue hover:text-gov-blue">Skill API →</a>
+                <a href="https://raw.githubusercontent.com/hosungseo/k-gov-skill/main/llms.txt" target="_blank" rel="noopener noreferrer" className="rounded-md border border-gov-navy/20 bg-white px-4 py-2 text-gov-navy hover:border-gov-blue hover:text-gov-blue">llms.txt →</a>
+              </div>
+            </div>
+          </div>
+          <div className="grid gap-4 lg:grid-cols-3">
+            {EXISTING_ASSETS.slice(0, 6).map((asset) => (
+              <a key={asset.id} href={asset.url} target="_blank" rel="noopener noreferrer" className="rounded-[1.5rem] border border-gov-navy/10 bg-[#fbfaf6] p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40 hover:shadow-sm">
+                <div className="flex items-center justify-between gap-3 text-xs uppercase tracking-[0.16em] text-neutral-400">
+                  <span>{asset.category}</span>
+                  <span>{asset.auth}</span>
+                </div>
+                <h3 className="mt-3 text-lg font-bold text-gov-navy">{asset.name}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-gov-navy/68">{asset.pitch}</p>
+                <p className="mt-4 rounded-2xl bg-white p-3 text-xs leading-relaxed text-gov-navy/65">
+                  <b className="text-gov-blue">Hook.</b> {asset.hook}
+                </p>
+              </a>
+            ))}
+          </div>
+          <a href="/api/repos" className="mt-6 inline-flex rounded-md bg-gov-navy px-4 py-2 text-sm text-white hover:bg-gov-blue">
+            에이전트용 자산 카탈로그 JSON 보기 →
+          </a>
         </div>
       </section>
 

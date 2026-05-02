@@ -1,0 +1,35 @@
+export const MCP_TOOL_PACKS = [
+  {
+    id: "public-data-portal",
+    name: "공공데이터포털 API 팩",
+    channel: "data.go.kr",
+    status: "mvp-ready",
+    desc: "공공데이터포털의 승인키 기반 API를 MCP 도구로 감싸 비전산직도 자연어로 호출하게 합니다.",
+    tools: [
+      "공공데이터포털 목록/메타데이터 검색",
+      "행안부 인구 API",
+      "학교알리미 API",
+      "국토부 실거래/주택 인허가 API",
+      "기관별 OpenAPI 키·파라미터 템플릿",
+    ],
+    safety: ["읽기 전용 기본값", "호출 URL·파라미터 로그", "개인정보 응답 마스킹", "출처/기준일 자동 표시"],
+  },
+  {
+    id: "kakao-civil-servant-channel",
+    name: "카카오톡 업무 채널",
+    channel: "KakaoTalk",
+    status: "target-channel",
+    desc: "텔레그램이 어려운 비전산직 공무원을 위해 카카오톡 채팅방에서 질문하고 결과를 받는 기본 UX입니다.",
+    tools: ["카카오톡 나와의 채팅방", "업무 봇 채널", "일일 브리핑", "검토 패킷 링크 전달"],
+    safety: ["외부 발송 전 확인", "원타임 토큰 연결", "기관/개인 권한 분리", "민감정보 포함 답변 경고"],
+  },
+  {
+    id: "kgov-ready-demo",
+    name: "K-Gov Ready Demo 연결",
+    channel: "OpenClaw / MCP",
+    status: "attached-demo",
+    desc: "kgov-ready-demo의 Agent Plaza를 공무원 업무도구 허브의 전시·검증 화면으로 붙입니다.",
+    tools: ["Agent Plaza", "부처 라우팅", "llms.txt/openapi/mcp.json", "Agent-ready 스캐너"],
+    safety: ["공식/시연 데이터 구분", "human review 표시", "출처 우선", "권한 경계 명시"],
+  },
+];

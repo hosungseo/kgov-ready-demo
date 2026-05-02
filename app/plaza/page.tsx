@@ -263,8 +263,40 @@ export default function PlazaPage() {
               </div>
             </div>
           </div>
+
+          <div className="mt-6 rounded-[2rem] border border-emerald-700/15 bg-emerald-50/70 p-6">
+            <div className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-800">Connected knowledge wiki</div>
+            <div className="mt-3 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+              <div>
+                <h3 className="text-2xl font-bold tracking-tight">newcomer-onboarding-wiki</h3>
+                <p className="mt-3 text-sm leading-relaxed text-gov-navy/70">
+                  신규공무원과 인사이동자가 처음 부딪히는 행정문서, 전자서명, 조직 연결축, FAQ를 모은 적응 지식 위키입니다.
+                  Plaza에서는 실행 도구만이 아니라 <b className="text-emerald-800">신규 담당자가 물어볼 질문의 지식 기반</b>으로 연결합니다.
+                </p>
+                <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-gov-navy/70">
+                  <span className="rounded-full border border-emerald-800/15 bg-white px-3 py-1">Knowledge wiki</span>
+                  <span className="rounded-full border border-emerald-800/15 bg-white px-3 py-1">FAQ / process notes</span>
+                  <span className="rounded-full border border-emerald-800/15 bg-white px-3 py-1">신규 담당자 onboarding</span>
+                </div>
+              </div>
+              <div>
+                <div className="rounded-[1.5rem] border border-emerald-800/10 bg-white/85 p-5">
+                  <div className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">Use with agents</div>
+                  <ul className="mt-3 space-y-3 text-sm leading-relaxed text-gov-navy/72">
+                    <li><b className="text-gov-navy">업무 첫 질문 라우팅</b> — “이 업무를 처음 맡았는데 무엇부터 봐야 하나?”를 wiki entry와 FAQ로 연결합니다.</li>
+                    <li><b className="text-gov-navy">행정문서 실무 설명</b> — 공문·전자서명·기안 자격 같은 암묵지를 문서화된 경로로 안내합니다.</li>
+                    <li><b className="text-gov-navy">Skill hub 보완</b> — `k-gov-skill`이 실행 레시피라면, newcomer wiki는 배경지식과 용어·절차 레이어입니다.</li>
+                  </ul>
+                </div>
+                <div className="mt-4 flex flex-wrap gap-3 text-sm">
+                  <a href="https://github.com/hosungseo/newcomer-onboarding-wiki" target="_blank" rel="noopener noreferrer" className="rounded-md bg-emerald-800 px-4 py-2 text-white hover:bg-emerald-700">GitHub repo →</a>
+                  <a href="/api/repos" className="rounded-md border border-gov-navy/20 bg-white px-4 py-2 text-gov-navy hover:border-emerald-700 hover:text-emerald-800">Asset catalog →</a>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="grid gap-4 lg:grid-cols-3">
-            {EXISTING_ASSETS.slice(0, 6).map((asset) => (
+            {EXISTING_ASSETS.map((asset) => (
               <a key={asset.id} href={asset.url} target="_blank" rel="noopener noreferrer" className="rounded-[1.5rem] border border-gov-navy/10 bg-[#fbfaf6] p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40 hover:shadow-sm">
                 <div className="flex items-center justify-between gap-3 text-xs uppercase tracking-[0.16em] text-neutral-400">
                   <span>{asset.category}</span>

@@ -58,3 +58,8 @@ pnpm build
 시연용 데모. 정부 공식 입장/정책/서비스 아님. 서비스 링크 및 일부 연락처는 예시. 실제 부처 정보는 원 사이트 참조.
 
 MIT (code) · CC-BY-4.0 (content)
+
+
+## Connected knowledge wiki
+
+- `newcomer-onboarding-wiki`: 신규공무원·인사이동자 적응 지식 위키. Plaza의 `/api/repos` asset catalog와 `/plaza` knowledge wiki section에서 연결한다.

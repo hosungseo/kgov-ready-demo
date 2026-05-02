@@ -35,7 +35,9 @@
 ## concrete scenario
 - `birth-support-deadline` → related sample: `/plaza/samples/birth-care-support`
 - `misrouted-civil-complaint` → related sample: `/plaza/samples/safety-report`
+- `voucher-summary-without-evidence` → related sample: `/plaza/samples/export-voucher`
 
+이제 세 개 deep sample이 모두 drift coverage를 가진다.
 각 시나리오에는 `bad`, `better`, `whyItMatters`, `relatedSample`이 들어가 있어 drift를 문장 수준 + 서비스 사례 수준에서 함께 보여준다.
 
 ## 지금까지 붙은 기계가독성 표면
@@ -52,6 +54,11 @@
   - `DeepSample` schema + example
   반영 완료
 - `llms.txt`, `llms-full.txt`에 drift layer와 scenario 존재를 노출
+
+## UI/정보구조 상태
+- Plaza 홈에서 `Trust Log → Agent Passport → Behavior Drift Monitor`가 한 묶음처럼 보이도록 카드 순서를 조정했다.
+- `Behavior Drift Monitor` 카드는 amber 톤으로 분리해 guardrail 성격이 바로 읽히게 했다.
+- drift page ↔ deep sample page ↔ sample API/OpenAPI가 같은 관계를 공유한다.
 
 ## 현재 검증 상태
 - 반복적으로 `pnpm build` 통과 확인 완료.
@@ -74,12 +81,13 @@
 - `/api/plaza`
 - `/api/plaza/samples`
 - `/api/plaza/samples/birth-care-support`
+- `/api/plaza/samples/export-voucher`
 - `/openapi.json`
 - `/llms.txt`
 - `/llms-full.txt`
 
-## 남은 polish 후보
-- Plaza 홈에서 drift card의 위치를 trust/passport와 더 묶어 hierarchy 미세조정
-- `export-voucher` 쪽에도 맞는 drift scenario를 하나 더 추가
+## 남은 실제 작업
+- local commit
+- remote push
 - live deploy 후 실제 HTML marker 검증
-- commit/push 후 canonical Vercel live surface 확인
+- canonical Vercel live surface 확인

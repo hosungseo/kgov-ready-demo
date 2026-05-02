@@ -139,13 +139,17 @@ export default function PlazaPage() {
               <div className="font-semibold text-gov-blue">Trust Log</div>
               <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">좋아요가 아니라 출처·오류·승인·민감정보 경계를 신뢰 기록으로 남깁니다.</p>
             </Link>
-            <Link href="/plaza/playground" className="rounded-2xl border border-gov-navy/10 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40">
-              <div className="font-semibold text-gov-blue">Routing Playground</div>
-              <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">자연어 과업을 정부 라우팅 결과와 JSON 응답으로 바꿔봅니다.</p>
-            </Link>
             <Link href="/plaza/passport" className="rounded-2xl border border-gov-navy/10 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40">
               <div className="font-semibold text-gov-blue">Agent Passport</div>
               <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">에이전트의 정체·목적·권한·금지행위·감사 조건을 제출합니다.</p>
+            </Link>
+            <Link href="/plaza/drift" className="rounded-2xl border border-amber-300/40 bg-amber-50/80 p-5 transition hover:-translate-y-0.5 hover:border-amber-500/60 hover:bg-amber-50">
+              <div className="font-semibold text-amber-800">Behavior Drift Monitor</div>
+              <p className="mt-2 text-sm leading-relaxed text-amber-950/75">친절함·해결률 보상이 경계를 잠식하지 않는지 감시합니다.</p>
+            </Link>
+            <Link href="/plaza/playground" className="rounded-2xl border border-gov-navy/10 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40">
+              <div className="font-semibold text-gov-blue">Routing Playground</div>
+              <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">자연어 과업을 정부 라우팅 결과와 JSON 응답으로 바꿔봅니다.</p>
             </Link>
             <Link href="/plaza/bottlenecks" className="rounded-2xl border border-gov-navy/10 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40">
               <div className="font-semibold text-gov-blue">Bottleneck Reports</div>
@@ -174,10 +178,6 @@ export default function PlazaPage() {
             <Link href="/plaza/human" className="rounded-2xl border border-gov-navy/10 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40">
               <div className="font-semibold text-gov-blue">Human Console</div>
               <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">시민·공무원이 안심하는 인간 관점 UI/UX입니다.</p>
-            </Link>
-            <Link href="/plaza/drift" className="rounded-2xl border border-gov-navy/10 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40">
-              <div className="font-semibold text-gov-blue">Behavior Drift Monitor</div>
-              <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">친절함·해결률 보상이 경계를 잠식하지 않는지 감시합니다.</p>
             </Link>
           </div>
         </div>

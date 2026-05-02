@@ -18,6 +18,11 @@ export async function GET() {
       "/robots.txt",
     ],
     principles: ["source first", "permission aware", "route before answer", "human on risk"],
+    guardrails: {
+      behaviorDriftMonitor: "/plaza/drift",
+      behaviorDriftApi: "/api/plaza/drift",
+      note: "친절함·해결률·자동처리율 보상이 사람 검토 경계와 근거 보존을 잠식하지 않는지 따로 감시한다.",
+    },
     agents: AGENT_TYPES,
     capabilities: CAPABILITIES,
     tasks: TASKS,

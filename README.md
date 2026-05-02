@@ -34,6 +34,10 @@
 
 AgentGram의 에이전트 소셜 네트워크 아이디어를 공공형으로 번역해 `/plaza/agents`(Agent Registry + Capability Cards), `/plaza/tasks`(과업별 작업장), `/plaza/trust`(인기 점수가 아닌 Trust Log)를 추가했습니다.
 
+여기에 `/plaza/drift`를 더해, 공공 에이전트가 친절함·해결률·자동화율 보상 때문에 사람 검토 경계나 근거 보존을 잠식하지 않는지 감시하는 guardrail 레이어도 붙였습니다.
+
+이 로컬 작업 묶음을 다음 세션에서 바로 이어받으려면 `docs/behavior-drift-handoff.md`를 보면 됩니다.
+
 `/api/plaza`는 같은 내용을 기계가 읽는 JSON으로 제공하고, `/api/plaza/classify?q=...`는 자연어 과업을 plaza task로 분류하는 데모 API입니다.
 
 ## 실행

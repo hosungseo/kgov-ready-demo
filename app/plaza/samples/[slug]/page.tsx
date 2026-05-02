@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { DRIFT_SCENARIOS } from "@/lib/behavior-drift";
 import { DEEP_SAMPLES, getDeepSample } from "@/lib/deep-samples";
 
 export function generateStaticParams() {
@@ -29,6 +30,7 @@ export default async function SampleDetailPage({ params }: { params: Promise<{ s
   const { slug } = await params;
   const sample = getDeepSample(slug);
   if (!sample) notFound();
+  const relatedDriftScenarios = DRIFT_SCENARIOS.filter((scenario) => scenario.relatedSample === `/plaza/samples/${sample.slug}`);
 
   return (
     <main className="min-h-screen bg-[#f7f4ec] text-gov-navy">
@@ -55,6 +57,7 @@ export default async function SampleDetailPage({ params }: { params: Promise<{ s
           <section className="rounded-[1.5rem] border border-rose-200 bg-rose-50 p-6"><div className="text-xs font-semibold uppercase tracking-widest text-rose-700">Bottleneck</div><p className="mt-3 text-lg leading-relaxed text-rose-950/80">{sample.bottleneck}</p></section>
           <section className="rounded-[1.5rem] border border-emerald-200 bg-emerald-50 p-6"><div className="text-xs font-semibold uppercase tracking-widest text-emerald-700">Redesign proposal</div><p className="mt-3 text-lg leading-relaxed text-emerald-950/80">{sample.redesign}</p></section>
         </div>
+        {relatedDriftScenarios.length ? <section className="mt-8 rounded-[1.5rem] border border-amber-300/35 bg-amber-50 p-6"><div className="text-xs font-semibold uppercase tracking-widest text-amber-700">Related drift checks</div><div className="mt-4 space-y-3">{relatedDriftScenarios.map((scenario) => <div key={scenario.id} className="rounded-2xl bg-white px-4 py-3 text-sm leading-relaxed text-amber-950/80"><b>{scenario.title}</b> · <Link href="/plaza/drift" className="text-gov-blue hover:underline">Behavior Drift Monitor</Link>에서 함께 본다.</div>)}</div></section> : null}
         <section className="mt-8 rounded-[1.5rem] border border-gov-navy/10 bg-gov-navy p-6 text-white shadow-sm">
           <div className="text-xs font-semibold uppercase tracking-[0.24em] text-white/55">deep-sample.json</div>
           <pre className="mt-4 max-h-[620px] overflow-auto rounded-2xl bg-black/25 p-4 text-xs leading-relaxed text-white/80">{JSON.stringify(sample, null, 2)}</pre>

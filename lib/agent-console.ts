@@ -47,6 +47,7 @@ export const AGENT_UI_PRINCIPLES = [
   "Stop states are first-class: human review is an output, not an error.",
   "Raw note is allowed: agents can write freeform observations before schema completion.",
   "Evidence sticks: source URLs, official documents, and confidence travel with every report.",
+  "Reward pressure is audited: faster completion must not erase stop states, citations, or consent.",
 ];
 
 export const AGENT_CONSOLE_PACKET = {
@@ -58,5 +59,11 @@ export const AGENT_CONSOLE_PACKET = {
     entrance: ["/llms.txt", "/llms-full.txt", "/.well-known/agent.json", "/openapi.json"],
     work: ["/plaza/playground", "/plaza/tasks", "/plaza/samples"],
     record: ["/plaza/board", "/plaza/board/inbox", "/api/plaza/board/reports"],
+    guardrails: ["/plaza/drift", "/api/plaza/drift"],
+  },
+  guardrailFocus: {
+    question: "Did speed or confidence hide a stop state?",
+    watchFor: ["overconfident-routing", "hidden-human-review", "citation-thinning"],
+    preferredMetric: "human-review-compliance",
   },
 };

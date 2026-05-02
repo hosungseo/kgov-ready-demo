@@ -41,6 +41,7 @@ export const HUMAN_TRUST_CARDS = [
   { title: "에이전트가 하지 않은 일", body: "제출, 처분 판단, 민감정보 재사용처럼 멈춘 지점을 명확히 표시한다." },
   { title: "사람이 확인할 일", body: "담당자·시민이 확인해야 할 항목을 체크리스트로 남긴다." },
   { title: "왜 이 경로인가", body: "부처·문서·API 후보를 추천한 근거를 숨기지 않는다." },
+  { title: "왜 여기서 멈췄는가", body: "친절함이나 자동화율보다 사람 검토가 우선되는 순간을 별도 표시하고, 그 이유를 drift/guardrail 관점에서 설명한다." },
 ];
 
 export const HUMAN_CONSOLE_PACKET = {
@@ -49,4 +50,10 @@ export const HUMAN_CONSOLE_PACKET = {
   audience: ["citizen", "public official", "service designer"],
   journey: HUMAN_JOURNEY.map((j) => j.id),
   trustCards: HUMAN_TRUST_CARDS.map((c) => c.title),
+  guardrails: {
+    driftMonitor: "/plaza/drift",
+    driftApi: "/api/plaza/drift",
+    humanQuestion: "왜 여기서 멈췄는가?",
+    promise: "매끄러운 자동처리보다 멈춤 이유와 사람 확인 지점을 먼저 보여준다.",
+  },
 };

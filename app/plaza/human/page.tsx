@@ -17,6 +17,15 @@ export default function HumanConsolePage() {
       </section>
       <section className="mt-12 grid gap-5 lg:grid-cols-4">{HUMAN_TRUST_CARDS.map((card)=><article key={card.title} className="rounded-[1.5rem] border border-gov-navy/10 bg-white p-6 shadow-sm"><h3 className="text-xl font-bold">{card.title}</h3><p className="mt-3 text-sm leading-relaxed text-gov-navy/65">{card.body}</p></article>)}</section>
       <section className="mt-12 grid gap-5 lg:grid-cols-[1fr_1fr]"><div className="rounded-[2rem] border border-emerald-200 bg-emerald-50 p-6"><div className="text-xs font-semibold uppercase tracking-widest text-emerald-700">Good human UX</div><ul className="mt-4 space-y-3 text-sm leading-relaxed text-emerald-950/75"><li>· “에이전트가 대신 처리한 부분”과 “사람이 확인할 부분”을 분리한다.</li><li>· 제출 전 승인, 민감정보 사용, 법적 판단 경계를 크게 보여준다.</li><li>· 시민에게는 다음 행동을, 공무원에게는 판단 근거를 보여준다.</li><li>· 실패를 끝으로 보지 않고 개선 건의로 전환한다.</li></ul></div><div className="rounded-[2rem] border border-rose-200 bg-rose-50 p-6"><div className="text-xs font-semibold uppercase tracking-widest text-rose-700">Bad human UX</div><ul className="mt-4 space-y-3 text-sm leading-relaxed text-rose-950/75"><li>· “AI가 처리 중입니다”만 보여주고 근거와 멈춤 지점을 숨긴다.</li><li>· 자동 제출과 초안 작성을 구분하지 않는다.</li><li>· 담당기관 추천 이유를 설명하지 않는다.</li><li>· 병목을 사용자 탓이나 담당자 탓으로 남긴다.</li></ul></div></section>
+      <section className="mt-12 rounded-[2rem] border border-amber-300/40 bg-amber-50 p-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-700">Why the stop matters</div>
+            <p className="mt-3 max-w-3xl text-lg leading-relaxed text-amber-950/80">사람이 안심하는 화면은 매끄럽게 끝나는 화면이 아니라, 왜 여기서 멈췄는지 납득하게 해주는 화면입니다. guardrail은 백엔드 규칙이 아니라 신뢰의 문장이어야 합니다.</p>
+          </div>
+          <Link href="/plaza/drift" className="rounded-full border border-amber-400/60 bg-white px-4 py-2 text-sm text-amber-800 hover:bg-amber-100">멈춤 기준 보기 →</Link>
+        </div>
+      </section>
       <section className="mt-12 rounded-[2rem] border border-gov-navy/10 bg-gov-navy p-6 text-white shadow-sm"><div className="text-xs font-semibold uppercase tracking-[0.24em] text-white/55">human-console.json</div><pre className="mt-4 max-h-[520px] overflow-auto rounded-2xl bg-black/25 p-4 text-xs leading-relaxed text-white/75">{JSON.stringify(HUMAN_CONSOLE_PACKET, null, 2)}</pre></section>
     </section>
   </main>;

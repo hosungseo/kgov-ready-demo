@@ -228,18 +228,38 @@ export default function PlazaPage() {
           </div>
           <div className="mb-6 rounded-[2rem] border border-gov-blue/20 bg-gov-blue/8 p-6">
             <div className="text-xs font-semibold uppercase tracking-[0.22em] text-gov-blue">Featured repository</div>
-            <div className="mt-3 grid gap-5 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
+            <div className="mt-3 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
               <div>
                 <h3 className="text-2xl font-bold tracking-tight">k-gov-skill</h3>
                 <p className="mt-3 text-sm leading-relaxed text-gov-navy/70">
                   법령·공공데이터포털·관보·국회자료·HWP·직제정원 검토를 Claude Code, Codex, OpenClaw가
                   바로 읽고 실행할 수 있는 행정업무 스킬 모음집입니다.
                 </p>
+                <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-gov-navy/70">
+                  <span className="rounded-full border border-gov-navy/15 bg-white px-3 py-1">6개 초기 skill</span>
+                  <span className="rounded-full border border-gov-navy/15 bg-white px-3 py-1">Runnable examples 포함</span>
+                  <span className="rounded-full border border-gov-navy/15 bg-white px-3 py-1">키 없을 때 fallback 안내</span>
+                </div>
+                <p className="mt-4 text-sm leading-relaxed text-gov-navy/68">
+                  Plaza에서는 이 저장소를 단순 링크가 아니라 <b className="text-gov-blue">실행 가능한 행정업무 skill layer</b>로 소개합니다.
+                  즉, 공공 API 호출 준비·관보 watch·직제정원 검토처럼 공무원 실무를 바로 재현해볼 수 있는 대표 샘플입니다.
+                </p>
               </div>
-              <div className="flex flex-wrap gap-3 text-sm">
-                <a href="https://github.com/hosungseo/k-gov-skill" target="_blank" rel="noopener noreferrer" className="rounded-md bg-gov-navy px-4 py-2 text-white hover:bg-gov-blue">GitHub repo →</a>
-                <a href="/api/skills" className="rounded-md border border-gov-navy/20 bg-white px-4 py-2 text-gov-navy hover:border-gov-blue hover:text-gov-blue">Skill API →</a>
-                <a href="https://raw.githubusercontent.com/hosungseo/k-gov-skill/main/llms.txt" target="_blank" rel="noopener noreferrer" className="rounded-md border border-gov-navy/20 bg-white px-4 py-2 text-gov-navy hover:border-gov-blue hover:text-gov-blue">llms.txt →</a>
+              <div>
+                <div className="rounded-[1.5rem] border border-gov-navy/10 bg-white/80 p-5">
+                  <div className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">Try first</div>
+                  <ul className="mt-3 space-y-3 text-sm leading-relaxed text-gov-navy/72">
+                    <li><b className="text-gov-navy">`npm run example:public-data`</b> — 공공데이터포털 API 키가 없어도 신청 경로·파라미터·fallback부터 잡습니다.</li>
+                    <li><b className="text-gov-navy">`npm run example:gazette`</b> — 관보에서 직제·정원 관련 문서를 찾는 watch 흐름을 보여줍니다.</li>
+                    <li><b className="text-gov-navy">`npm run example:org-quota`</b> — 요구자료를 검토 패킷으로 바꾸는 실무형 예시입니다.</li>
+                  </ul>
+                </div>
+                <div className="mt-4 flex flex-wrap gap-3 text-sm">
+                  <a href="https://github.com/hosungseo/k-gov-skill" target="_blank" rel="noopener noreferrer" className="rounded-md bg-gov-navy px-4 py-2 text-white hover:bg-gov-blue">GitHub repo →</a>
+                  <a href="/api/skills" className="rounded-md border border-gov-navy/20 bg-white px-4 py-2 text-gov-navy hover:border-gov-blue hover:text-gov-blue">Skill API →</a>
+                  <a href="https://raw.githubusercontent.com/hosungseo/k-gov-skill/main/examples/skill-catalog.json" target="_blank" rel="noopener noreferrer" className="rounded-md border border-gov-navy/20 bg-white px-4 py-2 text-gov-navy hover:border-gov-blue hover:text-gov-blue">skill-catalog.json →</a>
+                  <a href="https://github.com/hosungseo/k-gov-skill/blob/main/docs/getting-started.md" target="_blank" rel="noopener noreferrer" className="rounded-md border border-gov-navy/20 bg-white px-4 py-2 text-gov-navy hover:border-gov-blue hover:text-gov-blue">Getting started →</a>
+                </div>
               </div>
             </div>
           </div>

@@ -1,8 +1,14 @@
 # Behavior Drift Monitor handoff
 
-이 메모는 이번 로컬 작업 묶음을 다음 세션에서 바로 이어받기 위한 handoff다.
+이 메모는 이번 작업 묶음의 최종 handoff다.
 
-## 이번에 로컬 반영된 범위
+## 최종 상태
+- 로컬 구현 완료
+- local commit 완료: `2402e9c docs: finalize drift monitor handoff and plaza hierarchy`
+- remote push 완료 (`origin/main`)
+- live verification 완료
+
+## 이번에 반영된 범위
 
 ### 새 레이어
 - `app/plaza/drift/page.tsx`
@@ -40,7 +46,7 @@
 이제 세 개 deep sample이 모두 drift coverage를 가진다.
 각 시나리오에는 `bad`, `better`, `whyItMatters`, `relatedSample`이 들어가 있어 drift를 문장 수준 + 서비스 사례 수준에서 함께 보여준다.
 
-## 지금까지 붙은 기계가독성 표면
+## 기계가독성 표면
 - `/api/plaza`에 `guardrails` 블록 추가
 - `/api/plaza/drift`에 signal/checklist/metrics/scenarios 노출
 - `/api/plaza/console` packet에 `guardrailFocus` 추가
@@ -60,34 +66,17 @@
 - `Behavior Drift Monitor` 카드는 amber 톤으로 분리해 guardrail 성격이 바로 읽히게 했다.
 - drift page ↔ deep sample page ↔ sample API/OpenAPI가 같은 관계를 공유한다.
 
-## 현재 검증 상태
+## 검증 완료 항목
 - 반복적으로 `pnpm build` 통과 확인 완료.
 - README/handoff/openapi/route marker는 `grep`으로 재확인했다.
-- 아직 commit/push는 하지 않음.
+- live surface 확인 완료:
+  - `/plaza`에서 `Trust Log → Agent Passport → Behavior Drift Monitor` 순서 반영 확인
+  - `/api/plaza/drift`에서 3개 scenario 반영 확인
+  - `/api/plaza/samples/export-voucher`에서 `relatedDriftScenarios` 반영 확인
 
-## 추천 commit 단위
-한 번에 아래를 묶어도 자연스럽다.
-1. drift layer 생성
-2. plaza/console/human 연결
-3. OpenAPI + llms + sample API/schema 연결
-4. scenario + deep sample cross-link + handoff 문서
-
-### 추천 commit message 예시
-- `feat: add behavior drift monitor to K-Gov Agent Plaza`
-
-## push 전 빠른 재확인
-- `/plaza/drift`
-- `/api/plaza/drift`
-- `/api/plaza`
-- `/api/plaza/samples`
-- `/api/plaza/samples/birth-care-support`
-- `/api/plaza/samples/export-voucher`
-- `/openapi.json`
-- `/llms.txt`
-- `/llms-full.txt`
-
-## 남은 실제 작업
-- local commit
-- remote push
-- live deploy 후 실제 HTML marker 검증
-- canonical Vercel live surface 확인
+## 후속 작업이 있다면
+- 이제 남은 일은 새 기능 추가나 후속 확장이지, 이번 drift-monitor 묶음의 마감 작업은 아니다.
+- 다음 확장 후보:
+  - 추가 drift signal 설계
+  - 더 많은 deep sample 축적
+  - drift metrics를 실제 운영 로그와 연결

@@ -4,6 +4,7 @@ export async function GET() {
     repository: "https://github.com/hosungseo/k-gov-skill",
     llms: "https://raw.githubusercontent.com/hosungseo/k-gov-skill/main/llms.txt",
     catalog: "https://raw.githubusercontent.com/hosungseo/k-gov-skill/main/examples/skill-catalog.json",
+    publicDataApiCatalog: "https://raw.githubusercontent.com/hosungseo/k-gov-skill/main/examples/public-data-api-catalog.json",
     firstRun: "https://github.com/hosungseo/k-gov-skill/blob/main/docs/getting-started.md",
     skills: [
       "public-data-portal",
@@ -43,7 +44,20 @@ export async function GET() {
         command: "npm run example:law",
         url: "https://github.com/hosungseo/k-gov-skill/tree/main/examples/korean-law-citation-packet",
         purpose: "법령 조문을 원문 인용·시행일·출처 중심 citation packet으로 정리"
+      },
+      {
+        id: "prepare-public-data-call",
+        command: "npm run example:prepare-api",
+        url: "https://github.com/hosungseo/k-gov-skill/tree/main/examples/prepare-public-data-call",
+        purpose: "API manifest를 읽어 key/env/apply/request/fallback/safety가 있는 호출 준비 패킷 생성"
       }
+    ],
+    publicDataApis: [
+      "mois-resident-population",
+      "molit-apartment-trade",
+      "neis-school-lunch",
+      "ecos-interest-rate",
+      "kosis-population"
     ],
     positioning: "바이브코딩에 관심 있는 공무원을 위한 행정업무 스킬/레시피 저장소",
     authModel: "공공 API key는 사용자가 직접 신청한다. 키가 없으면 신청 안내와 fallback을 제공한다."

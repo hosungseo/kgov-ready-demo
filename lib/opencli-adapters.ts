@@ -192,6 +192,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         outputs: ["bottom_line", "key_facts", "risks", "likely_questions", "next_actions", "caveats", "sources"],
         smoke: "node scripts/issue-onepager.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
       },
+      {
+        name: "issue.action.queue",
+        description: "router/scenario/gap 결과를 실행 가능한 후속 command queue로 변환",
+        inputs: ["topic", "policy_query", "law_query", "schedule_keyword", "gov24_keyword", "format"],
+        outputs: ["recommended_first", "queue", "priority", "lane", "command", "expected_output", "blocker"],
+        smoke: "node scripts/issue-action-queue.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
+      },
     ],
     guardrails: ["각 source 실패는 errors에 격리", "secrets redaction", "lead_readable은 API-selected source_url에서 crawl", "최종 판단은 packet 소비자가 수행"],
   },

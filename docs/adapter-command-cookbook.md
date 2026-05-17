@@ -23,6 +23,7 @@ pnpm adapter:issue-matrix
 pnpm adapter:issue-scenario
 pnpm adapter:issue-router
 pnpm adapter:issue-onepager
+pnpm adapter:issue-actions
 # equivalent
 node scripts/public-issue-packet.mjs \
   --topic 공급망 \
@@ -73,6 +74,12 @@ node scripts/issue-onepager.mjs \
   --law-query 정부조직법 \
   --schedule-keyword AI \
   --gov24-keyword 보육
+node scripts/issue-action-queue.mjs \
+  --topic 공급망 \
+  --policy-query 조달청 \
+  --law-query 정부조직법 \
+  --schedule-keyword AI \
+  --gov24-keyword 보육
 ```
 
 This is the first genuinely composite command. It builds one packet from:
@@ -86,7 +93,7 @@ gov24.service.search
 ecos.series
 ```
 
-`issue.packet.compose` returns structured JSON. `issue.brief.render` turns the same packet into a Markdown briefing with legal context, official signals, statistics, question forecast, and next actions. `issue.timeline.render` converts packet dates into a policy timeline. `issue.gap.check` scores whether the packet has enough source coverage for a reliable briefing. `issue.evidence.matrix` explains which source plays which evidentiary role and what caveat should be attached. `issue.scenario.lab` recombines the packet/gap/matrix outputs into administrative risk scenarios, a question playbook, an action packet, and counter-arguments. `issue.decision.router` scores the next best workflow route, such as brief-now, legal-deep-dive, official-signal-narrowing, assembly-watch, or statistics-support. `issue.onepager.render` turns the routed result into a one-page report draft with bottom line, facts, risks, likely questions, next actions, caveats, and source links.
+`issue.packet.compose` returns structured JSON. `issue.brief.render` turns the same packet into a Markdown briefing with legal context, official signals, statistics, question forecast, and next actions. `issue.timeline.render` converts packet dates into a policy timeline. `issue.gap.check` scores whether the packet has enough source coverage for a reliable briefing. `issue.evidence.matrix` explains which source plays which evidentiary role and what caveat should be attached. `issue.scenario.lab` recombines the packet/gap/matrix outputs into administrative risk scenarios, a question playbook, an action packet, and counter-arguments. `issue.decision.router` scores the next best workflow route, such as brief-now, legal-deep-dive, official-signal-narrowing, assembly-watch, or statistics-support. `issue.onepager.render` turns the routed result into a one-page report draft with bottom line, facts, risks, likely questions, next actions, caveats, and source links. `issue.action.queue` turns the routed result into executable follow-up commands with priority, lane, expected output, dependencies, and blockers.
 
 The packet shape is:
 

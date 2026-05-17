@@ -20,7 +20,7 @@ function run(script, extraArgs = []) {
     "--gov24-keyword", arg("gov24-keyword", "보육"),
   ];
   const r = spawnSync("node", [...base, ...extraArgs], { encoding: "utf8", env: process.env, maxBuffer: 24 * 1024 * 1024 });
-  if (r.status !== 0) throw new Error(`${script} failed: ${(r.stderr || r.stdout || "").slice(0, 1600)}`);
+  if (r.status !== 0 && !(r.stdout || "").trim().startsWith("{")) throw new Error(`${script} failed: ${(r.stderr || r.stdout || "").slice(0, 1600)}`);
   return r.stdout;
 }
 function getScenario() { return parseJsonOutput(run("scripts/issue-scenario-lab.mjs", ["--format", "json"])); }

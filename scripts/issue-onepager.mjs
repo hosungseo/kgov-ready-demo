@@ -20,7 +20,7 @@ function run(script, extraArgs = []) {
     "--gov24-keyword", arg("gov24-keyword", "보육"),
   ];
   const r = spawnSync("node", [...base, ...extraArgs], { encoding: "utf8", env: process.env, maxBuffer: 24 * 1024 * 1024 });
-  if (r.status !== 0) throw new Error(`${script} failed: ${(r.stderr || r.stdout || "").slice(0, 1600)}`);
+  if (r.status !== 0 && !(r.stdout || "").trim().startsWith("{")) throw new Error(`${script} failed: ${(r.stderr || r.stdout || "").slice(0, 1600)}`);
   return parseJsonOutput(r.stdout);
 }
 function short(s, n = 160) { return String(s || "").replace(/\s+/g, " ").trim().slice(0, n); }
@@ -48,8 +48,8 @@ function buildOnepager() {
       route_score: router.recommendation?.score,
       posture: router.context?.posture,
     },
-    title: `${topic} 이슈 점검: ${short(lead.title, 80)}`,
-    bottom_line: `${router.recommendation?.label || "다음 경로 판단"}이 우선입니다. 현재 source coverage는 ${router.context?.posture || "unknown"}이며, 정책 발표·법령·공식신호·통계가 함께 확인됩니다.`,
+    title: `${topic} 이슈 점검: ${short(lead.title, 80) || "정책 lead 확인 필요"}`,
+    bottom_line: `${router.recommendation?.label || "다음 경로 판단"}가 우선 경로입니다. 현재 source coverage는 ${router.context?.posture || "unknown"}이며, 정책 발표·법령·공식신호·통계는 분리해서 확인해야 합니다.`,
     facts: [
       `정책 lead: ${lead.title || "확인 필요"} (${lead.agency || "기관 미상"})`,
       `법령 근거 후보: ${legal.title || "확인 필요"}`,

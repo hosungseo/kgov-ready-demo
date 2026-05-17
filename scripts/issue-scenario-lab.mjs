@@ -14,7 +14,9 @@ function run(script, extraArgs = []) {
   const base = [script, "--topic", arg("topic", "공급망"), "--policy-query", arg("policy-query", "조달청"), "--law-query", arg("law-query", "정부조직법"), "--schedule-keyword", arg("schedule-keyword", "AI"), "--gov24-keyword", arg("gov24-keyword", "보육")];
   const r = spawnSync("node", [...base, ...extraArgs], { encoding: "utf8", env: process.env, maxBuffer: 20 * 1024 * 1024 });
   if (r.status !== 0) {
-    return { ok: false, error: (r.stderr || r.stdout || "").slice(0, 1600) };
+    const stdout = r.stdout || "";
+    if (stdout.trim().startsWith("{")) return { ok: false, stdout, error: (r.stderr || "").slice(0, 1600) };
+    return { ok: false, error: (r.stderr || stdout || "").slice(0, 1600) };
   }
   return { ok: true, stdout: r.stdout };
 }

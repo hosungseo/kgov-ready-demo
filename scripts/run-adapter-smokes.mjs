@@ -42,6 +42,7 @@ console.log(`Loaded local env keys: ${loaded.length ? loaded.join(", ") : "none"
 const results = [
   run("policy briefing search/detail", ["pnpm", "adapter:smoke"], { maxOut: 3000 }),
   run("policy briefing readable", ["pnpm", "adapter:press:read"], { maxOut: 1800 }),
+  run("policy news API", ["node", "scripts/policy-news.mjs", "--start", "20250515", "--end", "20250517", "--limit", "3"], { require: ["DATA_GO_KR_SERVICE_KEY"], maxOut: 1800 }),
   run("gazette metadata", ["node", "scripts/gazette-search.mjs", "--from", "2026-05-01", "--to", "2026-05-17", "--keyword", "고시", "--page-size", "3"], { require: ["GAZETTE_API_KEY"] }),
   run("assembly bill", ["node", "scripts/assembly-bill.mjs", "search", "--endpoint", "ALLBILLV2", "--eraco", "제22대", "--limit", "3"], { require: ["ASSEMBLY_API_KEY"] }),
   run("moleg law", ["node", "scripts/moleg-law.mjs", "search", "--query", "정부조직법", "--limit", "3"], { require: ["MOLEG_OC"] }),

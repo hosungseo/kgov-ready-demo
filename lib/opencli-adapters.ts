@@ -100,6 +100,26 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
     guardrails: ["API key는 env only", "조문 원문 우선", "시행일/currency 표시", "부칙과 본문 구분"],
   },
   {
+    id: "policy-news-api",
+    site: "apis.data.go.kr / korea.kr",
+    name: "정책브리핑 정책뉴스 API 어댑터",
+    strategy: "KEYED_API",
+    status: "ready",
+    auth: "env-key",
+    source: "https://apis.data.go.kr/1371000/policyNewsService/policyNewsList",
+    agentUse: "문화체육관광부 정책뉴스 OpenAPI에서 3일 단위 정책뉴스 메타데이터와 원문 URL을 조회한다.",
+    commands: [
+      {
+        name: "policy.news.search",
+        description: "정책뉴스 목록 조회(최대 3일 범위)",
+        inputs: ["start", "end", "page", "limit"],
+        outputs: ["news_id", "title", "subtitle", "date", "agency", "summary", "source_url", "raw"],
+        smoke: "DATA_GO_KR_SERVICE_KEY=*** node scripts/policy-news.mjs --start 20250515 --end 20250517 --limit 3",
+      },
+    ],
+    guardrails: ["API key는 env only", "조회 범위는 3일 이하", "사진 저작권 문구 보존", "source_url 보존"],
+  },
+  {
     id: "gazette-metadata",
     site: "gwanbo.go.kr / data.go.kr",
     name: "관보 메타데이터 어댑터",

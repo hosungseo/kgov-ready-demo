@@ -10,6 +10,7 @@ const ENDPOINTS = {
   aptTrade: "https://apis.data.go.kr/1613000/RTMSDataSvcAptTradeDev/getRTMSDataSvcAptTradeDev",
   aptRent: "https://apis.data.go.kr/1613000/RTMSDataSvcAptRent/getRTMSDataSvcAptRent",
   officetelTrade: "https://apis.data.go.kr/1613000/RTMSDataSvcOffiTrade/getRTMSDataSvcOffiTrade",
+  officetelRent: "https://apis.data.go.kr/1613000/RTMSDataSvcOffiRent/getRTMSDataSvcOffiRent",
 };
 async function main() {
   const kind = arg("kind", "aptTrade"); const endpoint = ENDPOINTS[kind];
@@ -18,7 +19,8 @@ async function main() {
   const res = await fetch(url, { headers: { "user-agent": "Mozilla/5.0 (K-Gov MOLIT adapter)" } }); const xml = await res.text();
   if (/<errMsg>|SERVICE_KEY|INVALID|ERROR/i.test(xml) && !/<item>/i.test(xml)) { console.error(`MOLIT API error from ${redact(url.toString())}: ${clean(xml).slice(0,300)}`); process.exit(2); }
   const items = blocks(xml, "item").map(b => ({
-    apt_name: tag(b, "aptNm") || tag(b, "단지"),
+    property_name: tag(b, "aptNm") || tag(b, "offiNm") || tag(b, "단지") || tag(b, "단지명"),
+    apt_name: tag(b, "aptNm") || tag(b, "offiNm") || tag(b, "단지") || tag(b, "단지명"),
     deal_amount: tag(b, "dealAmount") || tag(b, "거래금액"),
     deposit: tag(b, "deposit") || tag(b, "보증금액"),
     monthly_rent: tag(b, "monthlyRent") || tag(b, "월세금액"),
@@ -30,6 +32,9 @@ async function main() {
     deal_day: tag(b, "dealDay") || tag(b, "일"),
     dong: tag(b, "umdNm") || tag(b, "법정동"),
     jibun: tag(b, "jibun") || tag(b, "지번"),
+    contract_type: tag(b, "contractType"),
+    cancel_date: tag(b, "cdealDay"),
+    dealing_type: tag(b, "dealingGbn"),
     raw: b,
   }));
   const payload = { metadata: { source: "국토교통부 실거래가 API", strategy: "KEYED_API_XML", retrieved_at: new Date().toISOString(), query_url: redact(url.toString()), kind, lawd: arg("lawd", "36110"), ym: arg("ym", "202604"), count: items.length }, items };

@@ -279,11 +279,11 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         name: "molit.realestate.search",
         description: "국토부 실거래가 조회",
         inputs: ["kind", "lawd", "ym", "page", "limit"],
-        outputs: ["apt_name", "deal_amount", "deposit", "monthly_rent", "area", "floor", "deal_date", "dong", "raw"],
+        outputs: ["property_name", "deal_amount", "deposit", "monthly_rent", "area", "floor", "deal_date", "dong", "contract_type", "dealing_type", "raw"],
         smoke: "DATA_GO_KR_SERVICE_KEY=*** node scripts/molit-realestate.mjs --kind aptTrade --lawd 36110 --ym 202604 --limit 3",
       },
     ],
-    guardrails: ["API key는 env only", "LAWD_CD/DEAL_YMD 보존", "월 단위 소량 조회", "취소거래/직거래 여부는 raw 확인"],
+    guardrails: ["kind는 aptTrade/aptRent/officetelTrade/officetelRent", "API key는 env only", "LAWD_CD/DEAL_YMD 보존", "월 단위 소량 조회", "취소거래/직거래 여부는 raw 확인"],
   },
 
   {
@@ -298,13 +298,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
     commands: [
       {
         name: "schoolinfo.disclosure.search",
-        description: "학교알리미 공시 항목 조회",
+        description: "학교알리미 공시 항목 조회(students/budget/facilities/safety 프리셋)",
         inputs: ["type", "year", "school_kind", "depth_no", "limit"],
         outputs: ["school_code", "school_name", "office", "region", "foundation", "student_total", "raw"],
         smoke: "SCHOOLINFO_API_KEY=*** node scripts/schoolinfo.mjs --type students --year 2025 --school-kind 04 --limit 3",
       },
     ],
-    guardrails: ["API key는 env only", "apiType/year/schoolKind 보존", "공시연도별 항목 제공 여부 drift 가능", "COL_* 필드는 raw로 보존"],
+    guardrails: ["type 프리셋은 students/budget/facilities/safety", "API key는 env only", "apiType/year/schoolKind 보존", "공시연도별 항목 제공 여부 drift 가능", "COL_* 필드는 raw로 보존"],
   },
 
   {

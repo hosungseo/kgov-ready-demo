@@ -51,6 +51,34 @@ export async function GET() {
           },
         },
       },
+      "/api/adapters/{id}": {
+        get: {
+          summary: "개별 OpenCLI-style adapter contract 조회",
+          operationId: "getOpenCliStyleAdapter",
+          parameters: [
+            {
+              name: "id",
+              in: "path",
+              required: true,
+              schema: {
+                type: "string",
+                enum: ["policy-briefing-press", "moleg-law-search", "gazette-metadata"],
+              },
+            },
+          ],
+          responses: {
+            "200": {
+              description: "개별 adapter contract와 agent instruction",
+              content: {
+                "application/json": {
+                  schema: { type: "object" },
+                },
+              },
+            },
+            "404": { description: "해당 adapter 없음" },
+          },
+        },
+      },
       "/api/plaza": {
         get: {
           summary: "Agent Plaza 과업 라우팅",

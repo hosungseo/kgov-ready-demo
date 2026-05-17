@@ -14,6 +14,7 @@ export async function GET() {
       "metadata and source URL before summary",
       "small smoke-verified adapters before broad automation",
     ],
+    routes: OPENCLI_ADAPTERS.map((adapter) => `/api/adapters/${adapter.id}`),
     adapters: OPENCLI_ADAPTERS,
   });
 }

@@ -12,6 +12,7 @@ K-Gov Ready Demo is no longer only an agent-readable website demo. It also expos
 ## Discovery
 
 - Adapter catalog: `/api/adapters`
+- Individual adapter contract: `/api/adapters/policy-briefing-press`
 - MCP tool packs: `/api/mcp-tools`
 - Plaza JSON: `/api/plaza`
 

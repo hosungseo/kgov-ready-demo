@@ -59,6 +59,7 @@ pnpm build
 이 레포는 이제 agent-ready 사이트 표준뿐 아니라 **공공사이트를 명령 가능한 adapter로 노출하는 레이어**를 포함합니다.
 
 - Catalog: `/api/adapters`
+- Individual contract: `/api/adapters/policy-briefing-press`
 - Working adapter: `scripts/policy-briefing-press.mjs`
 - Smoke test:
 

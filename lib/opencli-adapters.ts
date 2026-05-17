@@ -262,6 +262,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         outputs: ["hits", "raw", "blob", "original_url", "frontmatter", "readable_markdown"],
         smoke: "node scripts/gov-press-md-bridge.mjs --keyword 공급망 --date 2025-05-16 --limit 5 --fetch-readable --max-chars 1800",
       },
+      {
+        name: "upstream.evidence.pack",
+        description: "question-forecast/KGAB/readable gazette/gov-press-md bridge를 한 번에 실행해 외부 레포 근거 pack을 생성",
+        inputs: ["topic", "policy_query", "law_query", "gazette_query", "stat_query", "dataset_query", "bill_query", "lawmaking_query", "date", "limit", "max_chars", "format"],
+        outputs: ["assessment", "evidence", "bridge_status", "forecast", "kgab", "gazette", "press"],
+        smoke: "node scripts/upstream-evidence-pack.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --gazette-query 공급망 --date 2025-05-16 --limit 5",
+      },
     ],
     guardrails: ["각 source 실패는 errors에 격리", "secrets redaction", "lead_readable은 API-selected source_url에서 crawl", "최종 판단은 packet 소비자가 수행"],
   },

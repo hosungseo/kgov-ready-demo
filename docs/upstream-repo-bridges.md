@@ -4,6 +4,14 @@ K-Gov Ready Demo can reuse nearby public repos as upstream signals without copyi
 
 ## Active bridge
 
+### Combined pack
+
+- Local command: `pnpm adapter:upstream-pack`
+- Role: one-shot external evidence pack across all active upstream repo bridges
+- Sources: `question-forecast`, `korean-government-api-bundle`, `ai-readable-gazette-kr`, `gov-press-md`
+- Output: bridge health, pack posture, evidence matrix, KGAB comparator summary, forecast seed commands
+- Use before: `issue.workflow.run`, when you want external repo evidence before creating a fresh Kgov casefile.
+
 ### `hosungseo/question-forecast`
 
 - Role: issue radar / question forecast seed source

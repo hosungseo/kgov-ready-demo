@@ -25,8 +25,9 @@ K-Gov Ready Demo can reuse nearby public repos as upstream signals without copyi
 ### `hosungseo/ai-readable-gazette-kr`
 
 - Role: readable gazette corpus
-- Integration direction: use as an offline/readable fallback for gazette metadata hits when live API is too thin.
-- Guardrail: avoid cloning the full corpus during normal smoke; use targeted raw files or released indexes only.
+- Local command: `pnpm adapter:gazette-readable`
+- Integration direction: search the static Pages JSON index and fetch targeted raw Markdown snippets when live gazette metadata is too thin.
+- Guardrail: do not clone the full corpus during normal smoke; use `docs/data/*.json` and targeted raw files only.
 
 ### `hosungseo/gov-press-md`
 

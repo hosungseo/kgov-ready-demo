@@ -248,6 +248,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         outputs: ["posture", "score", "route", "source_gaps", "markdown", "command"],
         smoke: "node scripts/kgab-dossier-bridge.mjs --auto-clone --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --limit 2",
       },
+      {
+        name: "gazette.readable.bridge",
+        description: "ai-readable-gazette-kr Pages JSON을 검색해 관보 readable corpus 후보와 raw Markdown 링크를 반환",
+        inputs: ["keyword", "date", "limit", "fetch_readable", "max_chars", "format"],
+        outputs: ["hits", "date_lookup", "raw", "blob", "readable_markdown", "coverage"],
+        smoke: "node scripts/gazette-readable-bridge.mjs --keyword 공급망 --limit 5 --fetch-readable --max-chars 1600",
+      },
     ],
     guardrails: ["각 source 실패는 errors에 격리", "secrets redaction", "lead_readable은 API-selected source_url에서 crawl", "최종 판단은 packet 소비자가 수행"],
   },

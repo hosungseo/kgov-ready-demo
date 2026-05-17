@@ -31,6 +31,7 @@ pnpm adapter:issue-ops
 pnpm adapter:issue-regression
 pnpm adapter:forecast-seeds
 pnpm adapter:kgab-bridge
+pnpm adapter:gazette-readable
 # equivalent
 node scripts/public-issue-packet.mjs \
   --topic 공급망 \
@@ -113,6 +114,10 @@ node scripts/kgab-dossier-bridge.mjs \
   --topic 공급망 \
   --policy-query 조달청 \
   --law-query 정부조직법
+node scripts/gazette-readable-bridge.mjs \
+  --keyword 공급망 \
+  --limit 5 \
+  --fetch-readable
 ```
 
 This is the first genuinely composite command. It builds one packet from:
@@ -126,7 +131,7 @@ gov24.service.search
 ecos.series
 ```
 
-`issue.packet.compose` returns structured JSON. `issue.brief.render` turns the same packet into a Markdown briefing with legal context, official signals, statistics, question forecast, and next actions. `issue.timeline.render` converts packet dates into a policy timeline. `issue.gap.check` scores whether the packet has enough source coverage for a reliable briefing. `issue.evidence.matrix` explains which source plays which evidentiary role and what caveat should be attached. `issue.scenario.lab` recombines the packet/gap/matrix outputs into administrative risk scenarios, a question playbook, an action packet, and counter-arguments. `issue.decision.router` scores the next best workflow route, such as brief-now, legal-deep-dive, official-signal-narrowing, assembly-watch, or statistics-support. `issue.onepager.render` turns the routed result into a one-page report draft with bottom line, facts, risks, likely questions, next actions, caveats, and source links. `issue.action.queue` turns the routed result into executable follow-up commands with priority, lane, expected output, dependencies, and blockers. `issue.casefile.export` writes the full bundle to `out/issue-casefiles/<topic>-<timestamp>/` with an `index.md` and `manifest.json`. `issue.casefile.index` scans exported casefiles without re-running live APIs and summarizes posture, route, first action, lead, and artifact health. `issue.workflow.run` exports a new casefile, refreshes `out/issue-casefiles/INDEX.md` and `index.json`, then writes a workflow handoff next to the casefile. `issue.ops.board` reads exported casefiles without live API calls and produces an operations view: P0 queue, route/lane counts, blockers, failed artifacts, and latest casefiles. `issue.regression.check` compares the newest casefile with the previous one for the same topic and reports posture, route, first-action, score, blocker, and artifact drift. `forecast.issue.seeds` reads the user's `question-forecast` public API and turns its highest-priority forecast packets into ready-to-run Kgov `issue.workflow.run` commands. `kgab.dossier.bridge` runs the user's `korean-government-api-bundle` dossier builder as an upstream comparator and extracts posture, score, route, source gaps, and Markdown dossier output.
+`issue.packet.compose` returns structured JSON. `issue.brief.render` turns the same packet into a Markdown briefing with legal context, official signals, statistics, question forecast, and next actions. `issue.timeline.render` converts packet dates into a policy timeline. `issue.gap.check` scores whether the packet has enough source coverage for a reliable briefing. `issue.evidence.matrix` explains which source plays which evidentiary role and what caveat should be attached. `issue.scenario.lab` recombines the packet/gap/matrix outputs into administrative risk scenarios, a question playbook, an action packet, and counter-arguments. `issue.decision.router` scores the next best workflow route, such as brief-now, legal-deep-dive, official-signal-narrowing, assembly-watch, or statistics-support. `issue.onepager.render` turns the routed result into a one-page report draft with bottom line, facts, risks, likely questions, next actions, caveats, and source links. `issue.action.queue` turns the routed result into executable follow-up commands with priority, lane, expected output, dependencies, and blockers. `issue.casefile.export` writes the full bundle to `out/issue-casefiles/<topic>-<timestamp>/` with an `index.md` and `manifest.json`. `issue.casefile.index` scans exported casefiles without re-running live APIs and summarizes posture, route, first action, lead, and artifact health. `issue.workflow.run` exports a new casefile, refreshes `out/issue-casefiles/INDEX.md` and `index.json`, then writes a workflow handoff next to the casefile. `issue.ops.board` reads exported casefiles without live API calls and produces an operations view: P0 queue, route/lane counts, blockers, failed artifacts, and latest casefiles. `issue.regression.check` compares the newest casefile with the previous one for the same topic and reports posture, route, first-action, score, blocker, and artifact drift. `forecast.issue.seeds` reads the user's `question-forecast` public API and turns its highest-priority forecast packets into ready-to-run Kgov `issue.workflow.run` commands. `kgab.dossier.bridge` runs the user's `korean-government-api-bundle` dossier builder as an upstream comparator and extracts posture, score, route, source gaps, and Markdown dossier output. `gazette.readable.bridge` searches the user's `ai-readable-gazette-kr` static JSON index and returns readable Markdown links/snippets for gazette corpus hits.
 
 The packet shape is:
 

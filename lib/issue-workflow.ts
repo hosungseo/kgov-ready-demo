@@ -26,6 +26,56 @@ export const ISSUE_WORKFLOW = {
   ],
 };
 
+export const ISSUE_RUNBOOK = [
+  {
+    label: "Run",
+    value: "issue.workflow.run",
+    desc: "검색어 조합을 하나의 live run으로 실행해 casefile을 만든다.",
+  },
+  {
+    label: "Read",
+    value: "onepager.md",
+    desc: "실무자가 먼저 볼 결론, 근거, 위험, 예상 질문을 확인한다.",
+  },
+  {
+    label: "Assign",
+    value: "actions.md",
+    desc: "법령 심화, 공식 신호 좁히기, 통계 보강 같은 다음 작업을 배정한다.",
+  },
+  {
+    label: "Watch",
+    value: "ops + regression",
+    desc: "저장된 casefile만 읽어 blocker와 이전 run 대비 변화를 추적한다.",
+  },
+];
+
+export const ISSUE_HANDOFF_LANES = [
+  {
+    lane: "Briefing",
+    owner: "policy desk",
+    output: "onepager.md",
+    use: "보고서 초안, 회의 전 공유, 예상 질의 대응",
+  },
+  {
+    lane: "Legal",
+    owner: "law desk",
+    output: "gap.md + matrix.md",
+    use: "근거 조문, 위임 근거, 시행일, 하위법령 확인",
+  },
+  {
+    lane: "Signals",
+    owner: "watch desk",
+    output: "timeline.md + actions.md",
+    use: "국회 일정, 관보, 정책자료의 후속 변화를 추적",
+  },
+  {
+    lane: "Ops",
+    owner: "casefile registry",
+    output: "workflow.md + INDEX.md",
+    use: "재실행 없이 이슈 상태, blocker, 회귀 변화를 관리",
+  },
+];
+
 export const ISSUE_PIPELINE = [
   {
     id: "packet",
@@ -115,4 +165,27 @@ export const ISSUE_ARTIFACTS = [
   "geo.json",
   "index.md",
   "manifest.json",
+];
+
+export const ISSUE_CASEFILE_STEPS = [
+  {
+    file: "index.md",
+    role: "entrypoint",
+    desc: "생성 시각, lead, route, posture, artifact health를 한 페이지로 묶는다.",
+  },
+  {
+    file: "onepager.md",
+    role: "briefing draft",
+    desc: "정책 담당자가 바로 읽는 bottom line, facts, risks, questions를 제공한다.",
+  },
+  {
+    file: "workflow.md",
+    role: "handoff",
+    desc: "추천 route와 first action을 다음 작업자로 넘긴다.",
+  },
+  {
+    file: "INDEX.md",
+    role: "registry",
+    desc: "여러 casefile을 재실행 없이 목록화해 ops board와 regression check가 읽는다.",
+  },
 ];

@@ -46,12 +46,13 @@ K-Gov Ready Demo can reuse nearby public repos as upstream signals without copyi
 
 ### `hosungseo/gonpunclaw-policymap`
 
-- Role: geocoder chain for address-to-coordinate enrichment
-- Local command: `pnpm adapter:policymap-geocode`
+- Role: keyless administrative-region centroid mapping plus optional geocoder chain for address-to-coordinate enrichment
+- Local command: `pnpm adapter:policymap-region`
+- Geocoder command: `pnpm adapter:policymap-geocode`
 - Smoke command: `pnpm adapter:policymap-geocode:self-test`
 - API doctor: `pnpm adapter:policymap-geocode:doctor`
-- Integration direction: reuse the Kakao → VWorld → Juso priority chain, but replace the app's Supabase cache with Kgov's local `.cache/policymap-geocoder-cache.json`.
-- Guardrail: API keys stay in env or `.env.local`; outputs must preserve raw address, normalized address, provider, attempted chain, and cache state.
+- Integration direction: use `public/data/*-boundaries.geojson` for keyless sido/sigg/emd centroid mapping first; use Kakao → VWorld → Juso only when free-text address precision is needed.
+- Guardrail: region centroid outputs are administrative context, not building coordinates. API keys stay in env or `.env.local`; geocoder outputs must preserve raw address, normalized address, provider, attempted chain, and cache state.
 
 API setup:
 

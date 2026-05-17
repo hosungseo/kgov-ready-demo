@@ -91,13 +91,52 @@ function runGeocoder(candidates) {
     parsed: parseJson(r.stdout),
   };
 }
-function toFeatureCollection(candidates, geocode) {
+function runRegionBridge(candidates) {
+  const args = [];
+  for (const row of candidates) args.push("--address", row.address);
+  for (const region of argsAll("region")) args.push("--region", region);
+  if (!args.length) args.push("--query", haystack());
+  args.push("--format", "json");
+  const r = spawnSync("node", ["scripts/policymap-region-bridge.mjs", ...args], {
+    encoding: "utf8",
+    env: process.env,
+    maxBuffer: 32 * 1024 * 1024,
+  });
+  return {
+    command: ["node", "scripts/policymap-region-bridge.mjs", ...args].map(shellQuote).join(" "),
+    status: typeof r.status === "number" ? r.status : 1,
+    stdout: r.stdout || "",
+    stderr: r.stderr || r.error?.message || "",
+    parsed: parseJson(r.stdout),
+  };
+}
+function toFeatureCollection(candidates, geocode, region) {
   const byAddress = new Map((geocode?.results || []).map((row) => [row.address_raw, row]));
+  const regionByQuery = new Map((region?.items || []).filter((row) => row.ok).map((row) => [row.query, row]));
   return {
     type: "FeatureCollection",
     features: candidates.flatMap((candidate) => {
       const hit = byAddress.get(candidate.address);
-      if (!hit?.ok) return [];
+      if (!hit?.ok) {
+        const regionHit = regionByQuery.get(candidate.address);
+        if (!regionHit?.ok) return [];
+        return [{
+          type: "Feature",
+          geometry: { type: "Point", coordinates: [regionHit.centroid.lng, regionHit.centroid.lat] },
+          properties: {
+            id: candidate.id,
+            name: candidate.name,
+            role: candidate.role,
+            address_raw: candidate.address,
+            provider: "policymap-region",
+            precision: "administrative-region-centroid",
+            region_level: regionHit.level,
+            region_code: regionHit.code,
+            region_name: regionHit.name,
+            match_score: regionHit.score,
+          },
+        }];
+      }
       return [{
         type: "Feature",
         geometry: { type: "Point", coordinates: [hit.lng, hit.lat] },
@@ -108,6 +147,7 @@ function toFeatureCollection(candidates, geocode) {
           address_raw: candidate.address,
           address_normalized: hit.address_normalized,
           provider: hit.provider,
+          precision: "address-geocode",
           attempted: hit.attempted,
         },
       }];
@@ -118,15 +158,21 @@ function buildPayload() {
   const candidates = candidateRows();
   const run = runGeocoder(candidates);
   const geocode = run?.parsed || null;
-  const geojson = toFeatureCollection(candidates, geocode);
+  const regionRun = runRegionBridge(candidates);
+  const region = regionRun?.parsed || null;
+  const geojson = toFeatureCollection(candidates, geocode, region);
   const enabled = geocode?.enabled_providers || [];
+  const hasExact = geojson.features.some((feature) => feature.properties?.precision === "address-geocode");
+  const hasRegion = geojson.features.some((feature) => feature.properties?.precision === "administrative-region-centroid");
   const status = !candidates.length
     ? "no-location-candidates"
-    : geojson.features.length
+    : hasExact
       ? "map-ready"
+      : hasRegion
+        ? "map-ready-region"
       : enabled.length
         ? "geocode-failed"
-        : "needs-geocoder-key";
+        : "needs-region-match-or-geocoder-key";
   return {
     source: "issue-geo-context",
     topic: arg("topic", "공급망"),
@@ -141,6 +187,14 @@ function buildPayload() {
       summary: geocode.summary,
       results: geocode.results,
     } : null,
+    region: region ? {
+      status: regionRun.status,
+      command: regionRun.command,
+      strategy: region.strategy,
+      levels: region.levels,
+      summary: region.summary,
+      items: region.items,
+    } : null,
     geojson,
   };
 }
@@ -154,8 +208,8 @@ function renderMd(payload) {
     "- GeoJSON features: " + payload.geojson.features.length,
     "",
   ];
-  if (payload.status === "needs-geocoder-key") {
-    lines.push("Geocoder API key is not configured. Run `pnpm adapter:policymap-geocode:doctor` and set one of `KAKAO_REST_API_KEY`, `VWORLD_API_KEY`, or `JUSO_API_KEY`.");
+  if (payload.status === "needs-region-match-or-geocoder-key") {
+    lines.push("No administrative region matched. Pass `--region` or configure a geocoder with `KAKAO_REST_API_KEY`, `VWORLD_API_KEY`, or `JUSO_API_KEY`.");
     lines.push("");
   }
   lines.push("## Candidates", "");
@@ -168,6 +222,13 @@ function renderMd(payload) {
     for (const row of payload.geocoder.results) {
       if (row.ok) lines.push("- ok: " + row.address_raw + " → " + row.lat + ", " + row.lng + " via " + row.provider);
       else lines.push("- failed: " + row.address_raw + " → " + row.reason);
+    }
+  }
+  if (payload.region?.items?.length) {
+    lines.push("", "## Region Results", "");
+    for (const row of payload.region.items) {
+      if (row.ok) lines.push("- ok: " + row.query + " -> " + row.name + " [" + row.level + " " + row.code + "] centroid " + row.centroid.lat + ", " + row.centroid.lng);
+      else lines.push("- failed: " + row.query + " -> " + row.reason);
     }
   }
   lines.push("", "## GeoJSON", "", "```json", JSON.stringify(payload.geojson, null, 2), "```");

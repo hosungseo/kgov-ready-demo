@@ -201,9 +201,9 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
       },
       {
         name: "issue.geo.context",
-        description: "topic/query에서 기관 위치 후보를 추론하고 policymap geocoder로 지도용 GeoJSON을 생성",
+        description: "topic/query에서 기관 위치 후보를 추론하고 policymap region centroid 또는 geocoder로 지도용 GeoJSON을 생성",
         inputs: ["topic", "policy_query", "law_query", "schedule_keyword", "gov24_keyword", "address", "format"],
-        outputs: ["status", "candidates", "geocoder", "geojson"],
+        outputs: ["status", "candidates", "region", "geocoder", "geojson"],
         smoke: "node scripts/issue-geo-context.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --format json",
       },
       {
@@ -288,8 +288,15 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
     auth: "env-key",
     source: "hosungseo/gonpunclaw-policymap geocode chain",
     agentUse:
-      "주소 목록을 Kakao, VWorld, Juso 우선순위 체인으로 좌표화하고 provider/attempted/cache 정보를 보존해 Kgov evidence에 위치 좌표를 붙인다.",
+      "기본은 gonpunclaw-policymap의 행정구역 경계 GeoJSON에서 region centroid를 만들고, 자유형 주소가 필요할 때만 Kakao/VWorld/Juso geocoder chain으로 좌표화한다.",
     commands: [
+      {
+        name: "policymap.region",
+        description: "gonpunclaw-policymap의 sido/sigg/emd boundary GeoJSON을 읽어 행정구역 centroid GeoJSON을 생성",
+        inputs: ["query", "address", "region", "level", "include_boundary", "format"],
+        outputs: ["level", "code", "name", "centroid", "geojson", "summary"],
+        smoke: "node scripts/policymap-region-bridge.mjs --address \"대전광역시 서구 청사로 189 정부대전청사\" --format json",
+      },
       {
         name: "policymap.geocode",
         description: "gonpunclaw-policymap의 Kakao/VWorld/Juso geocoder chain을 Kgov CLI로 실행",
@@ -305,7 +312,7 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         smoke: "node scripts/policymap-geocoder-bridge.mjs --doctor --format json",
       },
     ],
-    guardrails: ["API key는 env/.env.local only", "좌표 결과에는 provider와 attempted chain 기록", "성공 결과만 .cache에 저장", "공식 보고서에는 원 주소와 정규화 주소를 함께 보존"],
+    guardrails: ["행정구역 기반 지도는 API key 없이 boundary GeoJSON/centroid 우선", "API key는 env/.env.local only", "좌표 결과에는 provider와 attempted chain 기록", "성공 결과만 .cache에 저장", "공식 보고서에는 원 주소와 정규화 주소를 함께 보존"],
   },
   {
     id: "gazette-metadata",

@@ -142,12 +142,18 @@ node scripts/upstream-evidence-pack.mjs \
 node scripts/policymap-geocoder-bridge.mjs \
   --address "서울특별시 중구 세종대로 110" \
   --format json
+node scripts/policymap-region-bridge.mjs \
+  --address "대전광역시 서구 청사로 189 정부대전청사" \
+  --address "세종특별자치시 도움6로 11" \
+  --format json
 node scripts/policymap-geocoder-bridge.mjs \
   --doctor \
   --format json
 ```
 
 This is the first genuinely composite command. It builds one packet from:
+
+Geo note: `issue.geo.context` does not require a geocoder key for ordinary policy maps. It first uses `policymap.region` to match agencies/regions against `gonpunclaw-policymap` boundary GeoJSON and emits administrative centroid GeoJSON. `policymap.geocode` remains the optional precision path for free-text addresses.
 
 ```text
 policy.news.search → crawl.readable lead article

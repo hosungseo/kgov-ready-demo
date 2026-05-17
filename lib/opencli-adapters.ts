@@ -234,6 +234,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         outputs: ["status", "delta", "recommendations", "current", "previous"],
         smoke: "node scripts/issue-regression-check.mjs --root out/issue-casefiles --topic 공급망",
       },
+      {
+        name: "forecast.issue.seeds",
+        description: "question-forecast repo의 공개 API를 읽어 Kgov issue-workflow seed command로 변환",
+        inputs: ["url", "limit", "format", "run_top"],
+        outputs: ["upstream_repo", "upstream_generated_at", "seeds", "workflow_command"],
+        smoke: "node scripts/question-forecast-seeds.mjs --limit 5",
+      },
     ],
     guardrails: ["각 source 실패는 errors에 격리", "secrets redaction", "lead_readable은 API-selected source_url에서 crawl", "최종 판단은 packet 소비자가 수행"],
   },

@@ -12,10 +12,11 @@ This loads `.env.local` and runs the live smoke set. Secrets stay local and ever
 
 ## Creative composition
 
-### Public issue packet
+### Public issue packet + brief
 
 ```bash
 pnpm adapter:issue-packet
+pnpm adapter:issue-brief
 # equivalent
 node scripts/public-issue-packet.mjs \
   --topic 공급망 \
@@ -24,6 +25,12 @@ node scripts/public-issue-packet.mjs \
   --schedule-keyword AI \
   --gov24-keyword 보육 \
   --max-chars 1200
+node scripts/issue-brief.mjs \
+  --topic 공급망 \
+  --policy-query 조달청 \
+  --law-query 정부조직법 \
+  --schedule-keyword AI \
+  --gov24-keyword 보육
 ```
 
 This is the first genuinely composite command. It builds one packet from:
@@ -36,6 +43,8 @@ assembly.schedule.search
 gov24.service.search
 ecos.series
 ```
+
+`issue.packet.compose` returns structured JSON. `issue.brief.render` turns the same packet into a Markdown briefing with legal context, official signals, statistics, question forecast, and next actions.
 
 The packet shape is:
 

@@ -143,6 +143,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         outputs: ["lead_readable", "legal_context", "official_signals", "statistic_context", "errors"],
         smoke: "node scripts/public-issue-packet.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
       },
+      {
+        name: "issue.brief.render",
+        description: "multi-source packet을 실무 briefing markdown + question forecast로 렌더링",
+        inputs: ["topic", "policy_query", "law_query", "schedule_keyword", "gov24_keyword", "format"],
+        outputs: ["lead_signal", "legal_context", "official_signals", "statistic_context", "question_forecast", "next_actions"],
+        smoke: "node scripts/issue-brief.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
+      },
     ],
     guardrails: ["각 source 실패는 errors에 격리", "secrets redaction", "lead_readable은 API-selected source_url에서 crawl", "최종 판단은 packet 소비자가 수행"],
   },

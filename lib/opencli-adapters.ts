@@ -47,6 +47,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         outputs: ["news_id", "title", "agency", "description", "content_iframe_url", "attachments", "source_url"],
         smoke: "node scripts/policy-briefing-press.mjs detail --news-id 156761598",
       },
+      {
+        name: "press.read",
+        description: "정책브리핑 보도자료를 Crawl4AI readable Markdown으로 추출하고 korea-press postprocess 적용",
+        inputs: ["news_id", "max_chars"],
+        outputs: ["source_url", "retrieved_at", "strategy", "postprocess", "markdown"],
+        smoke: "python3.10 scripts/crawl-readable.py --korea-press-news-id 156761598 --max-chars 12000",
+      },
     ],
     guardrails: ["source_url 필수", "retrieved_at 기록", "HTML 구조 변경 시 smoke 실패", "공식 정책자료와 법적 근거 구분"],
   },

@@ -23,6 +23,7 @@ pnpm adapter:smoke
 # or
 node scripts/policy-briefing-press.mjs --keyword 정부조직 --limit 5 --format md
 node scripts/policy-briefing-press.mjs detail --news-id 156761598
+python3.10 scripts/crawl-readable.py --korea-press-news-id 156761598 --max-chars 12000
 ```
 
 This calls Korea Policy Briefing press-release list pages and emits structured JSON/Markdown:
@@ -98,3 +99,15 @@ python3 scripts/crawl-readable.py --url "https://www.korea.kr/briefing/pressRele
 ```
 
 The script exits with code `2` when Crawl4AI is not installed, so normal repo builds stay lightweight.
+
+## Policy Briefing read command
+
+`press.read` is the site-specific readable command over the generic Crawl4AI backend:
+
+```bash
+pnpm adapter:press:read
+# equivalent
+python3.10 scripts/crawl-readable.py --korea-press-news-id 156761598 --max-chars 12000
+```
+
+Use this after `press.search` or `press.detail` when the agent needs a compact Markdown packet instead of raw page chrome.

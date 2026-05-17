@@ -14,7 +14,9 @@
     "adapter:gazette:search": "node scripts/gazette-search.mjs --from 2026-05-01 --to 2026-05-17 --keyword 고시 --page-size 5",
     "adapter:gazette:smoke": "node scripts/gazette-search.mjs --from 2026-05-01 --to 2026-05-17 --keyword 고시 --page-size 5",
     "adapter:crawl:read": "python3.10 scripts/crawl-readable.py --url \"https://www.korea.kr/briefing/pressReleaseView.do?newsId=156761598\" --max-chars 12000",
-    "adapter:crawl:doctor": "python3.10 -c \"import crawl4ai; print(\\\"crawl4ai ok\\\")\""
+    "adapter:crawl:doctor": "python3.10 -c \"import crawl4ai; print(\\\"crawl4ai ok\\\")\"",
+    "adapter:press:read": "python3.10 scripts/crawl-readable.py --korea-press-news-id 156761598 --max-chars 12000",
+    "adapter:press:all": "node scripts/policy-briefing-press.mjs --keyword 정부조직 --limit 3 --format json && node scripts/policy-briefing-press.mjs detail --news-id 156761598 && python3.10 scripts/crawl-readable.py --korea-press-news-id 156761598 --max-chars 12000"
   },
   "dependencies": {
     "@upstash/redis": "^1.37.0",

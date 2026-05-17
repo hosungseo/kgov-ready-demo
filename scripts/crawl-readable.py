@@ -154,12 +154,17 @@ async def crawl(url: str, wait_for: str | None = None, css_selector: str | None 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Extract clean Markdown from a public page with Crawl4AI.")
-    parser.add_argument("--url", required=True, help="Page URL to crawl")
+    parser.add_argument("--url", default="", help="Page URL to crawl")
+    parser.add_argument("--korea-press-news-id", default="", help="Build a Korea Policy Briefing press-release URL from newsId")
     parser.add_argument("--wait-for", default="", help="Optional CSS selector / wait condition passed to Crawl4AI")
     parser.add_argument("--max-chars", type=int, default=20000, help="Trim markdown for CLI output; 0 means full")
     parser.add_argument("--css-selector", default="", help="Optional Crawl4AI css_selector, e.g. .article_wrap")
     parser.add_argument("--profile", choices=["auto", "korea-press", "none"], default="auto", help="Site-specific readable postprocess profile")
     args = parser.parse_args()
+    if args.korea_press_news_id and not args.url:
+        args.url = f"https://www.korea.kr/briefing/pressReleaseView.do?newsId={args.korea_press_news_id}"
+    if not args.url:
+        parser.error("--url or --korea-press-news-id is required")
 
     try:
         payload = asyncio.run(crawl(args.url, args.wait_for or None, args.css_selector or None))

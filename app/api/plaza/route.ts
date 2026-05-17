@@ -1,4 +1,5 @@
 import { AGENT_TYPES, CAPABILITIES, TASKS, TRUST_METRICS } from "@/lib/plaza";
+import { GOV_SIGNAL_SCORE_AXES, GOV_SIGNAL_WATCH } from "@/lib/gov-signal-watch";
 import { OPENCLI_ADAPTERS } from "@/lib/opencli-adapters";
 import { ISSUE_ARTIFACTS, ISSUE_GEO_FLOW, ISSUE_PIPELINE, ISSUE_WORKFLOW } from "@/lib/issue-workflow";
 
@@ -36,6 +37,12 @@ export async function GET() {
       pipeline: ISSUE_PIPELINE,
       geo: ISSUE_GEO_FLOW,
       artifacts: ISSUE_ARTIFACTS,
+    },
+    signalWatch: {
+      ...GOV_SIGNAL_WATCH,
+      scoreAxes: GOV_SIGNAL_SCORE_AXES,
+      endpoint: GOV_SIGNAL_WATCH.api,
+      note: "Trend-style recurring scan feed를 정부 공식 source, 법령 결합도, next action 중심으로 변환한 agent-friendly signal layer.",
     },
     agents: AGENT_TYPES,
     capabilities: CAPABILITIES,

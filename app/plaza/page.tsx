@@ -5,6 +5,7 @@ import { TASKS } from "@/lib/plaza";
 import { MCP_TOOL_PACKS } from "@/lib/mcp-tools";
 import { OPENCLI_ADAPTERS } from "@/lib/opencli-adapters";
 import { EXISTING_ASSETS } from "@/lib/existing-assets";
+import { GOV_SIGNAL_WATCH } from "@/lib/gov-signal-watch";
 import { ISSUE_GEO_FLOW, ISSUE_PIPELINE, ISSUE_WORKFLOW } from "@/lib/issue-workflow";
 
 const SITE_URL =
@@ -156,6 +157,10 @@ export default function PlazaPage() {
             <Link href="/plaza/issues" className="rounded-2xl border border-gov-blue/25 bg-gov-blue/8 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/50">
               <div className="font-semibold text-gov-blue">Issue Workflow</div>
               <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">공공 source를 evidence packet으로 묶고 브리핑·지도·casefile로 확장합니다.</p>
+            </Link>
+            <Link href={GOV_SIGNAL_WATCH.page} className="rounded-2xl border border-gov-blue/25 bg-white/80 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/50">
+              <div className="font-semibold text-gov-blue">Gov Signal Watch</div>
+              <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">정부 공식 source를 하루 4번 스캔해 brief, score, route, JSON으로 정리합니다.</p>
             </Link>
             <Link href="/plaza/bottlenecks" className="rounded-2xl border border-gov-navy/10 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40">
               <div className="font-semibold text-gov-blue">Bottleneck Reports</div>

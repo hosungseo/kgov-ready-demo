@@ -19,6 +19,7 @@ function requireKey(name, aliases = []) {
 function redactUrl(url) { return String(url).replace(/(serviceKey|KEY|OC|apiKey)=([^&]+)/g, "$1=***"); }
 function clean(s) { return String(s ?? "").replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1").replace(/<[^>]+>/g, " ").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim(); }
 function tag(xml, name) { const m = xml.match(new RegExp(`<${name}[^>]*>([\\s\\S]*?)<\\/${name}>`, "i")); return m ? clean(m[1]) : ""; }
+function rawTag(xml, name) { const m = xml.match(new RegExp(`<${name}[^>]*>([\\s\\S]*?)<\\/${name}>`, "i")); return m ? String(m[1]).replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1").trim() : ""; }
 function blocks(xml, name) { return [...xml.matchAll(new RegExp(`<${name}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${name}>`, "gi"))].map(m => m[1]); }
 async function fetchPolicyNews() {
   const key = requireKey("DATA_GO_KR_SERVICE_KEY", ["POLICY_NEWS_SERVICE_KEY"]);
@@ -57,6 +58,41 @@ function crawl(url) {
   if (start < 0) return { error: `crawl output did not contain JSON: ${r.stdout.slice(0, 300)}`, exit_code: 1 };
   return JSON.parse(r.stdout.slice(start));
 }
+function htmlToMarkdown(html) {
+  return clean(String(html || "")
+    .replace(/<\s*br\s*\/?\s*>/gi, "\n")
+    .replace(/<\/(p|div|li|h[1-6]|figcaption)>/gi, "\n")
+    .replace(/<li[^>]*>/gi, "- ")
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<style[\s\S]*?<\/style>/gi, ""))
+    .replace(/\n\s+/g, "\n")
+    .replace(/\n{3,}/g, "\n\n");
+}
+function apiBodyReadable(selected, crawlError) {
+  const body = rawTag(selected.raw || "", "DataContents");
+  if (!body) return { error: crawlError?.error || "crawl failed and API item has no DataContents", exit_code: crawlError?.exit_code || 1 };
+  const max = Number(arg("max-chars", "8000"));
+  const markdown = [
+    `# ${selected.title}`,
+    "",
+    `- Date: ${selected.date || ""}`,
+    `- Agency: ${selected.agency || ""}`,
+    `- Source: ${selected.source_url}`,
+    "",
+    "## Summary / extracted description",
+    selected.summary || "",
+    "",
+    "## API body",
+    htmlToMarkdown(body).slice(0, max),
+  ].join("\n").trim();
+  return {
+    source_url: selected.source_url,
+    strategy: "API_BODY_FALLBACK",
+    markdown_length: markdown.length,
+    postprocess: { profile: "policy-news-api-body", crawl_error: crawlError?.error ? String(crawlError.error).slice(0, 1000) : "" },
+    markdown,
+  };
+}
 
 loadEnv();
 const source = arg("source", "policy-news");
@@ -64,11 +100,12 @@ const index = Number(arg("index", "0"));
 const api = source === "press" ? await fetchPressSearch() : await fetchPolicyNews();
 const selected = api.rows[index];
 if (!selected) { console.error(`No API item at index ${index}. filtered_count=${api.rows.length}`); process.exit(1); }
-const readable = crawl(selected.source_url);
+const crawled = crawl(selected.source_url);
+const readable = crawled.error ? apiBodyReadable(selected, crawled) : crawled;
 const packet = {
   metadata: {
     source: "api-readable-packet",
-    strategy: "API_SEARCH_THEN_CRAWL_READABLE",
+    strategy: readable.strategy === "API_BODY_FALLBACK" ? "API_SEARCH_THEN_API_BODY_FALLBACK" : "API_SEARCH_THEN_CRAWL_READABLE",
     retrieved_at: new Date().toISOString(),
     api_source: api.metadata.source,
     api_query_url: redactUrl(api.metadata.query_url),
@@ -77,9 +114,9 @@ const packet = {
   },
   api_item: selected,
   readable: readable.error ? { error: readable.error, exit_code: readable.exit_code } : {
-    source_url: readable.metadata?.source_url,
-    strategy: readable.metadata?.strategy,
-    markdown_length: readable.metadata?.markdown_length,
+    source_url: readable.metadata?.source_url || readable.source_url,
+    strategy: readable.metadata?.strategy || readable.strategy,
+    markdown_length: readable.metadata?.markdown_length || readable.markdown_length,
     postprocess: readable.postprocess,
     markdown: readable.markdown,
   },

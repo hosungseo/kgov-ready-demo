@@ -185,6 +185,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         outputs: ["recommendation", "alternatives", "routes", "context"],
         smoke: "node scripts/issue-decision-router.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
       },
+      {
+        name: "issue.onepager.render",
+        description: "router 추천을 반영해 바로 읽을 수 있는 1쪽 보고서 초안을 생성",
+        inputs: ["topic", "policy_query", "law_query", "schedule_keyword", "gov24_keyword", "format"],
+        outputs: ["bottom_line", "key_facts", "risks", "likely_questions", "next_actions", "caveats", "sources"],
+        smoke: "node scripts/issue-onepager.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
+      },
     ],
     guardrails: ["각 source 실패는 errors에 격리", "secrets redaction", "lead_readable은 API-selected source_url에서 crawl", "최종 판단은 packet 소비자가 수행"],
   },

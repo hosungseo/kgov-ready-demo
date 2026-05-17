@@ -10,7 +10,7 @@ export const GOV_SIGNAL_WATCH = {
   agentThesis:
     "사람용 뉴스피드가 아니라 에이전트가 바로 route, verify, brief, watch 할 수 있는 공식 신호 계기판.",
   stats: [
-    { label: "source families", value: "12" },
+    { label: "source families", value: "6" },
     { label: "scan slots / day", value: "4" },
     { label: "agent fields", value: "9" },
     { label: "latest posture", value: "brief-ready" },

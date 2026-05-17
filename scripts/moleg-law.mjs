@@ -128,7 +128,7 @@ async function search() {
     promulgation_date: law.공포일자 ?? "",
     enforcement_date: law.시행일자 ?? "",
     ministry: stripTags(law.소관부처명 ?? ""),
-    detail_url: law.법령상세링크 ? `https://www.law.go.kr${law.법령상세링크}` : "",
+    detail_url: law.법령상세링크 ? `https://www.law.go.kr${law.법령상세링크}`.replace(/OC=[^&]+/, "OC=***") : "",
   }));
   return {
     metadata: {

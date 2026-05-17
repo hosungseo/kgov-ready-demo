@@ -164,6 +164,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         outputs: ["score", "posture", "checks", "priority_fixes", "interpretation"],
         smoke: "node scripts/issue-gap-check.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
       },
+      {
+        name: "issue.evidence.matrix",
+        description: "multi-source packet을 source role/strength/use/caveat 행렬로 변환",
+        inputs: ["topic", "policy_query", "law_query", "gazette_keyword", "schedule_keyword", "gov24_keyword", "format"],
+        outputs: ["role", "source", "evidence", "strength", "use", "caveat"],
+        smoke: "node scripts/issue-evidence-matrix.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
+      },
     ],
     guardrails: ["각 source 실패는 errors에 격리", "secrets redaction", "lead_readable은 API-selected source_url에서 crawl", "최종 판단은 packet 소비자가 수행"],
   },

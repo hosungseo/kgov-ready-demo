@@ -206,6 +206,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         outputs: ["index.md", "manifest.json", "packet.json", "brief.md", "timeline.md", "gap.md", "matrix.md", "scenario.md", "onepager.md", "actions.md"],
         smoke: "node scripts/issue-casefile.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
       },
+      {
+        name: "issue.casefile.index",
+        description: "export된 issue casefile 폴더들을 스캔해 posture/route/first action registry를 생성",
+        inputs: ["root", "limit", "format"],
+        outputs: ["topic", "generated_at", "posture", "score", "route", "recommended_first", "lead", "index"],
+        smoke: "node scripts/issue-casefile-index.mjs --root out/issue-casefiles",
+      },
     ],
     guardrails: ["각 source 실패는 errors에 격리", "secrets redaction", "lead_readable은 API-selected source_url에서 crawl", "최종 판단은 packet 소비자가 수행"],
   },

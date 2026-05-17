@@ -83,7 +83,7 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
     site: "gwanbo.go.kr / data.go.kr",
     name: "관보 메타데이터 어댑터",
     strategy: "KEYED_API",
-    status: "planned",
+    status: "ready",
     auth: "env-key",
     source: "https://apis.data.go.kr/1741000/ApiTotalService/getApiTotalList",
     agentUse:
@@ -94,7 +94,7 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         description: "관보 메타데이터 검색",
         inputs: ["from", "to", "keyword", "page", "page_size"],
         outputs: ["gazette_id", "publication_date", "agency", "title", "type", "pdf_url"],
-        smoke: "GAZETTE_API_KEY=*** gazette.search --from 2026-05-01 --to 2026-05-17 --keyword 고시",
+        smoke: "GAZETTE_API_KEY=*** node scripts/gazette-search.mjs --from 2026-05-01 --to 2026-05-17 --keyword 고시 --page-size 5",
       },
     ],
     guardrails: ["PDF는 필요할 때만 cache", "metadata-first", "관보 원문 링크 보존", "timeout/rate-limit 방어"],

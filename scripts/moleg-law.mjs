@@ -7,6 +7,8 @@ function arg(name, fallback = "") {
 }
 
 function command() {
+  if (process.argv.includes("history-detail")) return "history-detail";
+  if (process.argv.includes("history")) return "history";
   if (process.argv.includes("article")) return "article";
   if (process.argv.includes("detail")) return "detail";
   return "search";
@@ -25,12 +27,18 @@ function requireOc() {
   return value;
 }
 
-function stripTags(s) {
+function decodeHtml(s) {
   return String(s ?? "")
-    .replace(/<[^>]+>/g, " ")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, "\"")
+    .replace(/&#39;/g, "\'");
+}
+
+function stripTags(s) {
+  return decodeHtml(s)
+    .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -38,6 +46,47 @@ function stripTags(s) {
 function asArray(x) {
   if (!x) return [];
   return Array.isArray(x) ? x : [x];
+}
+
+
+async function fetchText(path, params) {
+  const url = new URL(`${BASE}/${path}`);
+  for (const [k, v] of Object.entries(params)) {
+    if (v !== undefined && v !== null && String(v) !== "") url.searchParams.set(k, String(v));
+  }
+  const res = await fetch(url, { headers: { "user-agent": "Mozilla/5.0 (K-Gov law adapter)" } });
+  const text = await res.text();
+  return { url: url.toString().replace(/OC=[^&]+/, "OC=***"), text };
+}
+
+function parseHistoryRows(html, limit) {
+  const rows = [...html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi)];
+  const out = [];
+  for (const row of rows) {
+    const cells = [...row[1].matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)].map((m) => m[1]);
+    if (cells.length < 8) continue;
+    const linkMatch = cells[1].match(/href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/i);
+    if (!linkMatch) continue;
+    const href = decodeHtml(linkMatch[1]);
+    const params = new URLSearchParams(href.split("?")[1] ?? "");
+    const item = {
+      order: stripTags(cells[0]),
+      law_name: stripTags(linkMatch[2]),
+      ministry: stripTags(cells[2]),
+      amendment_type: stripTags(cells[3]),
+      law_type: stripTags(cells[4]),
+      promulgation_no: stripTags(cells[5]),
+      promulgation_date: stripTags(cells[6]),
+      enforcement_date: stripTags(cells[7]),
+      status: stripTags(cells[8] ?? ""),
+      mst: params.get("MST") ?? "",
+      ef_yd: params.get("efYd") ?? "",
+      detail_url: `https://www.law.go.kr${href}`.replace(/OC=[^&]+/, "OC=***"),
+    };
+    out.push(item);
+    if (out.length >= limit) break;
+  }
+  return out;
 }
 
 async function fetchJson(path, params) {
@@ -94,6 +143,63 @@ async function search() {
   };
 }
 
+
+async function history() {
+  const query = arg("query", arg("q", "정부조직법"));
+  const limit = Number(arg("limit", "10"));
+  const { url, text } = await fetchText("lawSearch.do", {
+    OC: requireOc(),
+    target: "lsHistory",
+    type: "HTML",
+    query,
+    page: arg("page", "1"),
+    display: String(limit),
+    org: arg("org", ""),
+    knd: arg("knd", ""),
+  });
+  const items = parseHistoryRows(text, limit);
+  return {
+    metadata: {
+      source: "법제처 국가법령정보 lawSearch.do target=lsHistory",
+      strategy: "KEYED_API_HTML_TABLE",
+      retrieved_at: new Date().toISOString(),
+      query_url: url,
+      query,
+      count: items.length,
+    },
+    items,
+  };
+}
+
+async function historyDetail() {
+  const mst = arg("mst", "");
+  const efYd = arg("ef-yd", arg("efYd", ""));
+  if (!mst || !efYd) {
+    console.error("history-detail requires --mst <MST> --ef-yd <YYYYMMDD>");
+    process.exit(2);
+  }
+  const { url, json } = await fetchJson("lawService.do", {
+    OC: requireOc(),
+    target: "eflaw",
+    type: "JSON",
+    MST: mst,
+    efYd,
+  });
+  const law = json?.법령 ?? json?.Law ?? json;
+  return {
+    metadata: {
+      source: "법제처 국가법령정보 lawService.do target=eflaw",
+      strategy: "KEYED_API",
+      retrieved_at: new Date().toISOString(),
+      query_url: url,
+      mst,
+      ef_yd: efYd,
+    },
+    raw_keys: Object.keys(law ?? {}),
+    law,
+  };
+}
+
 async function detail() {
   const lawId = arg("law-id", "");
   const mst = arg("mst", "");
@@ -136,7 +242,7 @@ async function article() {
 const cmd = command();
 if (cmd === "article") await article();
 else {
-  const payload = cmd === "detail" ? await detail() : await search();
+  const payload = cmd === "history-detail" ? await historyDetail() : cmd === "history" ? await history() : cmd === "detail" ? await detail() : await search();
   console.log(JSON.stringify(payload, null, 2));
   if ((payload.items && payload.items.length === 0) || !payload) process.exit(1);
 }

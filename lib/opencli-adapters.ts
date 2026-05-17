@@ -241,6 +241,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         outputs: ["upstream_repo", "upstream_generated_at", "seeds", "workflow_command"],
         smoke: "node scripts/question-forecast-seeds.mjs --limit 5",
       },
+      {
+        name: "kgab.dossier.bridge",
+        description: "korean-government-api-bundle의 build-issue-dossier-markdown을 실행해 Kgov 결과와 비교 가능한 upstream dossier를 생성",
+        inputs: ["kgab_root", "auto_clone", "topic", "law_query", "gazette_query", "stat_query", "dataset_query", "bill_query", "lawmaking_query", "policy_query", "limit", "format"],
+        outputs: ["posture", "score", "route", "source_gaps", "markdown", "command"],
+        smoke: "node scripts/kgab-dossier-bridge.mjs --auto-clone --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --limit 2",
+      },
     ],
     guardrails: ["각 source 실패는 errors에 격리", "secrets redaction", "lead_readable은 API-selected source_url에서 crawl", "최종 판단은 packet 소비자가 수행"],
   },

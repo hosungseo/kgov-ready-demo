@@ -12,14 +12,15 @@ K-Gov Ready Demo can reuse nearby public repos as upstream signals without copyi
 - Output: forecast packets converted into `issue-workflow` commands
 - Why it fits: the repo already ranks news-driven policy issues by ministry, signals, terms, and lead articles. Kgov can take those packets and run the official-source workflow against them.
 
-## Near-term candidates
-
 ### `hosungseo/korean-government-api-bundle`
 
 - Role: broader question-first API bundle and MCP/CLI surface
 - Useful pieces: lawmaking center, bill detail, public dataset metadata, dossier builder
-- Integration direction: either call `kgab build-issue-dossier-markdown` as an upstream comparator or import its provider registry ideas into Kgov adapters.
+- Local command: `pnpm adapter:kgab-bridge`
+- Integration direction: call `kgab build-issue-dossier-markdown` as an upstream comparator and extract posture, score, route, source gaps, and dossier Markdown.
 - Guardrail: keep API keys in env; do not vendor secrets or generated local state.
+
+## Near-term candidates
 
 ### `hosungseo/ai-readable-gazette-kr`
 
@@ -44,4 +45,3 @@ Bridge a repo only when it gives one of these concrete benefits:
 - an executable command surface that Kgov can wrap
 
 Do not bridge repos just because they are related by theme.
-

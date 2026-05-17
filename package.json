@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start -p 3031",
     "adapter:press": "node scripts/policy-briefing-press.mjs --keyword 정부조직 --limit 5 --format json",
-    "adapter:smoke": "node scripts/policy-briefing-press.mjs --keyword 정부조직 --limit 3 --format json"
+    "adapter:smoke": "node scripts/policy-briefing-press.mjs --keyword 정부조직 --limit 3 --format json && node scripts/policy-briefing-press.mjs detail --news-id 156761598",
+    "adapter:press:detail": "node scripts/policy-briefing-press.mjs detail --news-id 156761598"
   },
   "dependencies": {
     "@upstash/redis": "^1.37.0",

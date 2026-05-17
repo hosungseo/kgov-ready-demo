@@ -9,7 +9,9 @@ function arg(name, fallback = "") {
   return i >= 0 && process.argv[i + 1] ? process.argv[i + 1] : fallback;
 }
 
+const command = process.argv.includes("detail") || process.argv.includes("--news-id") ? "detail" : "search";
 const keyword = arg("keyword", arg("q", ""));
+const newsIdArg = arg("news-id", "");
 const limit = Number(arg("limit", "5"));
 const page = Number(arg("page", "1"));
 const format = arg("format", "json");
@@ -23,6 +25,78 @@ function stripTags(s) {
     .replace(/&#039;/g, "'")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+
+function metaContent(html, selector) {
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const re = new RegExp(`<meta ${escaped} content="([^"]*)"`, "i");
+  return stripTags(re.exec(html)?.[1] ?? "");
+}
+
+function parseDetail(html, sourceUrl, newsId) {
+  const title = stripTags(
+    html.match(/<div class="view_title">[\s\S]*?<h1>([\s\S]*?)<\/h1>/)?.[1] ??
+      html.match(/<meta property="og:title" content="([^"]*)"/)?.[1] ??
+      "",
+  );
+  const description = stripTags(
+    html.match(/<meta name="description" content="([^"]*)"/)?.[1] ??
+      html.match(/<meta property="og:description" content="([^"]*)"/)?.[1] ??
+      "",
+  );
+  const agency = stripTags(html.match(/<a class="gotosite"[^>]*>[\s\S]*?([^<>\n\t]+)<i class="tooltip">/)?.[1] ?? "");
+  const iframe = html.match(/<iframe[^>]+id="content_press"[^>]+src="([^"]+)"/)?.[1] ?? "";
+  const attachments = [];
+  const fileBlock = html.match(/<div class="filedown">([\s\S]*?)<\/div>\s*<!--\/\/ E: file Down/)?.[1] ?? "";
+  for (const m of fileBlock.matchAll(/<p>[\s\S]*?<span><a href="([^"]+)">([\s\S]*?)<\/a><\/span>[\s\S]*?<a class="view" href="([^"]+)"[\s\S]*?<a class="down" href="([^"]+)"/g)) {
+    attachments.push({
+      name: stripTags(m[2]),
+      file_url: new URL(m[1].replace(/&amp;/g, "&"), BASE).toString(),
+      view_url: new URL(m[3].replace(/&amp;/g, "&"), BASE).toString(),
+      download_url: new URL(m[4].replace(/&amp;/g, "&"), BASE).toString(),
+    });
+  }
+  return {
+    news_id: newsId,
+    title,
+    agency,
+    description,
+    source_url: sourceUrl,
+    content_iframe_url: iframe ? new URL(iframe.replace(/&amp;/g, "&"), BASE).toString() : "",
+    attachments,
+  };
+}
+
+if (command === "detail") {
+  if (!newsIdArg) {
+    console.error("detail requires --news-id <id>");
+    process.exit(2);
+  }
+  const detailUrl = `${BASE}/briefing/pressReleaseView.do?newsId=${encodeURIComponent(newsIdArg)}`;
+  const response = await fetch(detailUrl, {
+    headers: { "user-agent": "Mozilla/5.0 (K-Gov adapter smoke)" },
+  });
+  if (!response.ok) {
+    console.error(`fetch failed: ${response.status} ${response.statusText}`);
+    process.exit(2);
+  }
+  const html = await response.text();
+  const item = parseDetail(html, detailUrl, newsIdArg);
+  const payload = {
+    metadata: {
+      source: "대한민국 정책브리핑 보도자료 상세",
+      strategy: "HTML_PARSE",
+      retrieved_at: new Date().toISOString(),
+      query_url: detailUrl,
+      news_id: newsIdArg,
+      count: item.title ? 1 : 0,
+    },
+    item,
+  };
+  console.log(JSON.stringify(payload, null, 2));
+  if (!item.title) process.exit(1);
+  process.exit(0);
 }
 
 const params = new URLSearchParams({

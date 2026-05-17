@@ -21,6 +21,7 @@ K-Gov Ready Demo is no longer only an agent-readable website demo. It also expos
 pnpm adapter:smoke
 # or
 node scripts/policy-briefing-press.mjs --keyword 정부조직 --limit 5 --format md
+node scripts/policy-briefing-press.mjs detail --news-id 156761598
 ```
 
 This calls Korea Policy Briefing press-release list pages and emits structured JSON/Markdown:
@@ -31,6 +32,12 @@ This calls Korea Policy Briefing press-release list pages and emits structured J
 - `title`
 - `summary`
 - `source_url`
+
+The detail command additionally emits:
+
+- `content_iframe_url`
+- `attachments[].download_url`
+- `attachments[].view_url`
 
 Strategy: `HTML_PARSE`.
 

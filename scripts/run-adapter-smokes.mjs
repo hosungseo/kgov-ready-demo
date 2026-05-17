@@ -45,6 +45,8 @@ const results = [
   run("policy news API", ["node", "scripts/policy-news.mjs", "--start", "20250515", "--end", "20250517", "--limit", "3"], { require: ["DATA_GO_KR_SERVICE_KEY"], maxOut: 1800 }),
   run("gazette metadata", ["node", "scripts/gazette-search.mjs", "--from", "2026-05-01", "--to", "2026-05-17", "--keyword", "고시", "--page-size", "3"], { require: ["GAZETTE_API_KEY"] }),
   run("assembly bill", ["node", "scripts/assembly-bill.mjs", "search", "--endpoint", "ALLBILLV2", "--eraco", "제22대", "--limit", "3"], { require: ["ASSEMBLY_API_KEY"] }),
+  run("assembly member", ["node", "scripts/assembly-openapi.mjs", "member", "--query", "강경숙", "--limit", "20"], { require: ["ASSEMBLY_API_KEY"], maxOut: 1400 }),
+  run("assembly schedule", ["node", "scripts/assembly-openapi.mjs", "schedule", "--keyword", "AI", "--limit", "20"], { require: ["ASSEMBLY_API_KEY"], maxOut: 1400 }),
   run("moleg law", ["node", "scripts/moleg-law.mjs", "search", "--query", "정부조직법", "--limit", "3"], { require: ["MOLEG_OC"] }),
   run("moleg law history", ["node", "scripts/moleg-law.mjs", "history", "--query", "정부조직법", "--limit", "3"], { require: ["MOLEG_OC"], maxOut: 1800 }),
   run("odcloud central function", ["node", "scripts/odcloud-gov.mjs", "dataset", "--dataset", "centralFunction", "--limit", "3"], { require: ["DATA_GO_KR_SERVICE_KEY"], maxOut: 1800 }),

@@ -53,6 +53,7 @@ function renderSummary(summary) {
     "- First action: " + (summary.recommended_first || "n/a") + (summary.recommended_priority ? " [" + summary.recommended_priority + "]" : ""),
     "- Lead: " + (summary.lead || "n/a"),
     "- Artifacts: " + summary.artifact_count + ", failed: " + summary.failed_count,
+    "- Geo: " + (summary.geo_status || "n/a") + (summary.geo_feature_count !== "" ? " (" + summary.geo_feature_count + " features)" : ""),
     "",
     "## Handoff",
     "",
@@ -123,6 +124,8 @@ const summary = {
   artifact_count: manifest.artifacts?.length || 0,
   failed_count: failed.length,
   failed_files: failed.map(a => a.file),
+  geo_status: row.geo_status || "",
+  geo_feature_count: row.geo_feature_count ?? "",
   casefile_command: casefile.command,
   index_command: indexMd.command,
 };
@@ -132,4 +135,3 @@ writeFileSync(path.join(manifest.dir, "workflow.md"), renderSummary(summary));
 
 if (arg("format", "md") === "json") console.log(JSON.stringify(summary, null, 2));
 else console.log(renderSummary(summary));
-

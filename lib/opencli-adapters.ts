@@ -200,10 +200,17 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         smoke: "node scripts/issue-action-queue.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
       },
       {
+        name: "issue.geo.context",
+        description: "topic/query에서 기관 위치 후보를 추론하고 policymap geocoder로 지도용 GeoJSON을 생성",
+        inputs: ["topic", "policy_query", "law_query", "schedule_keyword", "gov24_keyword", "address", "format"],
+        outputs: ["status", "candidates", "geocoder", "geojson"],
+        smoke: "node scripts/issue-geo-context.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --format json",
+      },
+      {
         name: "issue.casefile.export",
-        description: "packet/brief/timeline/gap/matrix/scenario/router/onepager/actions를 한 이슈 폴더로 export",
+        description: "packet/brief/timeline/gap/matrix/scenario/router/onepager/actions/geo를 한 이슈 폴더로 export",
         inputs: ["topic", "policy_query", "law_query", "schedule_keyword", "gov24_keyword", "out_dir", "format"],
-        outputs: ["index.md", "manifest.json", "packet.json", "brief.md", "timeline.md", "gap.md", "matrix.md", "scenario.md", "onepager.md", "actions.md"],
+        outputs: ["index.md", "manifest.json", "packet.json", "brief.md", "timeline.md", "gap.md", "matrix.md", "scenario.md", "onepager.md", "actions.md", "geo.md", "geo.json"],
         smoke: "node scripts/issue-casefile.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
       },
       {

@@ -99,6 +99,7 @@ function renderIndex(ctx) {
     ["matrix.md", "Use to separate source role, strength, and caveats."],
     ["scenario.md", "Use for risks, question playbook, and counter-arguments."],
     ["actions.md", "Use for executable next commands."],
+    ["geo.md", "Use for inferred location candidates, geocoder status, and map-ready GeoJSON."],
     ["packet.json", "Use as the raw multi-source packet."],
   ].forEach(([file, note]) => lines.push(`- \`${file}\`: ${note}`));
   if (failures.length) {
@@ -132,6 +133,8 @@ const specs = [
   { file: "onepager.json", script: "scripts/issue-onepager.mjs", args: ["--format", "json"], json: true },
   { file: "actions.md", script: "scripts/issue-action-queue.mjs" },
   { file: "actions.json", script: "scripts/issue-action-queue.mjs", args: ["--format", "json"], json: true },
+  { file: "geo.md", script: "scripts/issue-geo-context.mjs" },
+  { file: "geo.json", script: "scripts/issue-geo-context.mjs", args: ["--format", "json"], json: true },
 ];
 
 const artifacts = specs.map(spec => writeArtifact(dir, spec));

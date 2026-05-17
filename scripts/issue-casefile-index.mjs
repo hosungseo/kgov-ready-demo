@@ -46,6 +46,7 @@ function summarize(dir) {
   const router = readJson(path.join(dir, "router.json")) || {};
   const actions = readJson(path.join(dir, "actions.json")) || {};
   const onepager = readJson(path.join(dir, "onepager.json")) || {};
+  const geo = readJson(path.join(dir, "geo.json")) || {};
   const index = readText(path.join(dir, "index.md"));
   const artifacts = manifest.artifacts || [];
   const failed = artifacts.filter(a => !a.ok);
@@ -71,6 +72,8 @@ function summarize(dir) {
     artifact_count: artifacts.length,
     failed_count: failed.length,
     failed_files: failed.map(a => a.file),
+    geo_status: geo.status || "",
+    geo_feature_count: geo.geojson?.features?.length ?? "",
     index: existsSync(path.join(dir, "index.md")) ? path.join(dir, "index.md") : "",
   };
 }
@@ -98,6 +101,7 @@ function renderMd(rows, root) {
     lines.push(`- First action: ${row.recommended_first || "n/a"}${row.recommended_priority ? ` [${row.recommended_priority}]` : ""}`);
     lines.push(`- Lead: ${row.lead || "n/a"}`);
     lines.push(`- Artifacts: ${row.artifact_count}, failed: ${row.failed_count}`);
+    if (row.geo_status) lines.push(`- Geo: ${row.geo_status}${row.geo_feature_count !== "" ? ` (${row.geo_feature_count} features)` : ""}`);
     if (row.failed_files.length) lines.push(`- Failed files: ${row.failed_files.join(", ")}`);
     if (row.index) lines.push(`- Index: ${row.index}`);
     lines.push("");

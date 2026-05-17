@@ -6,6 +6,7 @@ import {
   ISSUE_PIPELINE,
   ISSUE_WORKFLOW,
 } from "@/lib/issue-workflow";
+import IssueComposer from "./IssueComposer";
 
 export const metadata: Metadata = {
   title: "Public Issue Workflow · K-Gov Agent Plaza",
@@ -64,6 +65,8 @@ export default function IssueWorkflowPage() {
           </div>
         </div>
       </section>
+
+      <IssueComposer />
 
       <section className="border-b border-gov-navy/10 bg-white/72">
         <div className="mx-auto max-w-6xl px-6 py-14">

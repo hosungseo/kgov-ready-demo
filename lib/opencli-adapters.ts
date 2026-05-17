@@ -127,6 +127,26 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
     guardrails: ["API key는 env only", "조회 범위는 3일 이하", "사진 저작권 문구 보존", "source_url 보존"],
   },
   {
+    id: "public-issue-packet",
+    site: "multi-source",
+    name: "공공 이슈 복합 패킷 어댑터",
+    strategy: "KEYED_API",
+    status: "ready",
+    auth: "env-key",
+    source: "policy.news + crawl4ai + law.go.kr + gwanbo + open.assembly + gov24 + ECOS",
+    agentUse: "주제 하나를 기준으로 API 검색, readable crawl, 법령, 관보, 국회일정, 정부24 서비스, ECOS 통계를 한 packet으로 합성한다.",
+    commands: [
+      {
+        name: "issue.packet.compose",
+        description: "주제 기반 multi-source API + crawl readable packet 생성",
+        inputs: ["topic", "policy_query", "law_query", "gazette_keyword", "schedule_keyword", "gov24_keyword", "ecos_series"],
+        outputs: ["lead_readable", "legal_context", "official_signals", "statistic_context", "errors"],
+        smoke: "node scripts/public-issue-packet.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
+      },
+    ],
+    guardrails: ["각 source 실패는 errors에 격리", "secrets redaction", "lead_readable은 API-selected source_url에서 crawl", "최종 판단은 packet 소비자가 수행"],
+  },
+  {
     id: "gazette-metadata",
     site: "gwanbo.go.kr / data.go.kr",
     name: "관보 메타데이터 어댑터",

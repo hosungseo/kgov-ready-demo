@@ -10,6 +10,43 @@ pnpm adapter:smoke:local
 
 This loads `.env.local` and runs the live smoke set. Secrets stay local and every command redacts keys from emitted source URLs.
 
+## Creative composition
+
+### Public issue packet
+
+```bash
+pnpm adapter:issue-packet
+# equivalent
+node scripts/public-issue-packet.mjs \
+  --topic 공급망 \
+  --policy-query 조달청 \
+  --law-query 정부조직법 \
+  --schedule-keyword AI \
+  --gov24-keyword 보육 \
+  --max-chars 1200
+```
+
+This is the first genuinely composite command. It builds one packet from:
+
+```text
+policy.news.search → crawl.readable lead article
+law.search + law.history
+-gazette.search
+assembly.schedule.search
+gov24.service.search
+ecos.series
+```
+
+The packet shape is:
+
+```text
+lead_readable        API-selected article + readable Markdown
+legal_context        current law + law history rows
+official_signals     gazette + assembly schedule + gov24 services
+statistic_context    ECOS series rows
+errors               isolated source failures
+```
+
 ## Source groups
 
 ### 1. Policy Briefing press releases

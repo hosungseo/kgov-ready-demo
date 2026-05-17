@@ -17,6 +17,7 @@ This loads `.env.local` and runs the live smoke set. Secrets stay local and ever
 ```bash
 pnpm adapter:issue-packet
 pnpm adapter:issue-brief
+pnpm adapter:issue-timeline
 # equivalent
 node scripts/public-issue-packet.mjs \
   --topic 공급망 \
@@ -26,6 +27,12 @@ node scripts/public-issue-packet.mjs \
   --gov24-keyword 보육 \
   --max-chars 1200
 node scripts/issue-brief.mjs \
+  --topic 공급망 \
+  --policy-query 조달청 \
+  --law-query 정부조직법 \
+  --schedule-keyword AI \
+  --gov24-keyword 보육
+node scripts/issue-timeline.mjs \
   --topic 공급망 \
   --policy-query 조달청 \
   --law-query 정부조직법 \
@@ -44,7 +51,7 @@ gov24.service.search
 ecos.series
 ```
 
-`issue.packet.compose` returns structured JSON. `issue.brief.render` turns the same packet into a Markdown briefing with legal context, official signals, statistics, question forecast, and next actions.
+`issue.packet.compose` returns structured JSON. `issue.brief.render` turns the same packet into a Markdown briefing with legal context, official signals, statistics, question forecast, and next actions. `issue.timeline.render` converts packet dates into a policy timeline.
 
 The packet shape is:
 

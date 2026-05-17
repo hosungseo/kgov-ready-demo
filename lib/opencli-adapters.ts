@@ -150,6 +150,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         outputs: ["lead_signal", "legal_context", "official_signals", "statistic_context", "question_forecast", "next_actions"],
         smoke: "node scripts/issue-brief.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
       },
+      {
+        name: "issue.timeline.render",
+        description: "multi-source packet을 날짜순 정책 timeline으로 렌더링",
+        inputs: ["topic", "policy_query", "law_query", "gazette_keyword", "schedule_keyword", "gov24_keyword", "format"],
+        outputs: ["date", "source", "title", "note", "url"],
+        smoke: "node scripts/issue-timeline.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
+      },
     ],
     guardrails: ["각 source 실패는 errors에 격리", "secrets redaction", "lead_readable은 API-selected source_url에서 crawl", "최종 판단은 packet 소비자가 수행"],
   },

@@ -43,6 +43,7 @@ function compactApiReadable(result) {
   return {
     title: p.api_item?.title,
     agency: p.api_item?.agency,
+    date: p.api_item?.date,
     source_url: p.api_item?.source_url,
     markdown: p.readable?.markdown,
     markdown_length: p.readable?.markdown_length,

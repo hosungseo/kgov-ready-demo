@@ -166,6 +166,24 @@ Type presets: `students`, `budget`, `facilities`, `safety`. Raw `COL_*` fields a
 assembly.bill.search → assembly.member.search → assembly.schedule.search → law.search/history
 ```
 
+### API + crawling packet
+
+```text
+API search → source_url selection → crawl.read(profile) → packet
+```
+
+Concrete command:
+
+```bash
+pnpm adapter:api-readable
+```
+
+Current readable profiles:
+
+- `korea-press`: policy briefing press release pages
+- `korea-policy-news`: policy news article pages
+- `public-generic`: government/public pages such as gov.kr, law.go.kr, assembly.go.kr, data.go.kr
+
 ### Policy issue packet
 
 ```text

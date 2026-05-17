@@ -161,12 +161,19 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
       {
         name: "crawl.read",
         description: "공공 웹페이지를 LLM-ready Markdown으로 추출",
-        inputs: ["url", "wait_for", "max_chars"],
-        outputs: ["source_url", "retrieved_at", "strategy", "markdown", "links", "media"],
-        smoke: "python3 scripts/crawl-readable.py --url https://www.korea.kr/briefing/pressReleaseView.do?newsId=156761598",
+        inputs: ["url", "wait_for", "max_chars", "profile"],
+        outputs: ["source_url", "retrieved_at", "strategy", "postprocess", "markdown", "links", "media"],
+        smoke: "python3.10 scripts/crawl-readable.py --url https://www.korea.kr/briefing/pressReleaseView.do?newsId=156761598",
+      },
+      {
+        name: "crawl.read.public_generic",
+        description: "정부24·국회·법제처 등 공공사이트 범용 readable postprocess",
+        inputs: ["url", "max_chars"],
+        outputs: ["title", "date", "source_url", "summary", "readable_excerpt"],
+        smoke: "python3.10 scripts/crawl-readable.py --url https://www.gov.kr/portal/rcvfvrSvc/dtlEx/131200000010 --profile public-generic",
       },
     ],
-    guardrails: ["공식 API/직접 parser 이후 fallback으로 사용", "robots/이용조건 존중", "대량 크롤링 금지", "crawl4ai optional dependency 필요"],
+    guardrails: ["공식 API/직접 parser 이후 fallback으로 사용", "profiles: korea-press/korea-policy-news/public-generic", "robots/이용조건 존중", "대량 크롤링 금지", "crawl4ai optional dependency 필요"],
   },
 
   {

@@ -6,9 +6,9 @@ Optional dependency: crawl4ai. This script intentionally does not make the
 Next.js app depend on Python packages; install the backend only where crawling
 is needed:
 
-  python3 -m pip install -U crawl4ai
-  crawl4ai-setup
-  python3 scripts/crawl-readable.py --url https://www.korea.kr/...
+  python3.10 -m pip install -U crawl4ai
+  python3.10 -m playwright install chromium
+  python3.10 scripts/crawl-readable.py --url https://www.korea.kr/...
 """
 from __future__ import annotations
 
@@ -22,8 +22,8 @@ from typing import Any
 
 def missing_dependency() -> int:
     print(
-        "Missing optional dependency: crawl4ai. Install with `python3 -m pip install -U crawl4ai` "
-        "then run `crawl4ai-setup`.",
+        "Missing optional dependency: crawl4ai for Python >=3.10. Install with `python3.10 -m pip install -U crawl4ai` "
+        "then run `python3.10 -m playwright install chromium`."",
         file=sys.stderr,
     )
     return 2

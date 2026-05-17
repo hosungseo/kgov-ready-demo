@@ -116,6 +116,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         outputs: ["news_id", "title", "subtitle", "date", "agency", "summary", "source_url", "raw"],
         smoke: "DATA_GO_KR_SERVICE_KEY=*** node scripts/policy-news.mjs --start 20250515 --end 20250517 --limit 3",
       },
+      {
+        name: "policy.news.packet",
+        description: "정책뉴스 API 검색 결과 1건을 Crawl4AI readable 본문과 합성",
+        inputs: ["query", "start", "end", "index", "max_chars"],
+        outputs: ["api_item", "readable.markdown", "selected_source_url", "postprocess"],
+        smoke: "DATA_GO_KR_SERVICE_KEY=*** node scripts/api-readable-packet.mjs --source policy-news --query 조달청 --start 20250515 --end 20250517 --index 0",
+      },
     ],
     guardrails: ["API key는 env only", "조회 범위는 3일 이하", "사진 저작권 문구 보존", "source_url 보존"],
   },

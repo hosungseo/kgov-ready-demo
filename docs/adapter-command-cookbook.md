@@ -26,17 +26,19 @@ Use when the agent needs a Korea Policy Briefing press release as metadata or re
 - `press.detail`: fetch title, agency, iframe, attachments.
 - `press.read`: Crawl4AI readable packet for a `news_id`.
 
-### 2. Policy News OpenAPI
+### 2. Policy News OpenAPI + readable packet
 
 ```bash
 pnpm adapter:policy-news
+pnpm adapter:api-readable
 # equivalent
 node scripts/policy-news.mjs --start 20250515 --end 20250517 --limit 5
+node scripts/api-readable-packet.mjs --source policy-news --query 조달청 --start 20250515 --end 20250517 --index 0 --max-chars 3000
 ```
 
-Use when API-backed policy news is enough and a 3-day window is acceptable. The XML response uses `NewsItem`, so this is separate from the HTML press-release parser.
+Use `policy.news.search` when API-backed metadata is enough. Use `policy.news.packet` when the agent needs the combined artifact: API-selected candidate + source URL + Crawl4AI readable Markdown.
 
-Outputs include `news_id`, `title`, `subtitle`, `date`, `agency`, `summary`, and `source_url`.
+Outputs include `news_id`, `title`, `subtitle`, `date`, `agency`, `summary`, `source_url`, plus `readable.markdown` for the composed packet.
 
 ### 3. MOLEG / law.go.kr
 
@@ -167,7 +169,13 @@ assembly.bill.search → assembly.member.search → assembly.schedule.search →
 ### Policy issue packet
 
 ```text
-policy.news.search or press.search → press.read → gazette.search → gov24.service.search
+policy.news.search → policy.news.packet(API_SEARCH_THEN_CRAWL_READABLE) → gazette.search → gov24.service.search
+```
+
+or:
+
+```text
+press.search → press.detail → press.read → gazette.search
 ```
 
 ### Education/local housing packet

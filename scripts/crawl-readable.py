@@ -51,6 +51,29 @@ def first_match(pattern: str, text: str) -> str:
     return clean_html_text(match.group(1)) if match else ""
 
 
+def korea_generic_news_readable(html: str, markdown: str, url: str) -> str:
+    title = first_match(r'<meta property="og:title" content="([^"]*)"', html) or first_match(r'<title>([\s\S]*?)</title>', html)
+    description = first_match(r'<meta name="description" content="([^"]*)"', html) or first_match(r'<meta property="og:description" content="([^"]*)"', html)
+    agency = first_match(r'<meta name="author" content="([^"]*)"', html) or first_match(r'<span class="source">([\s\S]*?)</span>', html)
+    date = first_match(r'(20\d{2}\.\d{2}\.\d{2})', markdown) or first_match(r'(20\d{2}-\d{2}-\d{2})', html)
+    lines = []
+    if title:
+        title = title.replace(" | 정책뉴스 | 정책정보 | 대한민국 정책브리핑", "").replace(" | 대한민국 정책브리핑", "").strip()
+        lines.append(f"# {title}")
+    lines.append("")
+    if date:
+        lines.append(f"- Date: {date}")
+    if agency:
+        lines.append(f"- Agency: {agency}")
+    lines.append(f"- Source: {url}")
+    if description:
+        desc = description.replace("- 정책브리핑 | 뉴스 | 정책뉴스", "").strip()
+        lines.append("")
+        lines.append("## Summary / extracted description")
+        lines.append(desc)
+    return "\n".join(line for line in lines if line is not None).strip()
+
+
 def korea_press_readable(html: str, markdown: str, url: str) -> str:
     title = first_match(r'<div class="view_title">[\s\S]*?<h1>([\s\S]*?)</h1>', html) or first_match(r'<meta property="og:title" content="([^"]*)"', html)
     description = first_match(r'<meta name="description" content="([^"]*)"', html) or first_match(r'<meta property="og:description" content="([^"]*)"', html)
@@ -91,6 +114,13 @@ def postprocess_markdown(markdown: str, url: str, profile: str, html: str = "") 
     text = markdown
     if profile == "auto" and "korea.kr/briefing/pressReleaseView.do" in url:
         profile = "korea-press"
+    if profile == "auto" and "korea.kr/news/policyNewsView.do" in url:
+        profile = "korea-policy-news"
+    if profile == "korea-policy-news":
+        applied = "korea-policy-news"
+        readable = korea_generic_news_readable(html, markdown, url) if html else ""
+        if readable:
+            text = readable
     if profile == "korea-press":
         applied = "korea-press"
         readable = korea_press_readable(html, markdown, url) if html else ""
@@ -159,7 +189,7 @@ def main() -> int:
     parser.add_argument("--wait-for", default="", help="Optional CSS selector / wait condition passed to Crawl4AI")
     parser.add_argument("--max-chars", type=int, default=20000, help="Trim markdown for CLI output; 0 means full")
     parser.add_argument("--css-selector", default="", help="Optional Crawl4AI css_selector, e.g. .article_wrap")
-    parser.add_argument("--profile", choices=["auto", "korea-press", "none"], default="auto", help="Site-specific readable postprocess profile")
+    parser.add_argument("--profile", choices=["auto", "korea-press", "korea-policy-news", "none"], default="auto", help="Site-specific readable postprocess profile")
     args = parser.parse_args()
     if args.korea_press_news_id and not args.url:
         args.url = f"https://www.korea.kr/briefing/pressReleaseView.do?newsId={args.korea_press_news_id}"

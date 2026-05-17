@@ -18,6 +18,7 @@
     "adapter:crawl:doctor": "python3.10 -c \"import crawl4ai; print(\\\"crawl4ai ok\\\")\"",
     "adapter:press:read": "python3.10 scripts/crawl-readable.py --korea-press-news-id 156761598 --max-chars 12000",
     "adapter:press:all": "node scripts/policy-briefing-press.mjs --keyword 정부조직 --limit 3 --format json && node scripts/policy-briefing-press.mjs detail --news-id 156761598 && python3.10 scripts/crawl-readable.py --korea-press-news-id 156761598 --max-chars 12000",
+    "adapter:api-readable": "node scripts/api-readable-packet.mjs --source policy-news --query 조달청 --start 20250515 --end 20250517 --index 0 --max-chars 3000",
     "adapter:assembly:search": "node scripts/assembly-bill.mjs search --endpoint ALLBILLV2 --eraco 제22대 --limit 5",
     "adapter:assembly:member": "node scripts/assembly-openapi.mjs member --query 강경숙 --limit 20",
     "adapter:assembly:schedule": "node scripts/assembly-openapi.mjs schedule --keyword AI --limit 20",

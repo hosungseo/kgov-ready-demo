@@ -178,6 +178,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         outputs: ["risks", "question_playbook", "action_packet", "counter_arguments", "posture"],
         smoke: "node scripts/issue-scenario-lab.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
       },
+      {
+        name: "issue.decision.router",
+        description: "scenario+gap+matrix를 바탕으로 다음 작업 경로를 점수화해 추천",
+        inputs: ["topic", "policy_query", "law_query", "schedule_keyword", "gov24_keyword", "format"],
+        outputs: ["recommendation", "alternatives", "routes", "context"],
+        smoke: "node scripts/issue-decision-router.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
+      },
     ],
     guardrails: ["각 source 실패는 errors에 격리", "secrets redaction", "lead_readable은 API-selected source_url에서 crawl", "최종 판단은 packet 소비자가 수행"],
   },

@@ -10,6 +10,32 @@ proj4.defs(
 
 const UPSTREAM_REPO = "hosungseo/gonpunclaw-policymap";
 const CACHE_PATH = path.join(".cache", "policymap-geocoder-cache.json");
+const API_SETUP = [
+  {
+    provider: "kakao",
+    env: "KAKAO_REST_API_KEY",
+    purpose: "주소로 좌표 변환",
+    docs: "https://developers.kakao.com/docs/latest/ko/local/dev-guide#address-coord",
+    key_url: "https://developers.kakao.com/console/app",
+    endpoint: "https://dapi.kakao.com/v2/local/search/address.json",
+  },
+  {
+    provider: "vworld",
+    env: "VWORLD_API_KEY",
+    purpose: "검색 API 주소 검색",
+    docs: "https://www.vworld.kr/dev/v4dv_search2_s001.do",
+    key_url: "https://www.vworld.kr/mypo/mypo_apiKey_i001.do",
+    endpoint: "https://api.vworld.kr/req/search",
+  },
+  {
+    provider: "juso",
+    env: "JUSO_API_KEY",
+    purpose: "도로명주소 정규화 + 좌표제공 API",
+    docs: "https://business.juso.go.kr/jst/jstCoordApiSearch",
+    key_url: "https://business.juso.go.kr/jst/jstAddressApiApplicationWrite",
+    endpoint: "https://business.juso.go.kr/addrlink/addrCoordApi.do",
+  },
+];
 
 function argsAll(name) {
   const out = [];
@@ -249,6 +275,41 @@ function renderMd(payload) {
   }
   return lines.join("\n");
 }
+function runDoctor(keys, priority) {
+  const payload = {
+    source: "policymap-geocoder-bridge",
+    upstream_repo: UPSTREAM_REPO,
+    generated_at: new Date().toISOString(),
+    priority,
+    key_state: keyState(keys),
+    enabled_providers: enabledProviders(priority, keys),
+    api_setup: API_SETUP,
+    env_example: {
+      GEOCODER_PRIORITY: "kakao,vworld,juso",
+      KAKAO_REST_API_KEY: "<Kakao Developers REST API key>",
+      VWORLD_API_KEY: "<VWorld API key>",
+      JUSO_API_KEY: "<도로명주소 API 승인키>",
+    },
+  };
+  if (arg("format", "md") === "json") {
+    console.log(JSON.stringify(payload, null, 2));
+  } else {
+    console.log("# PolicyMap Geocoder API Doctor\n");
+    console.log("- Upstream: " + UPSTREAM_REPO);
+    console.log("- Priority: " + priority.join(", "));
+    console.log("- Enabled providers: " + (payload.enabled_providers.join(", ") || "none"));
+    console.log("");
+    for (const api of API_SETUP) {
+      console.log("## " + api.provider);
+      console.log("- Env: " + api.env + " (" + (keys[api.provider] ? "present" : "missing") + ")");
+      console.log("- Purpose: " + api.purpose);
+      console.log("- Docs: " + api.docs);
+      console.log("- Key URL: " + api.key_url);
+      console.log("- Endpoint: " + api.endpoint);
+      console.log("");
+    }
+  }
+}
 
 loadDotEnvLocal();
 
@@ -267,6 +328,10 @@ const keys = {
   vworld: process.env.VWORLD_API_KEY || "",
   juso: process.env.JUSO_API_KEY || "",
 };
+if (hasFlag("doctor")) {
+  runDoctor(keys, priority);
+  process.exit(0);
+}
 const addresses = parseAddresses();
 if (!addresses.length) {
   console.error("Provide --address ADDRESS or --addresses-file PATH. Use --self-test for fixture verification.");

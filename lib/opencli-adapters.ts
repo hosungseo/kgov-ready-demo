@@ -290,6 +290,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         outputs: ["address_raw", "lat", "lng", "address_normalized", "provider", "attempted", "summary"],
         smoke: "node scripts/policymap-geocoder-bridge.mjs --self-test",
       },
+      {
+        name: "policymap.geocode.doctor",
+        description: "geocoder API 발급 URL, endpoint, env key 상태를 출력",
+        inputs: ["format"],
+        outputs: ["api_setup", "key_state", "enabled_providers", "env_example"],
+        smoke: "node scripts/policymap-geocoder-bridge.mjs --doctor --format json",
+      },
     ],
     guardrails: ["API key는 env/.env.local only", "좌표 결과에는 provider와 attempted chain 기록", "성공 결과만 .cache에 저장", "공식 보고서에는 원 주소와 정규화 주소를 함께 보존"],
   },

@@ -35,6 +35,7 @@ pnpm adapter:gazette-readable
 pnpm adapter:press-md
 pnpm adapter:upstream-pack
 pnpm adapter:policymap-geocode:self-test
+pnpm adapter:policymap-geocode:doctor
 # equivalent
 node scripts/public-issue-packet.mjs \
   --topic 공급망 \
@@ -134,6 +135,9 @@ node scripts/upstream-evidence-pack.mjs \
   --date 2025-05-16
 node scripts/policymap-geocoder-bridge.mjs \
   --address "서울특별시 중구 세종대로 110" \
+  --format json
+node scripts/policymap-geocoder-bridge.mjs \
+  --doctor \
   --format json
 ```
 

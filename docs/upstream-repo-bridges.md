@@ -49,8 +49,15 @@ K-Gov Ready Demo can reuse nearby public repos as upstream signals without copyi
 - Role: geocoder chain for address-to-coordinate enrichment
 - Local command: `pnpm adapter:policymap-geocode`
 - Smoke command: `pnpm adapter:policymap-geocode:self-test`
+- API doctor: `pnpm adapter:policymap-geocode:doctor`
 - Integration direction: reuse the Kakao → VWorld → Juso priority chain, but replace the app's Supabase cache with Kgov's local `.cache/policymap-geocoder-cache.json`.
 - Guardrail: API keys stay in env or `.env.local`; outputs must preserve raw address, normalized address, provider, attempted chain, and cache state.
+
+API setup:
+
+- Kakao Local address search: `KAKAO_REST_API_KEY`, docs <https://developers.kakao.com/docs/latest/ko/local/dev-guide#address-coord>, key console <https://developers.kakao.com/console/app>
+- VWorld Search API: `VWORLD_API_KEY`, docs <https://www.vworld.kr/dev/v4dv_search2_s001.do>, key page <https://www.vworld.kr/mypo/mypo_apiKey_i001.do>
+- Juso road-address coord API: `JUSO_API_KEY`, docs <https://business.juso.go.kr/jst/jstCoordApiSearch>, key page <https://business.juso.go.kr/jst/jstAddressApiApplicationWrite>
 
 ## Selection rule
 

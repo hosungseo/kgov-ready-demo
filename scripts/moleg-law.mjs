@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+import { loadEnvLocal } from "./env-local.mjs";
+
+loadEnvLocal();
+
 const BASE = "https://www.law.go.kr/DRF";
 
 function arg(name, fallback = "") {

@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+import { loadEnvLocal } from "./env-local.mjs";
+
+loadEnvLocal();
+
 const ENDPOINT = "https://apis.data.go.kr/1741000/ApiTotalService/getApiTotalList";
 
 function arg(name, fallback = "") {

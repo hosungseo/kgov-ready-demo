@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+import { loadEnvLocal } from "./env-local.mjs";
+
+loadEnvLocal();
+
 const KEY = process.env.WORK24_AUTH_KEY || "";
 function arg(name, fallback = "") { const i = process.argv.indexOf(`--${name}`); return i >= 0 && process.argv[i + 1] ? process.argv[i + 1] : fallback; }
 function command() { return process.argv.includes("detail") ? "detail" : "search"; }

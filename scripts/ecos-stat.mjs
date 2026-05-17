@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+import { loadEnvLocal } from "./env-local.mjs";
+
+loadEnvLocal();
+
 const KEY = process.env.ECOS_API_KEY || process.env.ECOS_KEY || "";
 const SERIES = {
   baseRate: { table: "722Y001", item: "0101000", cycle: "M", name: "한국은행 기준금리" },

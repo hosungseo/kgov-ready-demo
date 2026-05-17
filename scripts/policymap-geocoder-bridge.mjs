@@ -2,6 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import proj4 from "proj4";
+import { loadEnvLocal } from "./env-local.mjs";
 
 proj4.defs(
   "EPSG:5179",
@@ -49,15 +50,6 @@ function arg(name, fallback = "") {
 }
 function hasFlag(name) {
   return process.argv.includes("--" + name);
-}
-function loadDotEnvLocal() {
-  const file = ".env.local";
-  if (!fs.existsSync(file)) return;
-  for (const line of fs.readFileSync(file, "utf8").split(/\r?\n/)) {
-    const m = line.match(/^([A-Za-z_][A-Za-z0-9_]*)=(.*)$/);
-    if (!m || process.env[m[1]]) continue;
-    process.env[m[1]] = m[2].replace(/^['"]|['"]$/g, "");
-  }
 }
 function keyState(keys) {
   return Object.fromEntries(Object.entries(keys).map(([k, v]) => [k, Boolean(v)]));
@@ -311,7 +303,7 @@ function runDoctor(keys, priority) {
   }
 }
 
-loadDotEnvLocal();
+loadEnvLocal();
 
 if (hasFlag("self-test")) {
   const result = await runSelfTest();

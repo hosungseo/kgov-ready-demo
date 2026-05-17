@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+import { loadEnvLocal } from "./env-local.mjs";
+
+loadEnvLocal();
+
 const DATA_KEY = process.env.DATA_GO_KR_SERVICE_KEY || process.env.PUBLIC_DATA_API_KEY || "";
 
 const DATASETS = {

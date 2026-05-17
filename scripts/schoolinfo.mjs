@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+import { loadEnvLocal } from "./env-local.mjs";
+
+loadEnvLocal();
+
 const KEY = process.env.SCHOOLINFO_API_KEY || "";
 const TYPES = {
   students: "10",

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MINISTRIES } from "@/lib/ministries";
+import { ISSUE_WORKFLOW } from "@/lib/issue-workflow";
 
 const SCANNER_URL = "https://agent-ready-check.vercel.app";
 
@@ -103,6 +104,37 @@ export default function Home() {
           </div>
           <Link href="/plaza" className="mt-6 inline-flex rounded-md bg-gov-navy px-4 py-2 text-sm text-white hover:bg-gov-blue">
             광장으로 들어가기 →
+          </Link>
+        </section>
+
+        <section className="mb-16 border border-gov-blue/20 bg-white/75 p-6 shadow-sm">
+          <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div>
+              <div className="text-xs uppercase tracking-[0.2em] text-gov-blue mb-3 font-semibold">
+                Public Issue Workflow
+              </div>
+              <h2 className="text-3xl font-bold tracking-tight">공공 이슈를 브리핑 가능한 casefile로 만듭니다</h2>
+              <p className="mt-3 text-sm leading-relaxed text-neutral-600">
+                {ISSUE_WORKFLOW.thesis}
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className="border border-neutral-200 bg-[#fbfaf6] p-4">
+                <div className="font-semibold text-gov-navy">Evidence packet</div>
+                <p className="mt-2 text-xs leading-relaxed text-neutral-600">정책뉴스·법령·관보·국회·정부24·통계를 source별로 보존</p>
+              </div>
+              <div className="border border-neutral-200 bg-[#fbfaf6] p-4">
+                <div className="font-semibold text-gov-navy">Keyless geo</div>
+                <p className="mt-2 text-xs leading-relaxed text-neutral-600">행정구역 경계 GeoJSON으로 지도 맥락을 먼저 생성</p>
+              </div>
+              <div className="border border-neutral-200 bg-[#fbfaf6] p-4">
+                <div className="font-semibold text-gov-navy">Casefile</div>
+                <p className="mt-2 text-xs leading-relaxed text-neutral-600">brief, timeline, gap, matrix, actions를 폴더로 export</p>
+              </div>
+            </div>
+          </div>
+          <Link href="/plaza/issues" className="mt-5 inline-flex rounded-md bg-gov-navy px-4 py-2 text-sm text-white hover:bg-gov-blue">
+            Issue Workflow 보기 →
           </Link>
         </section>
 

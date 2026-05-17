@@ -1,5 +1,6 @@
 import { AGENT_TYPES, CAPABILITIES, TASKS, TRUST_METRICS } from "@/lib/plaza";
 import { OPENCLI_ADAPTERS } from "@/lib/opencli-adapters";
+import { ISSUE_ARTIFACTS, ISSUE_GEO_FLOW, ISSUE_PIPELINE, ISSUE_WORKFLOW } from "@/lib/issue-workflow";
 
 export const runtime = "nodejs";
 export const dynamic = "force-static";
@@ -28,6 +29,13 @@ export async function GET() {
       endpoint: "/api/adapters",
       philosophy: "OpenCLI-style: command surface before screen surface, smoke-verified adapters before broad automation.",
       adapters: OPENCLI_ADAPTERS,
+    },
+    issueWorkflow: {
+      page: "/plaza/issues",
+      ...ISSUE_WORKFLOW,
+      pipeline: ISSUE_PIPELINE,
+      geo: ISSUE_GEO_FLOW,
+      artifacts: ISSUE_ARTIFACTS,
     },
     agents: AGENT_TYPES,
     capabilities: CAPABILITIES,

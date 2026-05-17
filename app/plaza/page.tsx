@@ -5,6 +5,7 @@ import { TASKS } from "@/lib/plaza";
 import { MCP_TOOL_PACKS } from "@/lib/mcp-tools";
 import { OPENCLI_ADAPTERS } from "@/lib/opencli-adapters";
 import { EXISTING_ASSETS } from "@/lib/existing-assets";
+import { ISSUE_GEO_FLOW, ISSUE_PIPELINE, ISSUE_WORKFLOW } from "@/lib/issue-workflow";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://kgov-ready-demo.vercel.app";
@@ -152,6 +153,10 @@ export default function PlazaPage() {
               <div className="font-semibold text-gov-blue">Routing Playground</div>
               <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">자연어 과업을 정부 라우팅 결과와 JSON 응답으로 바꿔봅니다.</p>
             </Link>
+            <Link href="/plaza/issues" className="rounded-2xl border border-gov-blue/25 bg-gov-blue/8 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/50">
+              <div className="font-semibold text-gov-blue">Issue Workflow</div>
+              <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">공공 source를 evidence packet으로 묶고 브리핑·지도·casefile로 확장합니다.</p>
+            </Link>
             <Link href="/plaza/bottlenecks" className="rounded-2xl border border-gov-navy/10 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-gov-blue/40">
               <div className="font-semibold text-gov-blue">Bottleneck Reports</div>
               <p className="mt-2 text-sm leading-relaxed text-gov-navy/65">에이전트가 막힌 인간 병목을 개선 건의로 남깁니다.</p>
@@ -240,6 +245,55 @@ export default function PlazaPage() {
             <a href="/api/adapters" className="inline-flex rounded-md border border-white/20 px-4 py-2 text-sm font-semibold text-white hover:border-yellow-300 hover:text-yellow-100">
               Adapter catalog JSON 보기 →
             </a>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-gov-navy/10 bg-[#fbfaf6]">
+        <div className="mx-auto max-w-6xl px-6 py-14">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-[0.24em] text-gov-blue">
+                Public Issue Workflow
+              </div>
+              <h2 className="mt-3 text-3xl font-bold tracking-tight">공공 source를 하나의 근거 패킷으로 묶습니다</h2>
+              <p className="mt-4 text-sm leading-relaxed text-gov-navy/68">
+                {ISSUE_WORKFLOW.thesis} 지도는 지오코더 운영키 없이 행정구역 centroid로 먼저 열리고,
+                건물 단위 좌표가 필요할 때만 geocoder를 붙입니다.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3 text-sm">
+                <Link href="/plaza/issues" className="rounded-md bg-gov-navy px-4 py-2 font-semibold text-white hover:bg-gov-blue">
+                  workflow page →
+                </Link>
+                <a href="/api/adapters" className="rounded-md border border-gov-navy/20 bg-white px-4 py-2 font-semibold text-gov-navy hover:border-gov-blue hover:text-gov-blue">
+                  adapter catalog →
+                </a>
+              </div>
+            </div>
+
+            <div className="grid gap-4">
+              <div className="grid gap-2 sm:grid-cols-4">
+                {ISSUE_PIPELINE.slice(0, 8).map((step, index) => (
+                  <div key={step.id} className="border border-gov-navy/10 bg-white p-4">
+                    <div className="font-mono text-[11px] text-gov-navy/35">{String(index + 1).padStart(2, "0")}</div>
+                    <div className="mt-2 text-sm font-semibold text-gov-blue">{step.label}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="border border-emerald-700/15 bg-emerald-50 p-5">
+                <div className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-800">
+                  {ISSUE_WORKFLOW.posture}
+                </div>
+                <div className="mt-3 grid gap-3 sm:grid-cols-3">
+                  {ISSUE_GEO_FLOW.map((item) => (
+                    <div key={item.label}>
+                      <div className="text-sm font-semibold text-emerald-950">{item.label}</div>
+                      <p className="mt-1 text-xs leading-relaxed text-emerald-950/70">{item.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

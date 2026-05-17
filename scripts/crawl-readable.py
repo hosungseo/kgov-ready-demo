@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import re
 import sys
 from datetime import datetime, timezone
 from typing import Any
@@ -41,7 +42,83 @@ def markdown_text(result: Any) -> str:
     return str(md or "")
 
 
-async def crawl(url: str, wait_for: str | None = None) -> dict[str, Any]:
+def clean_html_text(value: str) -> str:
+    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", value or "")).strip()
+
+
+def first_match(pattern: str, text: str) -> str:
+    match = re.search(pattern, text or "", re.S | re.I)
+    return clean_html_text(match.group(1)) if match else ""
+
+
+def korea_press_readable(html: str, markdown: str, url: str) -> str:
+    title = first_match(r'<div class="view_title">[\s\S]*?<h1>([\s\S]*?)</h1>', html) or first_match(r'<meta property="og:title" content="([^"]*)"', html)
+    description = first_match(r'<meta name="description" content="([^"]*)"', html) or first_match(r'<meta property="og:description" content="([^"]*)"', html)
+    agency = first_match(r'<a class="gotosite"[^>]*>([\s\S]*?)<i class="tooltip">', html)
+    date = first_match(r'<span class="date">([\s\S]*?)</span>', html) or first_match(r'(20\d{2}\.\d{2}\.\d{2})', markdown)
+    attachments = []
+    file_block = re.search(r'<div class="filedown">([\s\S]*?)</div>\s*<!--// E: file Down', html, re.S)
+    if file_block:
+        for match in re.finditer(r'<a href="([^"]+)">([\s\S]*?)</a>', file_block.group(1), re.S):
+            href = match.group(1).replace("&amp;", "&")
+            name = clean_html_text(match.group(2))
+            if name and name not in {"바로보기", "내려받기"}:
+                attachments.append((name, href))
+    lines = []
+    if title:
+        lines.append(f"# {title}")
+    if date or agency:
+        lines.append("")
+        lines.append(f"- Date: {date}" if date else "")
+        lines.append(f"- Agency: {agency}" if agency else "")
+        lines.append(f"- Source: {url}")
+    if description:
+        desc = description.replace("- 정책브리핑 | 브리핑룸 | 보도자료", "").strip()
+        lines.append("")
+        lines.append("## Summary / extracted description")
+        lines.append(desc)
+    if attachments:
+        lines.append("")
+        lines.append("## Attachments")
+        for name, href in attachments:
+            full = href if href.startswith("http") else f"https://www.korea.kr{href}"
+            lines.append(f"- [{name}]({full})")
+    return "\n".join(line for line in lines if line is not None).strip()
+
+
+def postprocess_markdown(markdown: str, url: str, profile: str, html: str = "") -> tuple[str, dict[str, Any]]:
+    applied = "none"
+    text = markdown
+    if profile == "auto" and "korea.kr/briefing/pressReleaseView.do" in url:
+        profile = "korea-press"
+    if profile == "korea-press":
+        applied = "korea-press"
+        readable = korea_press_readable(html, markdown, url) if html else ""
+        if readable:
+            text = readable
+        else:
+            markers = ["첨부파일", "공공누리", "이 자료는"]
+            start_candidates = [idx for idx in (text.find("# "), text.find("2026."), text.find("2025."), text.find("2024.")) if idx >= 0]
+            if start_candidates:
+                text = text[min(start_candidates):]
+            end_candidates = [text.find(m) for m in markers if text.find(m) > 0]
+            if end_candidates:
+                text = text[: min(end_candidates)]
+            drop_phrases = ["본문듣기", "글자크기 설정", "인쇄하기", "목록"]
+            lines = []
+            for line in text.splitlines():
+                compact = line.strip()
+                if not compact:
+                    lines.append(line)
+                    continue
+                if any(phrase in compact for phrase in drop_phrases):
+                    continue
+                lines.append(line)
+            text = "\n".join(lines).strip()
+    return text, {"profile": profile, "applied": applied, "original_length": len(markdown), "processed_length": len(text)}
+
+
+async def crawl(url: str, wait_for: str | None = None, css_selector: str | None = None) -> dict[str, Any]:
     try:
         from crawl4ai import AsyncWebCrawler, BrowserConfig, CrawlerRunConfig
     except Exception:
@@ -51,6 +128,8 @@ async def crawl(url: str, wait_for: str | None = None) -> dict[str, Any]:
     run_config_kwargs: dict[str, Any] = {}
     if wait_for:
         run_config_kwargs["wait_for"] = wait_for
+    if css_selector:
+        run_config_kwargs["css_selector"] = css_selector
     run_config = CrawlerRunConfig(**run_config_kwargs)
 
     async with AsyncWebCrawler(config=browser_config) as crawler:
@@ -58,6 +137,7 @@ async def crawl(url: str, wait_for: str | None = None) -> dict[str, Any]:
 
     md = markdown_text(result)
     return {
+        "html": getattr(result, "html", "") or getattr(result, "cleaned_html", "") or "",
         "metadata": {
             "source": "crawl4ai",
             "strategy": "CRAWL4AI_MARKDOWN",
@@ -77,21 +157,30 @@ def main() -> int:
     parser.add_argument("--url", required=True, help="Page URL to crawl")
     parser.add_argument("--wait-for", default="", help="Optional CSS selector / wait condition passed to Crawl4AI")
     parser.add_argument("--max-chars", type=int, default=20000, help="Trim markdown for CLI output; 0 means full")
+    parser.add_argument("--css-selector", default="", help="Optional Crawl4AI css_selector, e.g. .article_wrap")
+    parser.add_argument("--profile", choices=["auto", "korea-press", "none"], default="auto", help="Site-specific readable postprocess profile")
     args = parser.parse_args()
 
     try:
-        payload = asyncio.run(crawl(args.url, args.wait_for or None))
+        payload = asyncio.run(crawl(args.url, args.wait_for or None, args.css_selector or None))
     except RuntimeError as exc:
         if str(exc) == "crawl4ai_missing":
             return missing_dependency()
         raise
+
+    processed, postprocess = postprocess_markdown(payload["markdown"], args.url, args.profile, payload.get("html", ""))
+    payload["markdown_raw_length"] = len(payload["markdown"])
+    payload["markdown"] = processed
+    payload["postprocess"] = postprocess
 
     if args.max_chars and len(payload["markdown"]) > args.max_chars:
         payload["markdown_truncated"] = True
         payload["markdown"] = payload["markdown"][: args.max_chars]
     else:
         payload["markdown_truncated"] = False
+    payload["metadata"]["markdown_length"] = len(payload["markdown"])
 
+    payload.pop("html", None)
     print(json.dumps(payload, ensure_ascii=False, indent=2))
     return 0 if payload["metadata"]["markdown_length"] else 1
 

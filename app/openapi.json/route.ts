@@ -62,7 +62,7 @@ export async function GET() {
               required: true,
               schema: {
                 type: "string",
-                enum: ["policy-briefing-press", "moleg-law-search", "gazette-metadata"],
+                enum: ["policy-briefing-press", "moleg-law-search", "gazette-metadata", "crawl4ai-readable"],
               },
             },
           ],
@@ -226,7 +226,7 @@ export async function GET() {
                   id: { type: "string" },
                   site: { type: "string" },
                   name: { type: "string" },
-                  strategy: { type: "string", enum: ["PUBLIC_API", "KEYED_API", "HTML_PARSE", "BROWSER_UI"] },
+                  strategy: { type: "string", enum: ["PUBLIC_API", "KEYED_API", "HTML_PARSE", "BROWSER_UI", "CRAWL4AI_MARKDOWN"] },
                   status: { type: "string", enum: ["ready", "planned", "blocked"] },
                   auth: { type: "string" },
                   source: { type: "string" },

@@ -99,4 +99,26 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
     ],
     guardrails: ["PDF는 필요할 때만 cache", "metadata-first", "관보 원문 링크 보존", "timeout/rate-limit 방어"],
   },
+  {
+    id: "crawl4ai-readable",
+    site: "public-web",
+    name: "Crawl4AI readable layer",
+    strategy: "BROWSER_UI",
+    status: "ready",
+    auth: "none",
+    source: "https://github.com/unclecode/crawl4ai",
+    agentUse:
+      "API나 단순 HTML 파서로 읽기 어려운 정부 웹페이지를 Crawl4AI 기반 Markdown readable layer로 변환한다.",
+    commands: [
+      {
+        name: "crawl.read",
+        description: "공공 웹페이지를 LLM-ready Markdown으로 추출",
+        inputs: ["url", "wait_for", "max_chars"],
+        outputs: ["source_url", "retrieved_at", "strategy", "markdown", "links", "media"],
+        smoke: "python3 scripts/crawl-readable.py --url https://www.korea.kr/briefing/pressReleaseView.do?newsId=156761598",
+      },
+    ],
+    guardrails: ["공식 API/직접 parser 이후 fallback으로 사용", "robots/이용조건 존중", "대량 크롤링 금지", "crawl4ai optional dependency 필요"],
+  },
+
 ];

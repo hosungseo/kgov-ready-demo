@@ -12,7 +12,9 @@
     "adapter:law:search": "node scripts/moleg-law.mjs search --query 정부조직법 --limit 3",
     "adapter:law:smoke": "node scripts/moleg-law.mjs search --query 정부조직법 --limit 3",
     "adapter:gazette:search": "node scripts/gazette-search.mjs --from 2026-05-01 --to 2026-05-17 --keyword 고시 --page-size 5",
-    "adapter:gazette:smoke": "node scripts/gazette-search.mjs --from 2026-05-01 --to 2026-05-17 --keyword 고시 --page-size 5"
+    "adapter:gazette:smoke": "node scripts/gazette-search.mjs --from 2026-05-01 --to 2026-05-17 --keyword 고시 --page-size 5",
+    "adapter:crawl:read": "python3 scripts/crawl-readable.py --url \"https://www.korea.kr/briefing/pressReleaseView.do?newsId=156761598\" --max-chars 12000",
+    "adapter:crawl:doctor": "python3 -c \"import crawl4ai; print(\\\"crawl4ai ok\\\")\""
   },
   "dependencies": {
     "@upstash/redis": "^1.37.0",

@@ -61,6 +61,7 @@ pnpm build
 - Catalog: `/api/adapters`
 - Individual contract: `/api/adapters/policy-briefing-press`
 - Working adapter: `scripts/policy-briefing-press.mjs`
+- Optional readable backend: `scripts/crawl-readable.py` (`crawl4ai` required)
 - Smoke test:
 
 ```bash

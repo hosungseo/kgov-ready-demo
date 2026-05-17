@@ -79,3 +79,22 @@ GAZETTE_API_KEY=*** node scripts/gazette-search.mjs --from 2026-05-01 --to 2026-
 ```
 
 The script exits with code `2` and a clear message when the service key is missing.
+
+## Crawl4AI readable backend
+
+Use Crawl4AI as a **readable extraction backend**, not as the first step for every public source.
+
+Preferred order:
+
+1. official API
+2. direct endpoint / deterministic HTML parser
+3. `crawl.read` via Crawl4AI for noisy, JS-heavy, or document-viewer pages
+4. live browser automation only when all above fail
+
+```bash
+python3 -m pip install -U crawl4ai
+crawl4ai-setup
+python3 scripts/crawl-readable.py --url "https://www.korea.kr/briefing/pressReleaseView.do?newsId=156761598"
+```
+
+The script exits with code `2` when Crawl4AI is not installed, so normal repo builds stay lightweight.

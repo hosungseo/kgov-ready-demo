@@ -59,18 +59,18 @@ pnpm build
 이 레포는 이제 agent-ready 사이트 표준뿐 아니라 **공공사이트를 명령 가능한 adapter로 노출하는 레이어**를 포함합니다.
 
 - Catalog: `/api/adapters`
-- Individual contract: `/api/adapters/policy-briefing-press`
-- Working adapter: `scripts/policy-briefing-press.mjs`
-- Optional readable backend: `scripts/crawl-readable.py` (`crawl4ai` required)
-- Smoke test:
+- Individual contract: `/api/adapters/{id}`
+- Command cookbook: `docs/adapter-command-cookbook.md`
+- Working scripts: `scripts/*.mjs`, `scripts/crawl-readable.py`
+- Full local smoke:
 
 ```bash
-pnpm adapter:smoke
-# 또는
-node scripts/policy-briefing-press.mjs --keyword 정부조직 --limit 5 --format md
+pnpm adapter:smoke:local
 ```
 
-철학은 OpenCLI식입니다: 화면보다 명령 표면을 먼저 만들고, 공식 API/원문 URL/metadata를 보존하며, 작은 smoke-verified adapter부터 확장합니다. 자세한 내용은 `docs/opencli-adapter-layer.md`.
+현재 live-smoke 축은 정책브리핑 보도자료/정책뉴스, 법제처 현행법·연혁, 관보, 국회 의안·의원·일정, 공공데이터포털/정부24, ECOS, 국토부 실거래가, 학교알리미입니다.
+
+철학은 OpenCLI식입니다: 화면보다 명령 표면을 먼저 만들고, 공식 API/원문 URL/metadata를 보존하며, 작은 smoke-verified adapter부터 확장합니다. 자세한 내용은 `docs/opencli-adapter-layer.md`와 `docs/adapter-command-cookbook.md`.
 
 ## 면책
 

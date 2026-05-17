@@ -16,6 +16,29 @@ K-Gov Ready Demo is no longer only an agent-readable website demo. It also expos
 - MCP tool packs: `/api/mcp-tools`
 - Plaza JSON: `/api/plaza`
 
+## Current command surface
+
+The current catalog has 12 adapter entries and more than 30 command contracts. Use the cookbook for copy-paste commands:
+
+```bash
+pnpm adapter:smoke:local
+open docs/adapter-command-cookbook.md
+```
+
+Ready live-smoke groups:
+
+- Policy Briefing press releases: `press.search`, `press.detail`, `press.read`
+- Policy News OpenAPI: `policy.news.search`
+- MOLEG: `law.search`, `law.article`, `law.history`, `law.history_detail`
+- Gazette metadata: `gazette.search`
+- National Assembly: `assembly.bill.search`, `assembly.bill.detail`, `assembly.member.search`, `assembly.schedule.search`
+- data.go.kr / Gov24: `odcloud.dataset`, `gov24.service.search`, `gov24.service.detail`
+- ECOS: `ecos.catalog`, `ecos.series`
+- MOLIT real estate: `molit.realestate.search`
+- Schoolinfo: `schoolinfo.disclosure.search`
+
+Blocked/watch groups are still cataloged but not included in the full smoke: KOSIS and Work24.
+
 ## First working adapter
 
 ```bash

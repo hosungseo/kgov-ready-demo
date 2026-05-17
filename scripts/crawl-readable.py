@@ -23,7 +23,7 @@ from typing import Any
 def missing_dependency() -> int:
     print(
         "Missing optional dependency: crawl4ai for Python >=3.10. Install with `python3.10 -m pip install -U crawl4ai` "
-        "then run `python3.10 -m playwright install chromium`."",
+        "then run `python3.10 -m playwright install chromium`.",
         file=sys.stderr,
     )
     return 2

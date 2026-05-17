@@ -20,6 +20,7 @@ pnpm adapter:issue-brief
 pnpm adapter:issue-timeline
 pnpm adapter:issue-gap
 pnpm adapter:issue-matrix
+pnpm adapter:issue-scenario
 # equivalent
 node scripts/public-issue-packet.mjs \
   --topic 공급망 \
@@ -52,6 +53,12 @@ node scripts/issue-evidence-matrix.mjs \
   --law-query 정부조직법 \
   --schedule-keyword AI \
   --gov24-keyword 보육
+node scripts/issue-scenario-lab.mjs \
+  --topic 공급망 \
+  --policy-query 조달청 \
+  --law-query 정부조직법 \
+  --schedule-keyword AI \
+  --gov24-keyword 보육
 ```
 
 This is the first genuinely composite command. It builds one packet from:
@@ -65,7 +72,7 @@ gov24.service.search
 ecos.series
 ```
 
-`issue.packet.compose` returns structured JSON. `issue.brief.render` turns the same packet into a Markdown briefing with legal context, official signals, statistics, question forecast, and next actions. `issue.timeline.render` converts packet dates into a policy timeline. `issue.gap.check` scores whether the packet has enough source coverage for a reliable briefing. `issue.evidence.matrix` explains which source plays which evidentiary role and what caveat should be attached.
+`issue.packet.compose` returns structured JSON. `issue.brief.render` turns the same packet into a Markdown briefing with legal context, official signals, statistics, question forecast, and next actions. `issue.timeline.render` converts packet dates into a policy timeline. `issue.gap.check` scores whether the packet has enough source coverage for a reliable briefing. `issue.evidence.matrix` explains which source plays which evidentiary role and what caveat should be attached. `issue.scenario.lab` recombines the packet/gap/matrix outputs into administrative risk scenarios, a question playbook, an action packet, and counter-arguments.
 
 The packet shape is:
 

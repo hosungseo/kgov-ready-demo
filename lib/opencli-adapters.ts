@@ -227,6 +227,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         outputs: ["p0", "route_counts", "lane_counts", "rows", "blocker_count", "failed_artifact_count"],
         smoke: "node scripts/issue-ops-board.mjs --root out/issue-casefiles",
       },
+      {
+        name: "issue.regression.check",
+        description: "같은 topic의 최신 casefile과 직전 casefile을 비교해 posture/route/action/artifact drift를 판정",
+        inputs: ["root", "topic", "format"],
+        outputs: ["status", "delta", "recommendations", "current", "previous"],
+        smoke: "node scripts/issue-regression-check.mjs --root out/issue-casefiles --topic 공급망",
+      },
     ],
     guardrails: ["각 source 실패는 errors에 격리", "secrets redaction", "lead_readable은 API-selected source_url에서 crawl", "최종 판단은 packet 소비자가 수행"],
   },

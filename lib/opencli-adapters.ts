@@ -220,6 +220,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         outputs: ["casefile_dir", "casefile_index", "registry_md", "registry_json", "posture", "route", "recommended_first"],
         smoke: "node scripts/issue-workflow.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
       },
+      {
+        name: "issue.ops.board",
+        description: "export된 casefile 묶음을 P0 queue, route/lane counts, blocker/artifact health 운영 보드로 요약",
+        inputs: ["root", "limit", "format"],
+        outputs: ["p0", "route_counts", "lane_counts", "rows", "blocker_count", "failed_artifact_count"],
+        smoke: "node scripts/issue-ops-board.mjs --root out/issue-casefiles",
+      },
     ],
     guardrails: ["각 source 실패는 errors에 격리", "secrets redaction", "lead_readable은 API-selected source_url에서 crawl", "최종 판단은 packet 소비자가 수행"],
   },

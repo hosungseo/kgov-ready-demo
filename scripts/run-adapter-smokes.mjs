@@ -55,6 +55,7 @@ const results = [
   run("molit apt trade", ["node", "scripts/molit-realestate.mjs", "--kind", "aptTrade", "--lawd", "36110", "--ym", "202604", "--limit", "3"], { require: ["DATA_GO_KR_SERVICE_KEY"], maxOut: 1800 }),
   run("molit apt rent", ["node", "scripts/molit-realestate.mjs", "--kind", "aptRent", "--lawd", "36110", "--ym", "202604", "--limit", "3"], { require: ["DATA_GO_KR_SERVICE_KEY"], maxOut: 1400 }),
   run("molit officetel trade", ["node", "scripts/molit-realestate.mjs", "--kind", "officetelTrade", "--lawd", "36110", "--ym", "202604", "--limit", "3"], { require: ["DATA_GO_KR_SERVICE_KEY"], maxOut: 1400 }),
+  run("policymap geocoder self-test", ["node", "scripts/policymap-geocoder-bridge.mjs", "--self-test"], { maxOut: 1200 }),
   run("schoolinfo students", ["node", "scripts/schoolinfo.mjs", "--type", "students", "--year", "2025", "--school-kind", "04", "--limit", "3"], { require: ["SCHOOLINFO_API_KEY"], maxOut: 1800 }),
   run("schoolinfo budget", ["node", "scripts/schoolinfo.mjs", "--type", "budget", "--year", "2025", "--school-kind", "04", "--limit", "2"], { require: ["SCHOOLINFO_API_KEY"], maxOut: 1200 }),
   run("schoolinfo facilities", ["node", "scripts/schoolinfo.mjs", "--type", "facilities", "--year", "2025", "--school-kind", "04", "--limit", "2"], { require: ["SCHOOLINFO_API_KEY"], maxOut: 1200 }),

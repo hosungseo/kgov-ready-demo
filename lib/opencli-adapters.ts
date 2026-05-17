@@ -273,6 +273,27 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
     guardrails: ["각 source 실패는 errors에 격리", "secrets redaction", "lead_readable은 API-selected source_url에서 crawl", "최종 판단은 packet 소비자가 수행"],
   },
   {
+    id: "policymap-geocoder",
+    site: "kakao.com / vworld.kr / juso.go.kr",
+    name: "PolicyMap 지오코더 브리지",
+    strategy: "KEYED_API",
+    status: "ready",
+    auth: "env-key",
+    source: "hosungseo/gonpunclaw-policymap geocode chain",
+    agentUse:
+      "주소 목록을 Kakao, VWorld, Juso 우선순위 체인으로 좌표화하고 provider/attempted/cache 정보를 보존해 Kgov evidence에 위치 좌표를 붙인다.",
+    commands: [
+      {
+        name: "policymap.geocode",
+        description: "gonpunclaw-policymap의 Kakao/VWorld/Juso geocoder chain을 Kgov CLI로 실행",
+        inputs: ["address", "addresses_file", "priority", "timeout_ms", "no_cache", "format"],
+        outputs: ["address_raw", "lat", "lng", "address_normalized", "provider", "attempted", "summary"],
+        smoke: "node scripts/policymap-geocoder-bridge.mjs --self-test",
+      },
+    ],
+    guardrails: ["API key는 env/.env.local only", "좌표 결과에는 provider와 attempted chain 기록", "성공 결과만 .cache에 저장", "공식 보고서에는 원 주소와 정규화 주소를 함께 보존"],
+  },
+  {
     id: "gazette-metadata",
     site: "gwanbo.go.kr / data.go.kr",
     name: "관보 메타데이터 어댑터",

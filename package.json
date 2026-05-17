@@ -40,6 +40,8 @@
     "adapter:gazette-readable": "node scripts/gazette-readable-bridge.mjs --keyword 공급망 --limit 5 --fetch-readable --max-chars 1600",
     "adapter:press-md": "node scripts/gov-press-md-bridge.mjs --keyword 공급망 --date 2025-05-16 --limit 5 --fetch-readable --max-chars 1800",
     "adapter:upstream-pack": "node scripts/upstream-evidence-pack.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --gazette-query 공급망 --date 2025-05-16 --limit 5 --max-chars 1200",
+    "adapter:policymap-geocode": "node scripts/policymap-geocoder-bridge.mjs --address \"서울특별시 중구 세종대로 110\" --format json",
+    "adapter:policymap-geocode:self-test": "node scripts/policymap-geocoder-bridge.mjs --self-test",
     "adapter:assembly:search": "node scripts/assembly-bill.mjs search --endpoint ALLBILLV2 --eraco 제22대 --limit 5",
     "adapter:assembly:member": "node scripts/assembly-openapi.mjs member --query 강경숙 --limit 20",
     "adapter:assembly:schedule": "node scripts/assembly-openapi.mjs schedule --keyword AI --limit 20",
@@ -61,6 +63,7 @@
   "dependencies": {
     "@upstash/redis": "^1.37.0",
     "next": "^15.1.0",
+    "proj4": "^2.20.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

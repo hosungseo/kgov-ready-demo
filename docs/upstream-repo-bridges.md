@@ -44,6 +44,14 @@ K-Gov Ready Demo can reuse nearby public repos as upstream signals without copyi
 - Integration direction: search ministry/keyword indexes and date directories, then fetch only targeted raw Markdown files as historical policy briefing fallback.
 - Guardrail: avoid broad clone; prefer date/ministry scoped lookup and preserve `original_url` for official citation.
 
+### `hosungseo/gonpunclaw-policymap`
+
+- Role: geocoder chain for address-to-coordinate enrichment
+- Local command: `pnpm adapter:policymap-geocode`
+- Smoke command: `pnpm adapter:policymap-geocode:self-test`
+- Integration direction: reuse the Kakao → VWorld → Juso priority chain, but replace the app's Supabase cache with Kgov's local `.cache/policymap-geocoder-cache.json`.
+- Guardrail: API keys stay in env or `.env.local`; outputs must preserve raw address, normalized address, provider, attempted chain, and cache state.
+
 ## Selection rule
 
 Bridge a repo only when it gives one of these concrete benefits:

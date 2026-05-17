@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MINISTRIES } from "@/lib/ministries";
 import { TASKS } from "@/lib/plaza";
 import { MCP_TOOL_PACKS } from "@/lib/mcp-tools";
+import { OPENCLI_ADAPTERS } from "@/lib/opencli-adapters";
 import { EXISTING_ASSETS } from "@/lib/existing-assets";
 
 const SITE_URL =
@@ -208,9 +209,38 @@ export default function PlazaPage() {
               </article>
             ))}
           </div>
-          <a href="/api/mcp-tools" className="mt-6 inline-flex rounded-md bg-white px-4 py-2 text-sm font-semibold text-gov-navy hover:bg-yellow-100">
-            MCP 도구 카탈로그 JSON 보기 →
-          </a>
+          <div className="mt-8 rounded-[1.75rem] border border-white/10 bg-white/8 p-6">
+            <div className="text-xs font-semibold uppercase tracking-[0.22em] text-yellow-300">
+              OpenCLI-style adapter catalog
+            </div>
+            <h3 className="mt-3 text-2xl font-bold">웹 화면보다 명령 표면을 먼저 제공합니다</h3>
+            <p className="mt-3 max-w-3xl text-sm leading-relaxed text-white/68">
+              정책브리핑·법제처·관보 같은 공공 사이트를 agent가 발견 가능한 adapter contract로 노출합니다.
+              각 adapter는 strategy, auth, input/output column, smoke command를 함께 가집니다.
+            </p>
+            <div className="mt-5 grid gap-3 lg:grid-cols-3">
+              {OPENCLI_ADAPTERS.map((adapter) => (
+                <article key={adapter.id} className="rounded-2xl border border-white/10 bg-black/15 p-4">
+                  <div className="text-[11px] uppercase tracking-[0.16em] text-white/40">
+                    {adapter.site} · {adapter.strategy} · {adapter.status}
+                  </div>
+                  <div className="mt-2 font-semibold text-white">{adapter.name}</div>
+                  <p className="mt-2 text-xs leading-relaxed text-white/62">{adapter.agentUse}</p>
+                  <code className="mt-3 block rounded-lg bg-black/25 px-3 py-2 text-[11px] text-yellow-100">
+                    {adapter.commands[0]?.name}
+                  </code>
+                </article>
+              ))}
+            </div>
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a href="/api/mcp-tools" className="inline-flex rounded-md bg-white px-4 py-2 text-sm font-semibold text-gov-navy hover:bg-yellow-100">
+              MCP 도구 카탈로그 JSON 보기 →
+            </a>
+            <a href="/api/adapters" className="inline-flex rounded-md border border-white/20 px-4 py-2 text-sm font-semibold text-white hover:border-yellow-300 hover:text-yellow-100">
+              Adapter catalog JSON 보기 →
+            </a>
+          </div>
         </div>
       </section>
 

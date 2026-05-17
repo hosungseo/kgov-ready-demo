@@ -35,6 +35,22 @@ export async function GET() {
           },
         },
       },
+      "/api/adapters": {
+        get: {
+          summary: "OpenCLI-style 공공사이트 adapter catalog",
+          operationId: "listOpenCliStyleAdapters",
+          responses: {
+            "200": {
+              description: "공공 웹사이트와 데이터포털을 명령 표면으로 노출하는 adapter catalog",
+              content: {
+                "application/json": {
+                  schema: { $ref: "#/components/schemas/AdapterCatalog" },
+                },
+              },
+            },
+          },
+        },
+      },
       "/api/plaza": {
         get: {
           summary: "Agent Plaza 과업 라우팅",
@@ -167,6 +183,32 @@ export async function GET() {
     },
     components: {
       schemas: {
+        AdapterCatalog: {
+          type: "object",
+          required: ["name", "adapters"],
+          properties: {
+            name: { type: "string" },
+            description: { type: "string" },
+            philosophy: { type: "array", items: { type: "string" } },
+            adapters: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  id: { type: "string" },
+                  site: { type: "string" },
+                  name: { type: "string" },
+                  strategy: { type: "string", enum: ["PUBLIC_API", "KEYED_API", "HTML_PARSE", "BROWSER_UI"] },
+                  status: { type: "string", enum: ["ready", "planned", "blocked"] },
+                  auth: { type: "string" },
+                  source: { type: "string" },
+                  commands: { type: "array", items: { type: "object" } },
+                  guardrails: { type: "array", items: { type: "string" } },
+                },
+              },
+            },
+          },
+        },
         AgentPlaza: {
           type: "object",
           required: ["name", "description", "entrance", "tasks"],

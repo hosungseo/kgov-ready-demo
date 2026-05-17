@@ -1,5 +1,20 @@
 export const MCP_TOOL_PACKS = [
   {
+    id: "opencli-style-adapters",
+    name: "OpenCLI-style 공공사이트 어댑터",
+    channel: "Command / Adapter Catalog",
+    status: "mvp-ready",
+    desc: "공공 웹사이트와 데이터포털을 agent가 발견·검증·호출할 수 있는 작은 명령 단위로 바꿉니다.",
+    tools: [
+      "정책브리핑 보도자료 press.search",
+      "법제처 law.search / law.article 예정",
+      "관보 gazette.search 예정",
+      "어댑터 카탈로그 /api/adapters",
+      "smoke-verified command contract",
+    ],
+    safety: ["공식 API 우선", "source_url·retrieved_at 필수", "API key env-only", "HTML 파싱은 strategy로 명시"],
+  },
+  {
     id: "public-data-portal",
     name: "공공데이터포털 API 팩",
     channel: "data.go.kr",

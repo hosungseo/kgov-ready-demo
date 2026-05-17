@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev -p 3031",
     "build": "next build",
-    "start": "next start -p 3031"
+    "start": "next start -p 3031",
+    "adapter:press": "node scripts/policy-briefing-press.mjs --keyword 정부조직 --limit 5 --format json",
+    "adapter:smoke": "node scripts/policy-briefing-press.mjs --keyword 정부조직 --limit 3 --format json"
   },
   "dependencies": {
     "@upstash/redis": "^1.37.0",

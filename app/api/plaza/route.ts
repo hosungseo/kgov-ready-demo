@@ -1,4 +1,5 @@
 import { AGENT_TYPES, CAPABILITIES, TASKS, TRUST_METRICS } from "@/lib/plaza";
+import { OPENCLI_ADAPTERS } from "@/lib/opencli-adapters";
 
 export const runtime = "nodejs";
 export const dynamic = "force-static";
@@ -22,6 +23,11 @@ export async function GET() {
       behaviorDriftMonitor: "/plaza/drift",
       behaviorDriftApi: "/api/plaza/drift",
       note: "친절함·해결률·자동처리율 보상이 사람 검토 경계와 근거 보존을 잠식하지 않는지 따로 감시한다.",
+    },
+    adapterCatalog: {
+      endpoint: "/api/adapters",
+      philosophy: "OpenCLI-style: command surface before screen surface, smoke-verified adapters before broad automation.",
+      adapters: OPENCLI_ADAPTERS,
     },
     agents: AGENT_TYPES,
     capabilities: CAPABILITIES,

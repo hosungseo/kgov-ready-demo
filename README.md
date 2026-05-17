@@ -28,9 +28,10 @@
 이 데모는 공무원 업무도구 허브의 전시·검증 레이어로 확장합니다. 목표는 공공데이터포털 API, 법령, 관보, 국회, 문서분석 도구를 MCP 카탈로그로 묶고 OpenClaw 같은 에이전트가 호출하게 하는 것입니다. 비전산직 공무원 UX는 텔레그램보다 익숙한 **카카오톡 업무 채널**을 기본 진입점으로 둡니다.
 
 - MCP 도구 카탈로그: `/api/mcp-tools`
+- OpenCLI-style adapter catalog: `/api/adapters`
 - 기본 사용자 채널: KakaoTalk
 - 에이전트 런타임: OpenClaw
-- 1차 도구 팩: 공공데이터포털 API, 카카오톡 업무 채널, K-Gov Ready Demo 연결
+- 1차 도구 팩: OpenCLI-style 공공사이트 어댑터, 공공데이터포털 API, 카카오톡 업무 채널, K-Gov Ready Demo 연결
 
 AgentGram의 에이전트 소셜 네트워크 아이디어를 공공형으로 번역해 `/plaza/agents`(Agent Registry + Capability Cards), `/plaza/tasks`(과업별 작업장), `/plaza/trust`(인기 점수가 아닌 Trust Log)를 추가했습니다.
 
@@ -52,6 +53,22 @@ pnpm install
 pnpm dev   # http://localhost:3031
 pnpm build
 ```
+
+## OpenCLI-style adapter layer
+
+이 레포는 이제 agent-ready 사이트 표준뿐 아니라 **공공사이트를 명령 가능한 adapter로 노출하는 레이어**를 포함합니다.
+
+- Catalog: `/api/adapters`
+- Working adapter: `scripts/policy-briefing-press.mjs`
+- Smoke test:
+
+```bash
+pnpm adapter:smoke
+# 또는
+node scripts/policy-briefing-press.mjs --keyword 정부조직 --limit 5 --format md
+```
+
+철학은 OpenCLI식입니다: 화면보다 명령 표면을 먼저 만들고, 공식 API/원문 URL/metadata를 보존하며, 작은 smoke-verified adapter부터 확장합니다. 자세한 내용은 `docs/opencli-adapter-layer.md`.
 
 ## 면책
 

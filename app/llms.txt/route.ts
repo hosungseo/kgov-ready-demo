@@ -1,4 +1,5 @@
 import { MINISTRIES } from "@/lib/ministries";
+import { OPENCLI_ADAPTERS } from "@/lib/opencli-adapters";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://kgov-ready-demo.vercel.app";
@@ -43,6 +44,14 @@ export async function GET() {
   lines.push(`- Behavior Drift examples: 출산지원 기한 낙관 안내, 안전신문고성 민원 오라우팅 같은 concrete scenario도 drift API에 함께 포함된다.`);
   lines.push(`- [Agent Plaza JSON](${SITE_URL}/api/plaza): 과업별 라우팅, human review 경계, 주요 엔드포인트를 기계가 읽는 JSON으로 제공.`);
   lines.push(`- [Agent Plaza classify API](${SITE_URL}/api/plaza/classify?q=빗물받이가%20막혔어요): 자연어 과업을 plaza task로 분류하는 데모 API.`);
+  lines.push(`- [OpenCLI-style Adapter Catalog](${SITE_URL}/api/adapters): 공공 웹사이트를 command surface로 노출하는 adapter-first catalog.`);
+  lines.push("");
+  lines.push("## OpenCLI-style 공공사이트 어댑터");
+  for (const adapter of OPENCLI_ADAPTERS) {
+    lines.push(
+      `- ${adapter.name} (${adapter.site}, ${adapter.strategy}, ${adapter.status}): ${adapter.commands.map((c) => c.name).join(", ")}`,
+    );
+  }
   lines.push("");
   lines.push("## 19개 중앙부처");
   for (const m of MINISTRIES) {

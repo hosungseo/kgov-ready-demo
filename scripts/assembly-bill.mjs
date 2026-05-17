@@ -68,12 +68,12 @@ function normalizeBill(row) {
   return {
     bill_id: billId,
     bill_no: billNo,
-    title: normalizeText(pick(row, ["BILL_NAME", "bill_name", "의안명", "TITLE"])),
-    proposer: normalizeText(pick(row, ["PROPOSER", "proposer", "제안자", "PPSR_NM"])),
-    proposed_date: String(pick(row, ["PROPOSE_DT", "propose_dt", "제안일자", "PPSL_DT"])),
-    committee: normalizeText(pick(row, ["CURR_COMMITTEE", "committee", "소관위원회", "COMMITTEE"])),
-    status: normalizeText(pick(row, ["PROC_RESULT", "status", "처리상태", "BILL_STATUS"])),
-    source_url: sourceUrl,
+    title: normalizeText(pick(row, ["BILL_NAME", "BILL_NM", "bill_name", "의안명", "TITLE"])),
+    proposer: normalizeText(pick(row, ["PROPOSER", "PPSR_NM", "PPSR", "proposer", "제안자"])),
+    proposed_date: String(pick(row, ["PROPOSE_DT", "PPSL_DT", "propose_dt", "제안일자"])),
+    committee: normalizeText(pick(row, ["CURR_COMMITTEE", "JRCMIT_NM", "committee", "소관위원회", "COMMITTEE"])),
+    status: normalizeText(pick(row, ["PROC_RESULT", "PROC_RSLT", "PROC_STAGE_CD", "PASSGUBN", "RGS_CONF_RSLT", "status", "처리상태", "BILL_STATUS"])),
+    source_url: String(pick(row, ["LINK_URL", "URL", "DETAIL_LINK"])) || sourceUrl,
     raw: row,
   };
 }
@@ -102,17 +102,19 @@ async function fetchOpenApi(endpoint, params) {
 }
 
 async function search() {
-  const query = arg("query", arg("q", "정부조직"));
+  const query = arg("query", arg("q", ""));
   const pageSize = arg("page-size", arg("limit", "10"));
   const endpoint = arg("endpoint", "nzmimeepazxkubdpn");
+  const extra = {};
+  const age = arg("age", "");
+  const eraco = arg("eraco", endpoint === "ALLBILLV2" ? age : "");
+  if (age && endpoint !== "ALLBILLV2") extra.AGE = age;
+  if (eraco) extra.ERACO = eraco;
+  if (query) extra[arg("query-field", endpoint === "ALLBILLV2" ? "BILL_NM" : "BILL_NAME")] = query;
   const { safeUrl, rows } = await fetchOpenApi(endpoint, {
     page: arg("page", "1"),
     pageSize,
-    extra: {
-      BILL_NAME: query,
-      BILL_NM: query,
-      AGE: arg("age", ""),
-    },
+    extra,
   });
   const items = rows.slice(0, Number(pageSize)).map(normalizeBill);
   return {

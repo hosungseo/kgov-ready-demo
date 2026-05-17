@@ -144,7 +144,7 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         description: "국회 의안 키워드 검색",
         inputs: ["query", "page", "page_size", "age", "endpoint"],
         outputs: ["bill_id", "bill_no", "title", "proposer", "proposed_date", "committee", "status", "source_url"],
-        smoke: "ASSEMBLY_API_KEY=*** node scripts/assembly-bill.mjs search --query 정부조직 --limit 5",
+        smoke: "ASSEMBLY_API_KEY=*** node scripts/assembly-bill.mjs search --endpoint ALLBILLV2 --eraco 제22대 --limit 5",
       },
       {
         name: "assembly.bill.detail",

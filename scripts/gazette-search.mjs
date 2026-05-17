@@ -42,16 +42,41 @@ function pick(obj, names) {
 }
 
 function normalizeRow(row) {
-  const pdf = pick(row, ["pdfUrl", "pdf_url", "PDF_URL", "fileUrl", "FILE_URL", "downloadUrl", "DOWN_URL", "atchFileUrl"]);
+  const pdf = pick(row, ["pdfUrl", "pdf_url", "PDF_URL", "fileUrl", "FILE_URL", "downloadUrl", "DOWN_URL", "atchFileUrl", "pdfFilePath"]);
   return {
-    gazette_id: String(pick(row, ["id", "ID", "gazetteId", "pblcnId", "PBL_CN_ID", "no", "NO"])),
-    publication_date: String(pick(row, ["pblcnYmd", "PBL_CN_YMD", "publicationDate", "date", "DATE", "gwanboDate"])),
-    agency: stripTags(pick(row, ["orgNm", "ORG_NM", "agency", "deptNm", "DEPT_NM", "pblcnOrgNm"])),
-    title: stripTags(pick(row, ["title", "TITLE", "sj", "SJ", "ttl", "TTL", "gwanboSj", "docSj"])),
-    type: stripTags(pick(row, ["type", "TYPE", "docType", "DOC_TYPE", "gwanboType", "pblcnSeNm"])),
-    pdf_url: pdf ? String(pdf) : "",
+    gazette_id: String(pick(row, ["id", "ID", "gazetteId", "pblcnId", "PBL_CN_ID", "cntntSeqNo", "tocId", "no", "NO"])),
+    publication_date: String(pick(row, ["pblcnYmd", "PBL_CN_YMD", "publicationDate", "date", "DATE", "gwanboDate", "hopePblictDt"])),
+    agency: stripTags(pick(row, ["orgNm", "ORG_NM", "agency", "deptNm", "DEPT_NM", "pblcnOrgNm", "pblcnInstNm"])),
+    title: stripTags(pick(row, ["title", "TITLE", "sj", "SJ", "ttl", "TTL", "gwanboSj", "docSj", "cntntSj"])),
+    type: stripTags(pick(row, ["type", "TYPE", "docType", "DOC_TYPE", "gwanboType", "pblcnSeNm", "cmplatSeNm", "ofcttBookNm"])),
+    pdf_url: pdf ? (String(pdf).startsWith("http") ? String(pdf) : `https://www.gwanbo.go.kr${pdf}`) : "",
     raw: row,
   };
+}
+
+
+function decodeXml(value) {
+  return String(value ?? "")
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .trim();
+}
+
+function parseXmlItems(xml) {
+  const items = [];
+  const itemRe = /<item>([\s\S]*?)<\/item>/g;
+  for (const itemMatch of xml.matchAll(itemRe)) {
+    const row = {};
+    for (const field of itemMatch[1].matchAll(/<([A-Za-z0-9_]+)>([\s\S]*?)<\/\1>/g)) {
+      row[field[1]] = decodeXml(field[2]);
+    }
+    if (Object.keys(row).length) items.push(row);
+  }
+  return items;
 }
 
 function findRows(json) {
@@ -100,7 +125,6 @@ const params = new URLSearchParams({
   pageSize,
   reqFrom: from.replaceAll("-", ""),
   reqTo: to.replaceAll("-", ""),
-  type: "json",
 });
 if (keyword) params.set("search", keyword);
 
@@ -109,14 +133,19 @@ const safeUrl = url.replace(/serviceKey=[^&]+/, "serviceKey=***");
 const res = await fetch(url, { headers: { "user-agent": "Mozilla/5.0 (K-Gov gazette adapter)" } });
 const text = await res.text();
 let json;
+let rawRows;
 try {
   json = JSON.parse(text);
+  rawRows = findRows(json);
 } catch {
-  console.error(`Non-JSON response from ${safeUrl}: ${text.slice(0, 300)}`);
-  process.exit(2);
+  rawRows = parseXmlItems(text);
+  if (!rawRows.length) {
+    console.error(`Non-JSON/XML response from ${safeUrl}: ${text.slice(0, 300)}`);
+    process.exit(2);
+  }
 }
 
-const rows = findRows(json).slice(0, Number(pageSize)).map(normalizeRow);
+const rows = rawRows.slice(0, Number(pageSize)).map(normalizeRow);
 const payload = {
   metadata: {
     source: "행안부 관보 API getApiTotalList",

@@ -50,6 +50,7 @@ const results = [
   run("gov24 service search", ["node", "scripts/odcloud-gov.mjs", "gov24", "--keyword", "보육", "--limit", "3"], { require: ["DATA_GO_KR_SERVICE_KEY"], maxOut: 1800 }),
   run("ecos base rate", ["node", "scripts/ecos-stat.mjs", "series", "--series", "baseRate", "--start", "202501", "--end", "202604", "--limit", "20"], { require: ["ECOS_API_KEY"], maxOut: 1800 }),
   run("molit apt trade", ["node", "scripts/molit-realestate.mjs", "--kind", "aptTrade", "--lawd", "36110", "--ym", "202604", "--limit", "3"], { require: ["DATA_GO_KR_SERVICE_KEY"], maxOut: 1800 }),
+  run("schoolinfo students", ["node", "scripts/schoolinfo.mjs", "--type", "students", "--year", "2025", "--school-kind", "04", "--limit", "3"], { require: ["SCHOOLINFO_API_KEY"], maxOut: 1800 }),
 ];
 
 const failed = results.filter((r) => !r.skipped && r.status !== 0);

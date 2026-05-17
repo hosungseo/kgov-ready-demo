@@ -287,6 +287,27 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
   },
 
   {
+    id: "schoolinfo-disclosure",
+    site: "schoolinfo.go.kr",
+    name: "학교알리미 공시정보 어댑터",
+    strategy: "KEYED_API",
+    status: "ready",
+    auth: "env-key",
+    source: "https://www.schoolinfo.go.kr/openApi.do",
+    agentUse: "학교급·공시연도·항목별 학교알리미 공시자료를 조회하고 학교코드, 학교명, 교육청, 지역, 학생수 등 핵심 필드를 정규화한다.",
+    commands: [
+      {
+        name: "schoolinfo.disclosure.search",
+        description: "학교알리미 공시 항목 조회",
+        inputs: ["type", "year", "school_kind", "depth_no", "limit"],
+        outputs: ["school_code", "school_name", "office", "region", "foundation", "student_total", "raw"],
+        smoke: "SCHOOLINFO_API_KEY=*** node scripts/schoolinfo.mjs --type students --year 2025 --school-kind 04 --limit 3",
+      },
+    ],
+    guardrails: ["API key는 env only", "apiType/year/schoolKind 보존", "공시연도별 항목 제공 여부 drift 가능", "COL_* 필드는 raw로 보존"],
+  },
+
+  {
     id: "assembly-bill-search",
     site: "open.assembly.go.kr / likms.assembly.go.kr",
     name: "국회 의안정보 어댑터",

@@ -26,6 +26,7 @@
     "adapter:policy-news": "node scripts/policy-news.mjs --start 20260515 --end 20260517 --limit 5",
     "adapter:ecos:series": "node scripts/ecos-stat.mjs series --series baseRate --start 202501 --end 202604 --limit 20",
     "adapter:molit:apt-trade": "node scripts/molit-realestate.mjs --kind aptTrade --lawd 36110 --ym 202604 --limit 5",
+    "adapter:schoolinfo:students": "node scripts/schoolinfo.mjs --type students --year 2025 --school-kind 04 --limit 5",
     "adapter:work24:search": "node scripts/work24-job.mjs search --keyword 행정 --limit 5",
     "adapter:smoke:local": "node scripts/run-adapter-smokes.mjs"
   },

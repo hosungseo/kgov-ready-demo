@@ -239,6 +239,54 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
   },
 
   {
+    id: "ecos-statistics",
+    site: "ecos.bok.or.kr",
+    name: "한국은행 ECOS 통계 어댑터",
+    strategy: "KEYED_API",
+    status: "ready",
+    auth: "env-key",
+    source: "https://ecos.bok.or.kr/api/StatisticSearch",
+    agentUse: "기준금리·주담대금리·CPI·M2 같은 주요 경제 시계열을 ECOS 공식 API에서 조회한다.",
+    commands: [
+      {
+        name: "ecos.catalog",
+        description: "kgov demo용 curated ECOS series catalog 조회",
+        inputs: [],
+        outputs: ["id", "table", "item", "cycle", "name"],
+        smoke: "ECOS_API_KEY=*** node scripts/ecos-stat.mjs catalog",
+      },
+      {
+        name: "ecos.series",
+        description: "ECOS StatisticSearch 시계열 조회",
+        inputs: ["series", "table", "item", "cycle", "start", "end", "limit"],
+        outputs: ["period", "value", "unit", "item_name", "stat_name", "raw"],
+        smoke: "ECOS_API_KEY=*** node scripts/ecos-stat.mjs series --series baseRate --start 202501 --end 202604",
+      },
+    ],
+    guardrails: ["API key는 env only", "original URL key redaction", "table/item/cycle 보존", "작은 기간부터 조회"],
+  },
+  {
+    id: "molit-realestate",
+    site: "apis.data.go.kr / 국토교통부",
+    name: "국토교통부 실거래가 어댑터",
+    strategy: "KEYED_API",
+    status: "ready",
+    auth: "env-key",
+    source: "https://apis.data.go.kr/1613000/RTMSDataSvc*",
+    agentUse: "법정동코드·거래월 기준으로 아파트 매매/전월세 등 실거래 XML을 조회하고 거래금액·면적·층·단지명을 정규화한다.",
+    commands: [
+      {
+        name: "molit.realestate.search",
+        description: "국토부 실거래가 조회",
+        inputs: ["kind", "lawd", "ym", "page", "limit"],
+        outputs: ["apt_name", "deal_amount", "deposit", "monthly_rent", "area", "floor", "deal_date", "dong", "raw"],
+        smoke: "DATA_GO_KR_SERVICE_KEY=*** node scripts/molit-realestate.mjs --kind aptTrade --lawd 36110 --ym 202604 --limit 3",
+      },
+    ],
+    guardrails: ["API key는 env only", "LAWD_CD/DEAL_YMD 보존", "월 단위 소량 조회", "취소거래/직거래 여부는 raw 확인"],
+  },
+
+  {
     id: "assembly-bill-search",
     site: "open.assembly.go.kr / likms.assembly.go.kr",
     name: "국회 의안정보 어댑터",

@@ -62,7 +62,7 @@ export async function GET() {
               required: true,
               schema: {
                 type: "string",
-                enum: ["policy-briefing-press", "moleg-law-search", "gazette-metadata", "crawl4ai-readable"],
+                enum: ["policy-briefing-press", "moleg-law-search", "gazette-metadata", "crawl4ai-readable", "assembly-bill-search"],
               },
             },
           ],

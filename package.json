@@ -16,7 +16,9 @@
     "adapter:crawl:read": "python3.10 scripts/crawl-readable.py --url \"https://www.korea.kr/briefing/pressReleaseView.do?newsId=156761598\" --max-chars 12000",
     "adapter:crawl:doctor": "python3.10 -c \"import crawl4ai; print(\\\"crawl4ai ok\\\")\"",
     "adapter:press:read": "python3.10 scripts/crawl-readable.py --korea-press-news-id 156761598 --max-chars 12000",
-    "adapter:press:all": "node scripts/policy-briefing-press.mjs --keyword 정부조직 --limit 3 --format json && node scripts/policy-briefing-press.mjs detail --news-id 156761598 && python3.10 scripts/crawl-readable.py --korea-press-news-id 156761598 --max-chars 12000"
+    "adapter:press:all": "node scripts/policy-briefing-press.mjs --keyword 정부조직 --limit 3 --format json && node scripts/policy-briefing-press.mjs detail --news-id 156761598 && python3.10 scripts/crawl-readable.py --korea-press-news-id 156761598 --max-chars 12000",
+    "adapter:assembly:search": "node scripts/assembly-bill.mjs search --query 정부조직 --limit 5",
+    "adapter:assembly:smoke": "node scripts/assembly-bill.mjs search --query 정부조직 --limit 5"
   },
   "dependencies": {
     "@upstash/redis": "^1.37.0",

@@ -128,4 +128,33 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
     guardrails: ["공식 API/직접 parser 이후 fallback으로 사용", "robots/이용조건 존중", "대량 크롤링 금지", "crawl4ai optional dependency 필요"],
   },
 
+  {
+    id: "assembly-bill-search",
+    site: "open.assembly.go.kr / likms.assembly.go.kr",
+    name: "국회 의안정보 어댑터",
+    strategy: "KEYED_API",
+    status: "ready",
+    auth: "env-key",
+    source: "https://open.assembly.go.kr/portal/openapi + https://likms.assembly.go.kr/bill",
+    agentUse:
+      "의안명/키워드 기준으로 국회 의안 목록을 검색하고 의안번호, 제안자, 소관위원회, 처리상태, 상세 URL을 보존한다.",
+    commands: [
+      {
+        name: "assembly.bill.search",
+        description: "국회 의안 키워드 검색",
+        inputs: ["query", "page", "page_size", "age", "endpoint"],
+        outputs: ["bill_id", "bill_no", "title", "proposer", "proposed_date", "committee", "status", "source_url"],
+        smoke: "ASSEMBLY_API_KEY=*** node scripts/assembly-bill.mjs search --query 정부조직 --limit 5",
+      },
+      {
+        name: "assembly.bill.detail",
+        description: "국회 의안 단건 조회/상세 URL 보존",
+        inputs: ["bill_id", "bill_no", "endpoint"],
+        outputs: ["bill_id", "bill_no", "title", "proposer", "proposed_date", "committee", "status", "source_url"],
+        smoke: "ASSEMBLY_API_KEY=*** node scripts/assembly-bill.mjs detail --bill-id ...",
+      },
+    ],
+    guardrails: ["API key는 env only", "국회 OpenAPI endpoint ID는 drift 가능", "의안 상세 원문은 likms source_url에서 재확인", "pending/proposed와 passed/enforced 구분"],
+  },
+
 ];

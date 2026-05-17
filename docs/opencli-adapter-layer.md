@@ -55,7 +55,7 @@ Strategy: `HTML_PARSE`.
 
 1. `law.search` / `law.article` for 법제처 국가법령정보 — script scaffold ready, requires `MOLEG_OC`.
 2. `gazette.search` for 관보 metadata — script scaffold ready, requires `GAZETTE_API_KEY`.
-3. `assembly.bill.search` / `assembly.bill.detail` for 국회 의안정보.
+3. `assembly.bill.search` / `assembly.bill.detail` for 국회 의안정보 — script scaffold ready, requires `ASSEMBLY_API_KEY`.
 
 Each should ship with:
 
@@ -111,3 +111,12 @@ python3.10 scripts/crawl-readable.py --korea-press-news-id 156761598 --max-chars
 ```
 
 Use this after `press.search` or `press.detail` when the agent needs a compact Markdown packet instead of raw page chrome.
+
+## Assembly bill adapter env
+
+```bash
+ASSEMBLY_API_KEY=*** node scripts/assembly-bill.mjs search --query 정부조직 --limit 5
+ASSEMBLY_API_KEY=*** node scripts/assembly-bill.mjs detail --bill-id <BILL_ID>
+```
+
+The default endpoint is cataloged as `nzmimeepazxkubdpn`; if the Open Assembly dataset ID drifts, pass `--endpoint <id>` and update the catalog after smoke verification.

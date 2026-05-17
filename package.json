@@ -32,6 +32,7 @@
     "adapter:issue-actions": "node scripts/issue-action-queue.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
     "adapter:issue-casefile": "node scripts/issue-casefile.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
     "adapter:issue-casefile-index": "node scripts/issue-casefile-index.mjs --root out/issue-casefiles",
+    "adapter:issue-workflow": "node scripts/issue-workflow.mjs --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --schedule-keyword AI --gov24-keyword 보육",
     "adapter:assembly:search": "node scripts/assembly-bill.mjs search --endpoint ALLBILLV2 --eraco 제22대 --limit 5",
     "adapter:assembly:member": "node scripts/assembly-openapi.mjs member --query 강경숙 --limit 20",
     "adapter:assembly:schedule": "node scripts/assembly-openapi.mjs schedule --keyword AI --limit 20",

@@ -255,6 +255,13 @@ export const OPENCLI_ADAPTERS: OpenCliAdapter[] = [
         outputs: ["hits", "date_lookup", "raw", "blob", "readable_markdown", "coverage"],
         smoke: "node scripts/gazette-readable-bridge.mjs --keyword 공급망 --limit 5 --fetch-readable --max-chars 1600",
       },
+      {
+        name: "press.md.bridge",
+        description: "gov-press-md의 날짜/기관별 Markdown index를 검색해 정책브리핑 과거본문 fallback 후보를 반환",
+        inputs: ["keyword", "ministry", "date", "limit", "fetch_readable", "max_chars", "format"],
+        outputs: ["hits", "raw", "blob", "original_url", "frontmatter", "readable_markdown"],
+        smoke: "node scripts/gov-press-md-bridge.mjs --keyword 공급망 --date 2025-05-16 --limit 5 --fetch-readable --max-chars 1800",
+      },
     ],
     guardrails: ["각 source 실패는 errors에 격리", "secrets redaction", "lead_readable은 API-selected source_url에서 crawl", "최종 판단은 packet 소비자가 수행"],
   },

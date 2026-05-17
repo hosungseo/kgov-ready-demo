@@ -38,6 +38,7 @@
     "adapter:forecast-seeds": "node scripts/question-forecast-seeds.mjs --limit 5",
     "adapter:kgab-bridge": "node scripts/kgab-dossier-bridge.mjs --auto-clone --topic 공급망 --policy-query 조달청 --law-query 정부조직법 --gazette-query 고시 --stat-query 기준금리 --dataset-query 인구 --bill-query 공급망 --lawmaking-query 공급망 --limit 2",
     "adapter:gazette-readable": "node scripts/gazette-readable-bridge.mjs --keyword 공급망 --limit 5 --fetch-readable --max-chars 1600",
+    "adapter:press-md": "node scripts/gov-press-md-bridge.mjs --keyword 공급망 --date 2025-05-16 --limit 5 --fetch-readable --max-chars 1800",
     "adapter:assembly:search": "node scripts/assembly-bill.mjs search --endpoint ALLBILLV2 --eraco 제22대 --limit 5",
     "adapter:assembly:member": "node scripts/assembly-openapi.mjs member --query 강경숙 --limit 20",
     "adapter:assembly:schedule": "node scripts/assembly-openapi.mjs schedule --keyword AI --limit 20",

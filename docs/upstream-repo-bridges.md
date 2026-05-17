@@ -32,8 +32,9 @@ K-Gov Ready Demo can reuse nearby public repos as upstream signals without copyi
 ### `hosungseo/gov-press-md`
 
 - Role: Markdown press release corpus
-- Integration direction: use as historical fallback for policy briefing content when API date windows are narrow.
-- Guardrail: avoid broad clone; prefer date/ministry scoped lookup.
+- Local command: `pnpm adapter:press-md`
+- Integration direction: search ministry/keyword indexes and date directories, then fetch only targeted raw Markdown files as historical policy briefing fallback.
+- Guardrail: avoid broad clone; prefer date/ministry scoped lookup and preserve `original_url` for official citation.
 
 ## Selection rule
 
